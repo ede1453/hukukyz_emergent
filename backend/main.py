@@ -94,12 +94,24 @@ async def root():
     }
 
 
-# Import and include routers (will be added in next steps)
-# from backend.api.routes import chat, documents, upload, admin
-# app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
-# app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
-# app.include_router(upload.router, prefix="/api/upload", tags=["upload"])
-# app.include_router(admin.router, prefix="/api/admin", tags=["admin"])
+# Import and include routers
+from backend.api.routes import chat
+from backend.mcp.client.mcp_client import mcp_client
+
+app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
+# app.include_router(documents.router, prefix="/api/documents", tags=["documents"])  # Phase 3
+# app.include_router(upload.router, prefix="/api/upload", tags=["upload"])  # Phase 3
+# app.include_router(admin.router, prefix="/api/admin", tags=["admin"])  # Phase 7
+
+
+# Initialize MCP client on startup
+@app.on_event("startup")
+async def startup_mcp():
+    \"\"\"Initialize MCP servers\"\"\"\n    try:
+        await mcp_client.initialize()
+        logger.info("MCP servers initialized")
+    except Exception as e:
+        logger.error(f"Failed to initialize MCP servers: {e}")
 
 
 if __name__ == "__main__":
