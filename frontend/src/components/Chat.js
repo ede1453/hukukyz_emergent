@@ -68,9 +68,16 @@ const Chat = () => {
   const exampleQueries = [
     'Anonim şirket nasıl kurulur?',
     'Limited şirket ve anonim şirket farkı nedir?',
-    'TTK 11. madde nedir?',
-    'Sözleşme nasıl kurulur?'
+    'Cayma hakkı nedir?',
+    'Kıdem tazminatı nasıl hesaplanır?'
   ];
+
+  const copyToClipboard = (text, index) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  };
 
   return (
     <div className="flex flex-col h-screen bg-gray-900">
