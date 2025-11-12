@@ -41,7 +41,7 @@ const Chat = () => {
         `${BACKEND_URL}/api/chat/query`,
         {
           query: userMessage,
-          session_id: 'web-session-' + Date.now()
+          session_id: sessionId
         },
         { timeout: 120000 }
       );
