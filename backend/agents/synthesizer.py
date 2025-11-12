@@ -12,10 +12,19 @@ from backend.agents.state import AgentState
 logger = logging.getLogger(__name__)
 
 
+class CitationModel(BaseModel):
+    """Citation structure for LLM output"""
+    source: str = Field(description="Source in format 'KAYNAK m.MADDE' (e.g., 'TTK m.329')")
+    text: str = Field(description="Cited text excerpt or article title")
+    relevance: float = Field(description="Relevance score 0-1", default=1.0)
+    url: Optional[str] = Field(description="URL if available", default=None)
+    doc_type: str = Field(description="Document type", default="kanun")
+
+
 class SynthesisOutput(BaseModel):
     """Synthesizer output"""
     answer: str = Field(description="Final synthesized answer")
-    citations: List[Citation] = Field(description="Citations with sources")
+    citations: List[CitationModel] = Field(description="Citations with sources", default=[])
     confidence: float = Field(description="Confidence score (0-1)")
     reasoning: str = Field(description="Reasoning and analysis")
 
