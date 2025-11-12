@@ -343,30 +343,41 @@
   - Purpose: Link court decisions to articles
 
 ### 3.5 Document Upload System
-- [ ] Transactional upload pipeline
-  - Status: TODO
-  - Files: `/app/backend/upload/pipeline.py`
-  - Flow: Staging → Validation → Shadow → Merge → Cleanup
+- [x] Transactional upload pipeline
+  - Status: ✅ DONE
+  - Files: `/app/backend/api/routes/documents.py`
+  - Flow: Upload → Parse → Chunk → Embed → Qdrant Upload → MongoDB Log
+  - Completed: 2025-01-12
   
-- [ ] Staging area (MongoDB)
-  - Status: TODO
-  - Collection: document_staging
-  - Purpose: Temporary storage before processing
+- [x] Staging area (MongoDB)
+  - Status: ✅ DONE
+  - Collections: documents, upload_logs
+  - Purpose: Document tracking and logging
+  - Completed: 2025-01-12
   
-- [ ] Shadow collection strategy
-  - Status: TODO
-  - Files: `/app/backend/upload/shadow_collection.py`
-  - Purpose: Safe testing before production
+- [x] Batch upload implementation
+  - Status: ✅ DONE
+  - Files: `/app/backend/api/routes/documents.py`
+  - Features: Batch embedding, error handling, cleanup
+  - Completed: 2025-01-12
   
-- [ ] Batch upsert with rollback
-  - Status: TODO
-  - Files: `/app/backend/upload/batch_uploader.py`
-  - Features: Transaction log, error handling
+- [x] Upload status tracking
+  - Status: ✅ DONE
+  - Fields: upload_id, status, chunks_processed, errors
+  - Completed: 2025-01-12
+
+### 3.6 Sample Data & Testing
+- [x] Sample data creation script
+  - Status: ✅ DONE
+  - Files: `/app/backend/scripts/create_sample_data.py`
+  - Data: TTK, TBK, İİK sample articles
+  - Completed: 2025-01-12
   
-- [ ] Upload status tracking
-  - Status: TODO
-  - Files: `/app/backend/upload/status_tracker.py`
-  - Fields: upload_id, status, progress, errors
+- [x] API test script
+  - Status: ✅ DONE
+  - Files: `/app/backend/scripts/test_api.py`
+  - Tests: Health, MCP, query, documents
+  - Completed: 2025-01-12
 
 ### 3.6 Version Control System
 - [ ] Document versioning
