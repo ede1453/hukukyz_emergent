@@ -119,6 +119,20 @@
   - Notes: Comprehensive state with planning, execution, control flow fields
   - Completed: 2025-01-12
 
+### 1.6 Utilities & Helpers
+- [x] Embedding service
+  - Status: ✅ DONE
+  - Files: `/app/backend/utils/embeddings.py`
+  - Features: OpenAI embeddings, caching, batch processing
+  - Completed: 2025-01-12
+
+### 1.7 API Routes (Initial)
+- [x] Chat API endpoints
+  - Status: ✅ DONE (Basic implementation)
+  - Files: `/app/backend/api/routes/chat.py`
+  - Endpoints: /api/chat/query, /api/chat/health, /api/chat/mcp/servers
+  - Completed: 2025-01-12
+
 ---
 
 ## Phase 2: Agent Sistemi ve Workflow
