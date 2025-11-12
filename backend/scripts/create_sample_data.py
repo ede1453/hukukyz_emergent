@@ -48,6 +48,24 @@ SAMPLE_TTK_ARTICLES = [
 (2) Ortaklar, sadece taahhüt etmiş oldukları sermaye payları ile ve şirkete karşı sorumlu olup, şirket alacaklılarına karşı kişisel sorumlulukları yoktur.
 
 (3) Anonim şirketler, en az elli bin Türk Lirası sermaye ile kurulabilir."""
+    },
+    {
+        "madde_no": 573,
+        "title": "Limited Şirketin Tanımı",
+        "content": """MADDE 573 - (1) Limited şirket, bir veya daha fazla gerçek veya tüzel kişi tarafından bir ticaret unvanı altında kurulur.
+
+(2) Ortaklar, şirket borçlarından sorumlu olmayıp, sadece taahhüt etmiş oldukları esas sermaye paylarını ödemekle yükümlüdürler.
+
+(3) Limited şirketin esas sermayesi en az on bin Türk Lirası olmalıdır."""
+    },
+    {
+        "madde_no": 1520,
+        "title": "Şirketin Tasfiyesi",
+        "content": """MADDE 1520 - (1) Şirket feshedildiğinde, infisah halinde veya iflasa tabi olduğu halde aczi ilan edildiğinde tasfiye edilir.
+
+(2) Tasfiye memurları, şirketin malvarlığını paraya çevirerek borçlarını öder ve kalan bakiyeyi ortaklar arasında paylaştırır.
+
+(3) Tasfiye memurları, ticaret siciline tescil edilmedikçe görevlerine başlayamazlar."""
     }
 ]
 
