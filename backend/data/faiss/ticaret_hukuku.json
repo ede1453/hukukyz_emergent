@@ -126,5 +126,85 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "extended_TTK_6",
+    "text": "Ticari İşletme\n\nMADDE 6 - (1) Ticari işletme, esnaf işletmesi için öngörülen sınırı aşan düzeyde gelir sağlamayı hedef tutan faaliyetlerin devamlı ve bağımsız şekilde yürütüldüğü işletmedir.\n\n(2) Ticari işletme, işletme sahibinin kişisel emeğini aşan düzeyde sermaye ve emek birleşimini gerektirir.",
+    "metadata": {
+      "doc_id": "extended_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 6,
+      "title": "Ticari İşletme",
+      "content": "MADDE 6 - (1) Ticari işletme, esnaf işletmesi için öngörülen sınırı aşan düzeyde gelir sağlamayı hedef tutan faaliyetlerin devamlı ve bağımsız şekilde yürütüldüğü işletmedir.\n\n(2) Ticari işletme, işletme sahibinin kişisel emeğini aşan düzeyde sermaye ve emek birleşimini gerektirir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TTK_18",
+    "text": "Ticaret Unvanı\n\nMADDE 18 - (1) Tacir, ticari işletmesini bir ticaret unvanı altında işletir.\n\n(2) Ticaret unvanı, ticari işletmeyi tanıtan ve diğer işletmelerden ayıran isimdir.\n\n(3) Gerçek kişi tacirler için ticaret unvanında en az soyadı bulunur.",
+    "metadata": {
+      "doc_id": "extended_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 18,
+      "title": "Ticaret Unvanı",
+      "content": "MADDE 18 - (1) Tacir, ticari işletmesini bir ticaret unvanı altında işletir.\n\n(2) Ticaret unvanı, ticari işletmeyi tanıtan ve diğer işletmelerden ayıran isimdir.\n\n(3) Gerçek kişi tacirler için ticaret unvanında en az soyadı bulunur.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TTK_137",
+    "text": "Kollektif Şirketin Temsili\n\nMADDE 137 - (1) Aksi kararlaştırılmadıkça, kollektif şirketin temsil yetkisi her ortağa aittir.\n\n(2) Temsil yetkisi şirket sözleşmesi ile sınırlandırılabilir.\n\n(3) Şirketi temsile yetkili ortak, şirket adına her türlü hukuki işlemi yapabilir.",
+    "metadata": {
+      "doc_id": "extended_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 137,
+      "title": "Kollektif Şirketin Temsili",
+      "content": "MADDE 137 - (1) Aksi kararlaştırılmadıkça, kollektif şirketin temsil yetkisi her ortağa aittir.\n\n(2) Temsil yetkisi şirket sözleşmesi ile sınırlandırılabilir.\n\n(3) Şirketi temsile yetkili ortak, şirket adına her türlü hukuki işlemi yapabilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TTK_340",
+    "text": "Anonim Şirket Yönetim Kurulu\n\nMADDE 340 - (1) Anonim şirketin yönetim kurulu en az üç üyeden oluşur.\n\n(2) Yönetim kurulu üyeleri pay sahipleri arasından genel kurul tarafından seçilir.\n\n(3) Yönetim kurulu üyelerinin görev süresi üç yılı geçemez.",
+    "metadata": {
+      "doc_id": "extended_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 340,
+      "title": "Anonim Şirket Yönetim Kurulu",
+      "content": "MADDE 340 - (1) Anonim şirketin yönetim kurulu en az üç üyeden oluşur.\n\n(2) Yönetim kurulu üyeleri pay sahipleri arasından genel kurul tarafından seçilir.\n\n(3) Yönetim kurulu üyelerinin görev süresi üç yılı geçemez.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TTK_621",
+    "text": "Limited Şirket Yönetimi\n\nMADDE 621 - (1) Limited şirket müdürler tarafından yönetilir ve temsil olunur.\n\n(2) En az bir müdür şirket merkezinin bulunduğu yerde ikamet etmelidir.\n\n(3) Müdürler genel kurulca atanır.",
+    "metadata": {
+      "doc_id": "extended_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 621,
+      "title": "Limited Şirket Yönetimi",
+      "content": "MADDE 621 - (1) Limited şirket müdürler tarafından yönetilir ve temsil olunur.\n\n(2) En az bir müdür şirket merkezinin bulunduğu yerde ikamet etmelidir.\n\n(3) Müdürler genel kurulca atanır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
   }
 ]

@@ -94,5 +94,85 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "extended_TBK_11",
+    "text": "Genel İşlem Koşulları\n\nMADDE 11 - (1) Bir sözleşme türüne özgü olmak üzere, bir tarafça hazırlanan ve sözleşme kurulurken karşı tarafa sunulan genel işlem koşulları, karşı tarafın bunları kabul etmesiyle sözleşmenin içeriği hâline gelir.\n\n(2) Genel işlem koşullarının, karşı tarafın menfaatlerini ağır biçimde zedeleyici ve dürüstlük kurallarına aykırı düşen hükümleri geçersizdir.",
+    "metadata": {
+      "doc_id": "extended_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 11,
+      "title": "Genel İşlem Koşulları",
+      "content": "MADDE 11 - (1) Bir sözleşme türüne özgü olmak üzere, bir tarafça hazırlanan ve sözleşme kurulurken karşı tarafa sunulan genel işlem koşulları, karşı tarafın bunları kabul etmesiyle sözleşmenin içeriği hâline gelir.\n\n(2) Genel işlem koşullarının, karşı tarafın menfaatlerini ağır biçimde zedeleyici ve dürüstlük kurallarına aykırı düşen hükümleri geçersizdir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TBK_26",
+    "text": "Hakkın Kötüye Kullanılması\n\nMADDE 26 - (1) Bir hakkın açıkça kötüye kullanılmasını hukuk düzeni korumaz.\n\n(2) Özellikle bir hak, başkasına zarar vermek, kendine yarar sağlamamak veya amacına uymayan bir sonuca yol açmak maksadıyla kullanılıyorsa kötüye kullanılmış sayılır.",
+    "metadata": {
+      "doc_id": "extended_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 26,
+      "title": "Hakkın Kötüye Kullanılması",
+      "content": "MADDE 26 - (1) Bir hakkın açıkça kötüye kullanılmasını hukuk düzeni korumaz.\n\n(2) Özellikle bir hak, başkasına zarar vermek, kendine yarar sağlamamak veya amacına uymayan bir sonuca yol açmak maksadıyla kullanılıyorsa kötüye kullanılmış sayılır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TBK_136",
+    "text": "Alacaklı Temerrüdü\n\nMADDE 136 - (1) Alacaklı borcun ifasını kabule hazır değilse veya alacaklıya yüklenebilen bir sebeple ifası mümkün olmazsa, alacaklı temerrüde düşer.\n\n(2) Alacaklının temerrüdü hâlinde, borçlu borcun ifası için hazırlık yapmış bulunursa, alacaklı ifaya ilişkin masrafları ödemekle yükümlüdür.",
+    "metadata": {
+      "doc_id": "extended_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 136,
+      "title": "Alacaklı Temerrüdü",
+      "content": "MADDE 136 - (1) Alacaklı borcun ifasını kabule hazır değilse veya alacaklıya yüklenebilen bir sebeple ifası mümkün olmazsa, alacaklı temerrüde düşer.\n\n(2) Alacaklının temerrüdü hâlinde, borçlu borcun ifası için hazırlık yapmış bulunursa, alacaklı ifaya ilişkin masrafları ödemekle yükümlüdür.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TBK_179",
+    "text": "Tazminat Türleri\n\nMADDE 179 - Tazminat, zarar görenin malvarlığındaki eksilmeyi (olumlu zarar), malvarlığında meydana gelmesi olanaklı artışın gerçekleşmemesini (yoksun kalınan kâr) ve manevi zararı kapsar.",
+    "metadata": {
+      "doc_id": "extended_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 179,
+      "title": "Tazminat Türleri",
+      "content": "MADDE 179 - Tazminat, zarar görenin malvarlığındaki eksilmeyi (olumlu zarar), malvarlığında meydana gelmesi olanaklı artışın gerçekleşmemesini (yoksun kalınan kâr) ve manevi zararı kapsar.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TBK_438",
+    "text": "Satıcının Ayıptan Sorumluluğu\n\nMADDE 438 - (1) Satıcı, satılanı alıcıya sözleşmeye uygun olarak teslimle yükümlüdür.\n\n(2) Satılan malın niteliği bakımından öngörülen veya sözleşmede kararlaştırılan kullanım amacına uygun olmaması ayıp sayılır.\n\n(3) Satıcı ayıptan, bu ayıbın satılanın ona teslim anında bulunmuş olması hâlinde sorumludur.",
+    "metadata": {
+      "doc_id": "extended_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 438,
+      "title": "Satıcının Ayıptan Sorumluluğu",
+      "content": "MADDE 438 - (1) Satıcı, satılanı alıcıya sözleşmeye uygun olarak teslimle yükümlüdür.\n\n(2) Satılan malın niteliği bakımından öngörülen veya sözleşmede kararlaştırılan kullanım amacına uygun olmaması ayıp sayılır.\n\n(3) Satıcı ayıptan, bu ayıbın satılanın ona teslim anında bulunmuş olması hâlinde sorumludur.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
   }
 ]

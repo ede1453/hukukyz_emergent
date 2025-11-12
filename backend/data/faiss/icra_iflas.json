@@ -62,5 +62,69 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "extended_İİK_16",
+    "text": "İcra Emri\n\nMADDE 16 - İcra emri, borçluya yapılacak bir ihtar olup borcun yedi gün içinde ödenmesi veya mal bildiriminde bulunulmasını içerir.\n\nİcra emrinde borçlunun borca itiraz edebileceği de belirtilir.",
+    "metadata": {
+      "doc_id": "extended_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 16,
+      "title": "İcra Emri",
+      "content": "MADDE 16 - İcra emri, borçluya yapılacak bir ihtar olup borcun yedi gün içinde ödenmesi veya mal bildiriminde bulunulmasını içerir.\n\nİcra emrinde borçlunun borca itiraz edebileceği de belirtilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_İİK_45",
+    "text": "Haciz\n\nMADDE 45 - (1) Haciz, borçlunun mallarının tasfiye için muhafaza altına alınmasıdır.\n\n(2) Haciz, icra dairesince yapılır ve tutanak düzenlenir.\n\n(3) Haczedilen mallar üzerinde borçlunun tasarruf yetkisi ortadan kalkar.",
+    "metadata": {
+      "doc_id": "extended_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 45,
+      "title": "Haciz",
+      "content": "MADDE 45 - (1) Haciz, borçlunun mallarının tasfiye için muhafaza altına alınmasıdır.\n\n(2) Haciz, icra dairesince yapılır ve tutanak düzenlenir.\n\n(3) Haczedilen mallar üzerinde borçlunun tasarruf yetkisi ortadan kalkar.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_İİK_82",
+    "text": "İflas Yoluyla Takip\n\nMADDE 82 - (1) İflasa tabi olan borçlular aleyhine yapılacak takiplerde iflas yolu takip edilebilir.\n\n(2) İflas yoluyla takip, borcun tamamının tahsili için yapılır.\n\n(3) İflas kararı mahkemece verilir.",
+    "metadata": {
+      "doc_id": "extended_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 82,
+      "title": "İflas Yoluyla Takip",
+      "content": "MADDE 82 - (1) İflasa tabi olan borçlular aleyhine yapılacak takiplerde iflas yolu takip edilebilir.\n\n(2) İflas yoluyla takip, borcun tamamının tahsili için yapılır.\n\n(3) İflas kararı mahkemece verilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_İİK_166",
+    "text": "Borçların Sırası\n\nMADDE 166 - İflas masasına giren malların paraya çevrilmesinden elde edilen bedel, imtiyazlı alacaklara öncelikle ödenir. Kalan miktar adi alacaklılara paylaştırılır.",
+    "metadata": {
+      "doc_id": "extended_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 166,
+      "title": "Borçların Sırası",
+      "content": "MADDE 166 - İflas masasına giren malların paraya çevrilmesinden elde edilen bedel, imtiyazlı alacaklara öncelikle ödenir. Kalan miktar adi alacaklılara paylaştırılır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
   }
 ]

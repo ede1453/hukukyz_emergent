@@ -1,0 +1,50 @@
+[
+  {
+    "id": "extended_TMK_1",
+    "text": "Kanunun Kaynağı\n\nMADDE 1 - Kanun, lafzı ve ruhuna göre uygulanır.\n\nKanunda uygulanabilir bir hüküm yoksa, hâkim, örf ve âdet hukukuna göre, bu da yoksa kendisi kanun koyucu olsaydı nasıl bir kural koyacak idiyse ona göre karar verir.",
+    "metadata": {
+      "doc_id": "extended_TMK",
+      "kaynak": "TMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "medeni",
+      "madde_no": 1,
+      "title": "Kanunun Kaynağı",
+      "content": "MADDE 1 - Kanun, lafzı ve ruhuna göre uygulanır.\n\nKanunda uygulanabilir bir hüküm yoksa, hâkim, örf ve âdet hukukuna göre, bu da yoksa kendisi kanun koyucu olsaydı nasıl bir kural koyacak idiyse ona göre karar verir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TMK_2",
+    "text": "İyiniyet\n\nMADDE 2 - Herkes, haklarını kullanırken ve borçlarını yerine getirirken dürüstlük kurallarına uymak zorundadır.\n\nBir hakkın açıkça kötüye kullanılmasını hukuk düzeni korumaz.",
+    "metadata": {
+      "doc_id": "extended_TMK",
+      "kaynak": "TMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "medeni",
+      "madde_no": 2,
+      "title": "İyiniyet",
+      "content": "MADDE 2 - Herkes, haklarını kullanırken ve borçlarını yerine getirirken dürüstlük kurallarına uymak zorundadır.\n\nBir hakkın açıkça kötüye kullanılmasını hukuk düzeni korumaz.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "extended_TMK_8",
+    "text": "İspat Yükü\n\nMADDE 8 - Kanunda aksine bir hüküm bulunmadıkça, taraflardan her biri, hakkını dayandırdığı olguların varlığını ispatla yükümlüdür.",
+    "metadata": {
+      "doc_id": "extended_TMK",
+      "kaynak": "TMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "medeni",
+      "madde_no": 8,
+      "title": "İspat Yükü",
+      "content": "MADDE 8 - Kanunda aksine bir hüküm bulunmadıkça, taraflardan her biri, hakkını dayandırdığı olguların varlığını ispatla yükümlüdür.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  }
+]
