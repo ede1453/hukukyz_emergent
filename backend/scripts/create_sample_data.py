@@ -113,6 +113,22 @@ SAMPLE_IIK_ARTICLES = [
         "content": """MADDE 1 - Alacaklı, mahkeme kararına veya diğer bir ilam niteliğindeki belgeye dayanarak alacağını icra dairesi aracılığıyla tahsil edebilir.
 
 İcra takibi, borcun muaccel olması ve alacaklının icra takibi için başvurması ile başlar."""
+    },
+    {
+        "madde_no": 68,
+        "title": "İhtiyati Haciz",
+        "content": """MADDE 68 - (1) Alacağı muhakkak veya mahkemece kabul edilmiş olup da alacaklı, borçlunun mallarını kaçıracağından veya mallarını saklayacağından yahut zayi edeceğinden korkuyorsa, ihtiyati haciz isteyebilir.
+
+(2) İhtiyati haciz kararı, alacaklının talebi üzerine icra mahkemesince verilir.
+
+(3) İhtiyati haciz kararı kesinleşinceye kadar, ihtiyati haciz uygulanır."""
+    },
+    {
+        "madde_no": 150,
+        "title": "İflas Sebepleri",
+        "content": """MADDE 150 - Borçlu, vadesi gelmiş olan para borçlarını ödemeden ve durumunun borca batık olduğu mahkemece tespit edildiğinde iflas eder.
+
+Borca batıklık, borçlunun malvarlığının, borçlarını karşılamaya yetmediği durumdur."""
     }
 ]
 
