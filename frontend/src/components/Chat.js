@@ -14,6 +14,8 @@ const Chat = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedCitation, setSelectedCitation] = useState(null);
+  const [sessionId] = useState('web-session-' + Date.now());
+  const [copiedIndex, setCopiedIndex] = useState(null);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
