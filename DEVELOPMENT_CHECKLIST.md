@@ -7,7 +7,8 @@
 ## 📊 Genel İlerleme
 
 - [✅] **Phase 1**: Temel Altyapı ve MCP Kurulumu (100%) - COMPLETED
-- [🟡] **Phase 2**: Agent Sistemi ve Workflow (60%) - IN_PROGRESS
+- [✅] **Phase 2**: Agent Sistemi ve Workflow (100%) - COMPLETED
+- [🟡] **Phase 3**: RAG Pipeline ve Legal Tools (40%) - IN_PROGRESS
 - [ ] **Phase 3**: RAG Pipeline ve Legal Tools (0%)
 - [ ] **Phase 4**: Frontend - Web Application (0%)
 - [ ] **Phase 5**: Telegram Bot (0%)
