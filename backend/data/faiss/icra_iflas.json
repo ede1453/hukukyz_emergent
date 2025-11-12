@@ -1,0 +1,18 @@
+[
+  {
+    "id": "sample_İİK_1",
+    "text": "MADDE 1 - Alacaklı, mahkeme kararına veya diğer bir ilam niteliğindeki belgeye dayanarak alacağını icra dairesi aracılığıyla tahsil edebilir.\n\nİcra takibi, borcun muaccel olması ve alacaklının icra takibi için başvurması ile başlar.",
+    "metadata": {
+      "doc_id": "sample_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 1,
+      "title": "İcranın Şartları",
+      "content": "MADDE 1 - Alacaklı, mahkeme kararına veya diğer bir ilam niteliğindeki belgeye dayanarak alacağını icra dairesi aracılığıyla tahsil edebilir.\n\nİcra takibi, borcun muaccel olması ve alacaklının icra takibi için başvurması ile başlar.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  }
+]
