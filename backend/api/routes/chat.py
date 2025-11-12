@@ -43,53 +43,34 @@ class HealthResponse(BaseModel):
 
 @router.post("/query", response_model=QueryResponse)
 async def chat_query(request: QueryRequest):
-    """Process chat query
-    
-    This is a simplified implementation for Phase 1.
-    Full agent workflow will be implemented in Phase 2.
-    """
+    """Process chat query using full agent workflow"""
     try:
         logger.info(f"Received query: {request.query[:100]}...")
         
-        # Create initial state
-        state = create_initial_state(
+        # Import workflow here to avoid circular imports
+        from backend.agents.workflow import execute_workflow
+        
+        # Execute full agent workflow
+        final_state = await execute_workflow(
             query=request.query,
             user_id=request.user_id,
             session_id=request.session_id
         )
         
-        # Step 1: Meta-Controller analysis
-        routing_info = await meta_controller.analyze(state)
-        state.update(routing_info)
+        # Extract response fields
+        answer = final_state.get("final_answer", "Bir hata oluştu.")
+        citations = final_state.get("citations", [])
+        confidence = final_state.get("confidence", 0.0)
+        reasoning = final_state.get("reasoning", "")
         
-        logger.info(f"Routing info: {routing_info}")
-        
-        # Step 2: Simple search (placeholder for full RAG pipeline)
-        collections = routing_info.get("collections", [])
-        
-        if not collections:
-            collections = ["ticaret_hukuku"]  # Default
-        
-        # For now, return a placeholder response
-        # Full implementation will use agent workflow
-        answer = f"""[Phase 1 Placeholder Response]
-
-Sorgunuz analiz edildi:
-- Hukuk Dalı: {', '.join(routing_info.get('hukuk_dali', []))}
-- Koleksiyonlar: {', '.join(collections)}
-
-Tam yanıt için agent sisteminin tamamlanması bekleniyor (Phase 2).
-
-Şu an aktif:
-✅ Meta-Controller (Task Routing)
-✅ MCP Servers (Legal Documents, Document Processor, Web Search)
-✅ MongoDB & Qdrant bağlantıları
-
-Geliştirilmekte:
-🔄 Full agent workflow
-🔄 RAG pipeline
-🔄 Multi-hop reasoning
-"""
+        # Build metadata
+        metadata = {
+            "hukuk_dali": final_state.get("hukuk_dali", []),
+            "collections": final_state.get("collections", []),
+            "documents_retrieved": len(final_state.get("retrieved_documents", [])),
+            "plan_steps": len(final_state.get("plan", [])),
+            "errors": final_state.get("errors", [])
+        }
         
         # Save conversation to MongoDB
         conversations = get_conversations_collection()
@@ -98,16 +79,20 @@ Geliştirilmekte:
             "user_id": request.user_id,
             "query": request.query,
             "answer": answer,
-            "metadata": routing_info,
+            "citations": citations,
+            "confidence": confidence,
+            "metadata": metadata,
             "timestamp": datetime.utcnow()
         })
         
+        logger.info(f"Query processed successfully. Confidence: {confidence:.2f}")
+        
         return QueryResponse(
             answer=answer,
-            citations=[],
-            confidence=0.8,
-            reasoning=routing_info.get("reasoning", ""),
-            metadata=routing_info
+            citations=citations,
+            confidence=confidence,
+            reasoning=reasoning,
+            metadata=metadata
         )
         
     except Exception as e:
