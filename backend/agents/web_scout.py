@@ -4,6 +4,7 @@ from typing import List, Dict
 import logging
 
 from backend.mcp.client.mcp_client import mcp_client
+from backend.utils.web_scraper import web_scraper
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +14,7 @@ class WebScoutAgent:
     
     def __init__(self):
         self.mcp = mcp_client
+        self.scraper = web_scraper
     
     async def search_precedents(
         self,
