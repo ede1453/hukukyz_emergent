@@ -30,5 +30,69 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "sample_TBK_1",
+    "text": "MADDE 1 - (1) Sözleşme, tarafların karşılıklı ve birbirine uygun irade beyanlarıyla kurulur.\n\n(2) İrade beyanları söz, yazı veya başka bir şekilde açıkça veya örtülü olarak yapılabilir.\n\n(3) Sözleşmenin kurulması için kanunda veya taraflarca kabul edilen bir şekle uyulması gerekli olan durumlarda, o şekil yerine getirilmedikçe sözleşme kurulmaz.",
+    "metadata": {
+      "doc_id": "sample_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 1,
+      "title": "Sözleşmenin Kurulması",
+      "content": "MADDE 1 - (1) Sözleşme, tarafların karşılıklı ve birbirine uygun irade beyanlarıyla kurulur.\n\n(2) İrade beyanları söz, yazı veya başka bir şekilde açıkça veya örtülü olarak yapılabilir.\n\n(3) Sözleşmenin kurulması için kanunda veya taraflarca kabul edilen bir şekle uyulması gerekli olan durumlarda, o şekil yerine getirilmedikçe sözleşme kurulmaz.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TBK_112",
+    "text": "MADDE 112 - (1) Borç, tarafların anlaşması, borcun niteliği veya kanun gereği hemen ifa edilmelidir.\n\n(2) Belirli bir günde ifa edilmesi gereken borçlarda, o gün sonunda ifanın gerçekleşmemesi halinde borçlu temerrüde düşer.\n\n(3) İfanın belirli bir süre içinde yapılması öngörülmüşse, aksi kararlaştırılmadıkça borçlu o sürenin son günü sonuna kadar ifada bulunabilir.",
+    "metadata": {
+      "doc_id": "sample_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 112,
+      "title": "İfa Zamanı",
+      "content": "MADDE 112 - (1) Borç, tarafların anlaşması, borcun niteliği veya kanun gereği hemen ifa edilmelidir.\n\n(2) Belirli bir günde ifa edilmesi gereken borçlarda, o gün sonunda ifanın gerçekleşmemesi halinde borçlu temerrüde düşer.\n\n(3) İfanın belirli bir süre içinde yapılması öngörülmüşse, aksi kararlaştırılmadıkça borçlu o sürenin son günü sonuna kadar ifada bulunabilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TBK_123",
+    "text": "MADDE 123 - (1) Borçlu temerrüde düştüğü anda, temerrüt faizi ödeme borcu altına girer.\n\n(2) Alacaklı, temerrüt sebebiyle uğradığı zararın giderilmesini isteyebilir.\n\n(3) Temerrüt faizi, yıllık yüzde on ikidir. Mevduat faizinde bir artış veya azalış olduğunda, temerrüt faizi de aynı oranda artar veya azalır.",
+    "metadata": {
+      "doc_id": "sample_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 123,
+      "title": "Temerrüdün Sonuçları",
+      "content": "MADDE 123 - (1) Borçlu temerrüde düştüğü anda, temerrüt faizi ödeme borcu altına girer.\n\n(2) Alacaklı, temerrüt sebebiyle uğradığı zararın giderilmesini isteyebilir.\n\n(3) Temerrüt faizi, yıllık yüzde on ikidir. Mevduat faizinde bir artış veya azalış olduğunda, temerrüt faizi de aynı oranda artar veya azalır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TBK_420",
+    "text": "MADDE 420 - Satım sözleşmesi, satıcının bir malı alıcıya devretmeyi ve alıcının da bu mala karşılık bir bedel ödemeyi üstlendiği sözleşmedir.",
+    "metadata": {
+      "doc_id": "sample_TBK",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "borclar",
+      "madde_no": 420,
+      "title": "Satım Sözleşmesinin Tanımı",
+      "content": "MADDE 420 - Satım sözleşmesi, satıcının bir malı alıcıya devretmeyi ve alıcının da bu mala karşılık bir bedel ödemeyi üstlendiği sözleşmedir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
   }
 ]

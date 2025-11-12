@@ -14,5 +14,53 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "sample_İİK_1",
+    "text": "MADDE 1 - Alacaklı, mahkeme kararına veya diğer bir ilam niteliğindeki belgeye dayanarak alacağını icra dairesi aracılığıyla tahsil edebilir.\n\nİcra takibi, borcun muaccel olması ve alacaklının icra takibi için başvurması ile başlar.",
+    "metadata": {
+      "doc_id": "sample_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 1,
+      "title": "İcranın Şartları",
+      "content": "MADDE 1 - Alacaklı, mahkeme kararına veya diğer bir ilam niteliğindeki belgeye dayanarak alacağını icra dairesi aracılığıyla tahsil edebilir.\n\nİcra takibi, borcun muaccel olması ve alacaklının icra takibi için başvurması ile başlar.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_İİK_68",
+    "text": "MADDE 68 - (1) Alacağı muhakkak veya mahkemece kabul edilmiş olup da alacaklı, borçlunun mallarını kaçıracağından veya mallarını saklayacağından yahut zayi edeceğinden korkuyorsa, ihtiyati haciz isteyebilir.\n\n(2) İhtiyati haciz kararı, alacaklının talebi üzerine icra mahkemesince verilir.\n\n(3) İhtiyati haciz kararı kesinleşinceye kadar, ihtiyati haciz uygulanır.",
+    "metadata": {
+      "doc_id": "sample_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 68,
+      "title": "İhtiyati Haciz",
+      "content": "MADDE 68 - (1) Alacağı muhakkak veya mahkemece kabul edilmiş olup da alacaklı, borçlunun mallarını kaçıracağından veya mallarını saklayacağından yahut zayi edeceğinden korkuyorsa, ihtiyati haciz isteyebilir.\n\n(2) İhtiyati haciz kararı, alacaklının talebi üzerine icra mahkemesince verilir.\n\n(3) İhtiyati haciz kararı kesinleşinceye kadar, ihtiyati haciz uygulanır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_İİK_150",
+    "text": "MADDE 150 - Borçlu, vadesi gelmiş olan para borçlarını ödemeden ve durumunun borca batık olduğu mahkemece tespit edildiğinde iflas eder.\n\nBorca batıklık, borçlunun malvarlığının, borçlarını karşılamaya yetmediği durumdur.",
+    "metadata": {
+      "doc_id": "sample_İİK",
+      "kaynak": "İİK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra",
+      "madde_no": 150,
+      "title": "İflas Sebepleri",
+      "content": "MADDE 150 - Borçlu, vadesi gelmiş olan para borçlarını ödemeden ve durumunun borca batık olduğu mahkemece tespit edildiğinde iflas eder.\n\nBorca batıklık, borçlunun malvarlığının, borçlarını karşılamaya yetmediği durumdur.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
   }
 ]

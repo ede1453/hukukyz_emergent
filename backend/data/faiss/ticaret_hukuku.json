@@ -46,5 +46,85 @@
       "status": "active",
       "is_sample": true
     }
+  },
+  {
+    "id": "sample_TTK_11",
+    "text": "MADDE 11 - (1) Ticaret şirketleri, bu Kanunda öngörülen şirket türlerinden birisinin kurulması suretiyle ve bu Kanunda yazılı kurallara uyularak kurulur.\n\n(2) Ticaret şirketlerinin kuruluşunda şirket sözleşmesi yapılması zorunludur. Sermaye şirketlerinde şirket sözleşmesi, noter tarafından onaylanmış bir sözleşme ile düzenlenir.\n\n(3) Ticaret şirketleri, tescil ile tüzel kişilik kazanırlar.\n\n(4) Ticaret şirketlerinin kuruluşunda bu Kanunda öngörülen asgari sermaye şartlarına uyulması zorunludur.",
+    "metadata": {
+      "doc_id": "sample_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 11,
+      "title": "Ticaret Şirketlerinin Kuruluşu",
+      "content": "MADDE 11 - (1) Ticaret şirketleri, bu Kanunda öngörülen şirket türlerinden birisinin kurulması suretiyle ve bu Kanunda yazılı kurallara uyularak kurulur.\n\n(2) Ticaret şirketlerinin kuruluşunda şirket sözleşmesi yapılması zorunludur. Sermaye şirketlerinde şirket sözleşmesi, noter tarafından onaylanmış bir sözleşme ile düzenlenir.\n\n(3) Ticaret şirketleri, tescil ile tüzel kişilik kazanırlar.\n\n(4) Ticaret şirketlerinin kuruluşunda bu Kanunda öngörülen asgari sermaye şartlarına uyulması zorunludur.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TTK_124",
+    "text": "MADDE 124 - (1) Kollektif şirket, bir ticari işletmeyi, ticari unvan altında işletmek amacıyla gerçek kişiler tarafından kurulan ve ortakların tamamının şirket alacaklılarına karşı, şirket borçlarından dolayı sınırsız sorumluluğu altında oldukları şirkettir.\n\n(2) Kollektif şirket ortakları, şirket borçlarından dolayı kişisel ve müteselsil olarak sorumludur.\n\n(3) Kollektif şirkette, ortakların sorumluluğu aksine sözleşme yapılmak suretiyle sınırlandırılamaz.",
+    "metadata": {
+      "doc_id": "sample_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 124,
+      "title": "Kollektif Şirketin Tanımı",
+      "content": "MADDE 124 - (1) Kollektif şirket, bir ticari işletmeyi, ticari unvan altında işletmek amacıyla gerçek kişiler tarafından kurulan ve ortakların tamamının şirket alacaklılarına karşı, şirket borçlarından dolayı sınırsız sorumluluğu altında oldukları şirkettir.\n\n(2) Kollektif şirket ortakları, şirket borçlarından dolayı kişisel ve müteselsil olarak sorumludur.\n\n(3) Kollektif şirkette, ortakların sorumluluğu aksine sözleşme yapılmak suretiyle sınırlandırılamaz.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TTK_329",
+    "text": "MADDE 329 - (1) Anonim şirket, sermayesi belirli ve paylara bölünmüş olan, borçlarından dolayı yalnız malvarlığıyla sorumlu bulunan şirkettir.\n\n(2) Ortaklar, sadece taahhüt etmiş oldukları sermaye payları ile ve şirkete karşı sorumlu olup, şirket alacaklılarına karşı kişisel sorumlulukları yoktur.\n\n(3) Anonim şirketler, en az elli bin Türk Lirası sermaye ile kurulabilir.",
+    "metadata": {
+      "doc_id": "sample_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 329,
+      "title": "Anonim Şirketin Tanımı",
+      "content": "MADDE 329 - (1) Anonim şirket, sermayesi belirli ve paylara bölünmüş olan, borçlarından dolayı yalnız malvarlığıyla sorumlu bulunan şirkettir.\n\n(2) Ortaklar, sadece taahhüt etmiş oldukları sermaye payları ile ve şirkete karşı sorumlu olup, şirket alacaklılarına karşı kişisel sorumlulukları yoktur.\n\n(3) Anonim şirketler, en az elli bin Türk Lirası sermaye ile kurulabilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TTK_573",
+    "text": "MADDE 573 - (1) Limited şirket, bir veya daha fazla gerçek veya tüzel kişi tarafından bir ticaret unvanı altında kurulur.\n\n(2) Ortaklar, şirket borçlarından sorumlu olmayıp, sadece taahhüt etmiş oldukları esas sermaye paylarını ödemekle yükümlüdürler.\n\n(3) Limited şirketin esas sermayesi en az on bin Türk Lirası olmalıdır.",
+    "metadata": {
+      "doc_id": "sample_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 573,
+      "title": "Limited Şirketin Tanımı",
+      "content": "MADDE 573 - (1) Limited şirket, bir veya daha fazla gerçek veya tüzel kişi tarafından bir ticaret unvanı altında kurulur.\n\n(2) Ortaklar, şirket borçlarından sorumlu olmayıp, sadece taahhüt etmiş oldukları esas sermaye paylarını ödemekle yükümlüdürler.\n\n(3) Limited şirketin esas sermayesi en az on bin Türk Lirası olmalıdır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
+  },
+  {
+    "id": "sample_TTK_1520",
+    "text": "MADDE 1520 - (1) Şirket feshedildiğinde, infisah halinde veya iflasa tabi olduğu halde aczi ilan edildiğinde tasfiye edilir.\n\n(2) Tasfiye memurları, şirketin malvarlığını paraya çevirerek borçlarını öder ve kalan bakiyeyi ortaklar arasında paylaştırır.\n\n(3) Tasfiye memurları, ticaret siciline tescil edilmedikçe görevlerine başlayamazlar.",
+    "metadata": {
+      "doc_id": "sample_TTK",
+      "kaynak": "TTK",
+      "doc_type": "kanun",
+      "hukuk_dali": "ticaret",
+      "madde_no": 1520,
+      "title": "Şirketin Tasfiyesi",
+      "content": "MADDE 1520 - (1) Şirket feshedildiğinde, infisah halinde veya iflasa tabi olduğu halde aczi ilan edildiğinde tasfiye edilir.\n\n(2) Tasfiye memurları, şirketin malvarlığını paraya çevirerek borçlarını öder ve kalan bakiyeyi ortaklar arasında paylaştırır.\n\n(3) Tasfiye memurları, ticaret siciline tescil edilmedikçe görevlerine başlayamazlar.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": true
+    }
   }
 ]
