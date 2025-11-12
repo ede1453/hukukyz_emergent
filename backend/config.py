@@ -33,9 +33,10 @@ class Settings(BaseSettings):
     embedding_dimension: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
     
     # Databases
-    vector_store_type: str = os.getenv("VECTOR_STORE_TYPE", "faiss")  # "qdrant" or "faiss"
+    vector_store_type: str = os.getenv("VECTOR_STORE_TYPE", "qdrant")  # "qdrant" or "faiss"
     qdrant_url: str = os.getenv("QDRANT_URL", "http://localhost:6333")
     qdrant_api_key: str = os.getenv("QDRANT_API_KEY", "")
+    embedding_dimension: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
     
     mongo_url: str = os.getenv("MONGO_URL", "mongodb://localhost:27017")
     db_name: str = os.getenv("DB_NAME", "hukukyz_db")
