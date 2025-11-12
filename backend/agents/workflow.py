@@ -8,6 +8,8 @@ from backend.agents.state import AgentState, create_initial_state
 from backend.agents.meta_controller import meta_controller
 from backend.agents.planner import planner_agent
 from backend.agents.researcher import researcher_agent
+from backend.agents.analyst import analyst_agent
+from backend.agents.auditor import auditor_agent
 from backend.agents.synthesizer import synthesizer_agent
 
 logger = logging.getLogger(__name__)
