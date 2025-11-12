@@ -160,11 +160,13 @@
   - Features: Pattern matching, LLM analysis
   - Completed: 2025-01-12
   
-- [ ] Planner Agent
-  - Status: TODO
+- [x] Planner Agent
+  - Status: ✅ DONE
   - Files: `/app/backend/agents/planner.py`
   - Purpose: Query decomposition, multi-step planning
   - Pattern: Planning Pattern
+  - Features: Simple query detection, LLM-based complex planning
+  - Completed: 2025-01-12
   
 - [ ] Gatekeeper Agent (Ambiguity Detection)
   - Status: TODO
