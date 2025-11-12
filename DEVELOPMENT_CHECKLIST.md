@@ -90,19 +90,28 @@
   - Tools: add_version, deprecate_version, compare_versions, rollback
 
 ### 1.4 Core Dependencies
-- [ ] Python packages yükleme
-  - Status: TODO
+- [x] Python packages yükleme
+  - Status: ✅ DONE
   - Files: `/app/backend/requirements.txt`
-  - Packages: langchain, langgraph, crewai, qdrant-client, pymongo, openai, anthropic
+  - Packages: langchain, langgraph, crewai, qdrant-client, pymongo, openai
+  - Completed: 2025-01-12
   
 - [ ] MCP packages yükleme
-  - Status: TODO
+  - Status: IN_PROGRESS
   - Packages: mcp, pydantic, httpx
+  - Notes: Custom MCP implementation başlatıldı
   
 - [ ] Frontend packages yükleme
   - Status: TODO
   - Files: `/app/frontend/package.json`
   - Packages: react, typescript, tailwind, axios, socket.io-client
+
+### 1.5 Agent State & Core Structures
+- [x] AgentState TypedDict definition
+  - Status: ✅ DONE
+  - Files: `/app/backend/agents/state.py`
+  - Notes: Comprehensive state with planning, execution, control flow fields
+  - Completed: 2025-01-12
 
 ---
 
