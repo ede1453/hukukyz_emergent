@@ -150,14 +150,32 @@ async def create_sample_documents():
                     "payload": payload
                 })
             
-            # Upload to Qdrant
+            # Upload to vector store
             if points:
-                success = qdrant_manager.upsert_points(collection, points)
-                if success:
-                    total_uploaded += len(points)
-                    logger.info(f"✅ Uploaded {len(points)} {kaynak} articles to {collection}")
-                else:
-                    logger.error(f"❌ Failed to upload {kaynak} articles")
+                try:
+                    if use_faiss:
+                        # Extract data for FAISS
+                        texts = [p["payload"]["content"] for p in points]
+                        metadatas = [p["payload"] for p in points]
+                        ids = [p["id"] for p in points]
+                        
+                        await faiss_manager.add_documents(
+                            collection_name=collection,
+                            texts=texts,
+                            metadatas=metadatas,
+                            ids=ids
+                        )
+                        total_uploaded += len(points)
+                        logger.info(f"✅ Uploaded {len(points)} {kaynak} articles to {collection}")
+                    else:
+                        success = qdrant_manager.upsert_points(collection, points)
+                        if success:
+                            total_uploaded += len(points)
+                            logger.info(f"✅ Uploaded {len(points)} {kaynak} articles to {collection}")
+                        else:
+                            logger.error(f"❌ Failed to upload {kaynak} articles")
+                except Exception as e:
+                    logger.error(f"❌ Failed to upload {kaynak} articles: {e}")
         
         logger.info(f"\n🎉 Sample data creation completed!")
         logger.info(f"Total documents uploaded: {total_uploaded}")
