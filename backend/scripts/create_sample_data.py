@@ -8,8 +8,10 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.database.qdrant_client import qdrant_manager
+from backend.database.faiss_store import faiss_manager
 from backend.database.mongodb import mongodb_client
 from backend.utils.embeddings import get_embeddings_batch
+from backend.config import settings
 import logging
 
 logging.basicConfig(level=logging.INFO)
