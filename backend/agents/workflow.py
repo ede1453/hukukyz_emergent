@@ -60,20 +60,69 @@ async def researcher_node(state: AgentState) -> Dict:
     }
 
 
+async def analyst_node(state: AgentState) -> Dict:
+    """Analyst: Analyze and cross-reference documents"""
+    logger.info("[Node] Analyst")
+    
+    query = state["query"]
+    documents = state.get("retrieved_documents", [])
+    
+    # Perform legal analysis
+    analysis = await analyst_agent.analyze(
+        query=query,
+        documents=documents
+    )
+    
+    return {
+        "analysis_results": analysis
+    }
+
+
 async def synthesizer_node(state: AgentState) -> Dict:
     """Synthesizer: Generate final answer"""
     logger.info("[Node] Synthesizer")
     
     query = state["query"]
     documents = state.get("retrieved_documents", [])
+    analysis = state.get("analysis_results", {})
     
-    # Synthesize answer
+    # Synthesize answer (with analysis if available)
     synthesis = await synthesizer_agent.synthesize(
         query=query,
         documents=documents
     )
     
+    # Enrich with analysis insights if available
+    if analysis and "conflicts" in analysis:
+        if analysis["conflicts"]:
+            synthesis["notes"] = f"⚠️ Çelişki tespit edildi: {len(analysis['conflicts'])} adet"
+    
     return synthesis
+
+
+async def auditor_node(state: AgentState) -> Dict:
+    """Auditor: Quality control on answer"""
+    logger.info("[Node] Auditor")
+    
+    query = state["query"]
+    answer = state.get("answer", "")
+    sources = state.get("retrieved_documents", [])
+    
+    # Audit the answer
+    audit = await auditor_agent.audit(
+        query=query,
+        answer=answer,
+        sources=sources
+    )
+    
+    # Update confidence if audit suggests changes
+    if audit.get("should_improve", False):
+        logger.warning(f"Auditor suggests improvements: {audit.get('issues', [])}")
+    
+    return {
+        "audit_results": audit,
+        "confidence": audit.get("final_score", state.get("confidence", 0.5))
+    }
 
 
 # ========== Router Functions ==========
