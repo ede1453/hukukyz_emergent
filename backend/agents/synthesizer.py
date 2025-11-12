@@ -116,15 +116,21 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
         formatted = []
         
         for i, doc in enumerate(documents, 1):
-            payload = doc.get("payload", {})
+            # Support both 'payload' (Qdrant) and 'metadata' (FAISS) formats
+            metadata = doc.get("payload") or doc.get("metadata", {})
             
             doc_str = f"\n--- Belge {i} ---\n"
-            doc_str += f"Kaynak: {payload.get('kaynak', 'Bilinmiyor')}\n"
+            doc_str += f"Kaynak: {metadata.get('kaynak', 'Bilinmiyor')}\n"
             
-            if "madde_no" in payload:
-                doc_str += f"Madde: {payload['madde_no']}\n"
+            if "madde_no" in metadata:
+                doc_str += f"Madde: {metadata['madde_no']}\n"
             
-            doc_str += f"\n{payload.get('content', '')}\n"
+            if "title" in metadata:
+                doc_str += f"Başlık: {metadata['title']}\n"
+            
+            # Get content from multiple possible locations
+            content = metadata.get('content') or doc.get('text', '')
+            doc_str += f"\n{content}\n"
             
             # Add score
             if "score" in doc:
