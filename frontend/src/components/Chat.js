@@ -72,27 +72,38 @@ const Chat = () => {
     'Kıdem tazminatı nasıl hesaplanır?'
   ];
 
-  const copyToClipboard = async (text, index) => {
+  const copyToClipboard = (text, index) => {
     try {
-      // Try modern clipboard API first
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(text);
+      // Create textarea element
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '0';
+      textArea.style.left = '0';
+      textArea.style.width = '2em';
+      textArea.style.height = '2em';
+      textArea.style.padding = '0';
+      textArea.style.border = 'none';
+      textArea.style.outline = 'none';
+      textArea.style.boxShadow = 'none';
+      textArea.style.background = 'transparent';
+      
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      if (successful) {
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
       } else {
-        // Fallback for older browsers or non-secure contexts
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
+        alert('Kopyalama başarısız oldu');
       }
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
     } catch (err) {
       console.error('Copy failed:', err);
-      alert('Kopyalama başarısız oldu');
+      alert('Kopyalama hatası: ' + err.message);
     }
   };
 
