@@ -19,39 +19,44 @@
 
 ## Phase 1: Temel Altyapı ve MCP Kurulumu
 
-**Başlangıç**: TBD | **Bitiş**: TBD | **Durum**: 🔴 TODO
+**Başlangıç**: 2025-01-12 | **Bitiş**: TBD | **Durum**: 🟡 IN_PROGRESS (15%)
 
 ### 1.1 Proje Yapılandırması
-- [ ] Backend klasör yapısı oluşturma
-  - Status: TODO
+- [x] Backend klasör yapısı oluşturma
+  - Status: ✅ DONE
   - Files: `/app/backend/`
-  - Notes: FastAPI + MCP servers yapısı
+  - Notes: Tüm klasörler oluşturuldu (api, agents, mcp, database, etc.)
+  - Completed: 2025-01-12
   
 - [ ] Frontend klasör yapısı oluşturma
   - Status: TODO
   - Files: `/app/frontend/`
-  - Notes: React + TypeScript
+  - Notes: React + TypeScript (Mevcut yapı güncellenecek)
   
-- [ ] Environment variables yapılandırması
-  - Status: TODO
-  - Files: `/app/backend/.env.example`, `/app/frontend/.env.example`
+- [x] Environment variables yapılandırması
+  - Status: ✅ DONE
+  - Files: `/app/backend/.env.example`, `/app/.env.example`
   - Required Keys: OPENAI_API_KEY, QDRANT_URL, MONGO_URL, TAVILY_API_KEY
+  - Completed: 2025-01-12
 
 ### 1.2 Backend Core Setup
-- [ ] FastAPI temel yapı kurulumu
-  - Status: TODO
-  - Files: `/app/backend/main.py`
-  - Dependencies: fastapi, uvicorn, pydantic
+- [x] FastAPI temel yapı kurulumu
+  - Status: ✅ DONE
+  - Files: `/app/backend/main.py`, `/app/backend/config.py`
+  - Dependencies: fastapi, uvicorn, pydantic-settings
+  - Completed: 2025-01-12
   
-- [ ] MongoDB connection setup
-  - Status: TODO
+- [x] MongoDB connection setup
+  - Status: ✅ DONE
   - Files: `/app/backend/database/mongodb.py`
-  - Collections: users, conversations, documents, upload_logs
+  - Collections: users, conversations, documents, upload_logs, document_versions
+  - Completed: 2025-01-12
   
-- [ ] Qdrant vector DB setup
-  - Status: TODO
+- [x] Qdrant vector DB setup
+  - Status: ✅ DONE
   - Files: `/app/backend/database/qdrant_client.py`
-  - Collections: ticaret, borclar, icra_iflas, medeni, tuketici, bankacilik, hmk
+  - Collections: ticaret_hukuku, borclar_hukuku, icra_iflas, medeni_hukuk, tuketici_haklari, bankacilik_hukuku, hmk
+  - Completed: 2025-01-12
 
 ### 1.3 MCP Infrastructure
 - [ ] MCP Server kurulum ve yapılandırma
