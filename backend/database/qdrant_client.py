@@ -59,29 +59,32 @@ class QdrantManager:
                 self.client.create_collection(
                     collection_name=collection_name,
                     vectors_config=VectorParams(
-                        size=settings.embedding_dimension,
+                        size=1536,  # text-embedding-3-small dimension
                         distance=Distance.COSINE
                     )
                 )
                 
                 # Create payload indexes for efficient filtering
-                self.client.create_payload_index(
-                    collection_name=collection_name,
-                    field_name="status",
-                    field_schema=models.PayloadSchemaType.KEYWORD
-                )
-                self.client.create_payload_index(
-                    collection_name=collection_name,
-                    field_name="doc_type",
-                    field_schema=models.PayloadSchemaType.KEYWORD
-                )
-                self.client.create_payload_index(
-                    collection_name=collection_name,
-                    field_name="madde_no",
-                    field_schema=models.PayloadSchemaType.INTEGER
-                )
+                try:
+                    self.client.create_payload_index(
+                        collection_name=collection_name,
+                        field_name="status",
+                        field_schema=models.PayloadSchemaType.KEYWORD
+                    )
+                    self.client.create_payload_index(
+                        collection_name=collection_name,
+                        field_name="doc_type",
+                        field_schema=models.PayloadSchemaType.KEYWORD
+                    )
+                    self.client.create_payload_index(
+                        collection_name=collection_name,
+                        field_name="kaynak",
+                        field_schema=models.PayloadSchemaType.KEYWORD
+                    )
+                except Exception as e:
+                    logger.warning(f"Could not create all indexes: {e}")
                 
-                logger.info(f"Collection created: {collection_name}")
+                logger.info(f"✅ Collection created: {collection_name}")
     
     def search(
         self,
