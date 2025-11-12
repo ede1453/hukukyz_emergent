@@ -108,7 +108,8 @@ app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 # Initialize MCP client on startup
 @app.on_event("startup")
 async def startup_mcp():
-    \"\"\"Initialize MCP servers\"\"\"\n    try:
+    """Initialize MCP servers"""
+    try:
         await mcp_client.initialize()
         logger.info("MCP servers initialized")
     except Exception as e:
