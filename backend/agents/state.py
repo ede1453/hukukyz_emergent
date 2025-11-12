@@ -1,6 +1,7 @@
 """Agent state definitions for LangGraph"""
 
-from typing import TypedDict, List, Dict, Optional, Annotated
+from typing import List, Dict, Optional, Annotated
+from typing_extensions import TypedDict
 from datetime import datetime
 import operator
 
