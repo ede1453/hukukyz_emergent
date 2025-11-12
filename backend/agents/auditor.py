@@ -113,8 +113,10 @@ Bu cevabı denetle.""")
             return "Kaynak yok"
         formatted = []
         for i, source in enumerate(sources[:10], 1):
-            payload = source.get("payload", {})
-            formatted.append(f"{i}. {payload.get('kaynak', 'Bilinmiyor')}: {payload.get('content', '')[:200]}...")
+            # Support both payload (Qdrant) and metadata (FAISS)
+            metadata = source.get("payload") or source.get("metadata", {})
+            content = metadata.get('content') or source.get('text', '')
+            formatted.append(f"{i}. {metadata.get('kaynak', 'Bilinmiyor')}: {content[:200]}...")
         return "\n".join(formatted)
 
 
