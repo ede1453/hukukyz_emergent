@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     # API
     backend_host: str = os.getenv("BACKEND_HOST", "0.0.0.0")
     backend_port: int = int(os.getenv("BACKEND_PORT", "8001"))
-    cors_origins: List[str] = os.getenv("CORS_ORIGINS", "*").split(",")
+    cors_origins: str = os.getenv("CORS_ORIGINS", "*")
     
     # LLM
     openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
