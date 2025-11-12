@@ -86,13 +86,19 @@ SAMPLE_IIK_ARTICLES = [
 
 
 async def create_sample_documents():
-    """Create sample legal documents in Qdrant and MongoDB"""
+    """Create sample legal documents in vector store and MongoDB"""
     
     try:
         # Initialize connections
         logger.info("Initializing databases...")
         await mongodb_client.connect()
-        await qdrant_manager.initialize()
+        
+        # Use FAISS or Qdrant based on config
+        use_faiss = settings.vector_store_type == "faiss"
+        if use_faiss:
+            await faiss_manager.initialize()
+        else:
+            await qdrant_manager.initialize()
         
         logger.info("Creating sample documents...")
         
