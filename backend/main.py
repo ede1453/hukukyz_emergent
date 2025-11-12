@@ -96,12 +96,11 @@ async def root():
 
 
 # Import and include routers
-from backend.api.routes import chat
+from backend.api.routes import chat, documents
 from backend.mcp.client.mcp_client import mcp_client
 
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
-# app.include_router(documents.router, prefix="/api/documents", tags=["documents"])  # Phase 3
-# app.include_router(upload.router, prefix="/api/upload", tags=["upload"])  # Phase 3
+app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
 # app.include_router(admin.router, prefix="/api/admin", tags=["admin"])  # Phase 7
 
 
