@@ -113,7 +113,18 @@ const Chat = () => {
                   </div>
                 )}
                 
-                <div className="whitespace-pre-wrap">{message.content}</div>
+                <div className="flex items-start gap-2">
+                  <div className="flex-1 whitespace-pre-wrap">{message.content}</div>
+                  {message.role === 'assistant' && (
+                    <button
+                      onClick={() => copyToClipboard(message.content, index)}
+                      className="flex-shrink-0 p-2 text-gray-400 hover:text-gray-200 transition"
+                      title="Kopyala"
+                    >
+                      {copiedIndex === index ? '✓' : '📋'}
+                    </button>
+                  )}
+                </div>
                 
                 {message.citations && message.citations.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-gray-700">
