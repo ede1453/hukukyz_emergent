@@ -150,25 +150,18 @@ def create_workflow():
     workflow.add_node("meta_controller", meta_controller_node)
     workflow.add_node("planner", planner_node)
     workflow.add_node("researcher", researcher_node)
+    workflow.add_node("analyst", analyst_node)
     workflow.add_node("synthesizer", synthesizer_node)
+    workflow.add_node("auditor", auditor_node)
     
-    # Add edges
+    # Add edges - Enhanced workflow
     workflow.set_entry_point("meta_controller")
     workflow.add_edge("meta_controller", "planner")
     workflow.add_edge("planner", "researcher")
-    
-    # Conditional edge after researcher
-    workflow.add_conditional_edges(
-        "researcher",
-        should_continue,
-        {
-            "synthesize": "synthesizer",
-            "end": END
-        }
-    )
-    
-    # End after synthesizer
-    workflow.add_edge("synthesizer", END)
+    workflow.add_edge("researcher", "analyst")  # Analyze documents first
+    workflow.add_edge("analyst", "synthesizer")  # Then synthesize
+    workflow.add_edge("synthesizer", "auditor")  # Finally audit
+    workflow.add_edge("auditor", END)
     
     # Compile
     app = workflow.compile()
