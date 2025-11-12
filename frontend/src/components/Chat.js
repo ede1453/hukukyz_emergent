@@ -109,13 +109,18 @@ const Chat = () => {
                 {message.citations && message.citations.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-gray-700">
                     <p className="text-xs font-semibold text-gray-400 mb-2">
-                      Kaynaklar ({message.citations.length}):
+                      📚 Kaynaklar ({message.citations.length}):
                     </p>
-                    <div className="space-y-1">
+                    <div className="flex flex-wrap gap-2">
                       {message.citations.map((citation, i) => (
-                        <div key={i} className="text-xs text-gray-500">
-                          {i + 1}. {citation.source || 'Kaynak belirtilmemiş'}
-                        </div>
+                        <button
+                          key={i}
+                          onClick={() => setSelectedCitation(citation)}
+                          className="px-3 py-1 text-xs bg-gray-700 text-blue-300 rounded-full hover:bg-gray-600 transition cursor-pointer border border-gray-600"
+                          title="Detayları görüntüle"
+                        >
+                          {citation.source || `Kaynak ${i + 1}`}
+                        </button>
                       ))}
                     </div>
                   </div>
