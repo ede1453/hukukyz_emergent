@@ -85,3 +85,10 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+# HukukYZ specific
+qdrant_storage/
+mongo_data/
+backend/data/faiss/
+*.pdf
+test_result.md
