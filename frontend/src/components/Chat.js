@@ -193,6 +193,88 @@ const Chat = () => {
           </p>
         </div>
       </div>
+
+      {/* Citation Modal */}
+      {selectedCitation && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => setSelectedCitation(null)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full border border-gray-700 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                📖 {selectedCitation.source || 'Kaynak'}
+              </h3>
+              <button
+                onClick={() => setSelectedCitation(null)}
+                className="text-gray-400 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {selectedCitation.text && (
+                <div>
+                  <p className="text-sm font-semibold text-gray-400 mb-2">📄 İçerik:</p>
+                  <p className="text-gray-200 bg-gray-900 p-4 rounded border border-gray-700 whitespace-pre-wrap">
+                    {selectedCitation.text}
+                  </p>
+                </div>
+              )}
+              
+              {selectedCitation.doc_type && (
+                <div>
+                  <p className="text-sm font-semibold text-gray-400">📚 Tip:</p>
+                  <p className="text-gray-300">{selectedCitation.doc_type}</p>
+                </div>
+              )}
+              
+              {selectedCitation.relevance !== undefined && (
+                <div>
+                  <p className="text-sm font-semibold text-gray-400">🎯 Alakalılık:</p>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="bg-blue-500 h-2 rounded-full"
+                        style={{ width: `${selectedCitation.relevance * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-gray-300 text-sm">
+                      {(selectedCitation.relevance * 100).toFixed(0)}%
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {selectedCitation.url && (
+                <div>
+                  <a
+                    href={selectedCitation.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm"
+                  >
+                    🔗 Kaynağı Görüntüle
+                  </a>
+                </div>
+              )}
+            </div>
+            
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setSelectedCitation(null)}
+                className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              >
+                Kapat
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
