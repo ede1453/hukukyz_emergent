@@ -59,18 +59,24 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="mt-6 flex gap-4">
+          <div className="mt-6 grid grid-cols-3 gap-4">
             <Link
               to="/chat"
-              className="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+              className="text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
             >
               💬 Chat Başlat
+            </Link>
+            <Link
+              to="/upload"
+              className="text-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
+            >
+              📄 PDF Yükle
             </Link>
             <a
               href={`${BACKEND_URL}/docs`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
             >
               📖 API Docs
             </a>
