@@ -1,13 +1,13 @@
 """Synthesizer Agent - Final answer generation"""
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 from pydantic import BaseModel, Field
 import logging
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 
 from backend.config import settings
-from backend.agents.state import AgentState, Citation
+from backend.agents.state import AgentState
 
 logger = logging.getLogger(__name__)
 
