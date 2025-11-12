@@ -137,18 +137,20 @@
 
 ## Phase 2: Agent Sistemi ve Workflow
 
-**Başlangıç**: TBD | **Bitiş**: TBD | **Durum**: 🔴 TODO
+**Başlangıç**: 2025-01-12 | **Bitiş**: TBD | **Durum**: 🟡 IN_PROGRESS (60%)
 
 ### 2.1 LangGraph State Management
-- [ ] AgentState definition
-  - Status: TODO
+- [x] AgentState definition
+  - Status: ✅ DONE
   - Files: `/app/backend/agents/state.py`
   - Fields: query, plan, history, current_step, findings, metadata
+  - Completed: 2025-01-12
   
-- [ ] StateGraph kurulumu
-  - Status: TODO
-  - Files: `/app/backend/agents/graph.py`
-  - Notes: Main orchestration graph
+- [x] StateGraph kurulumu
+  - Status: ✅ DONE
+  - Files: `/app/backend/agents/workflow.py`
+  - Notes: Main orchestration graph with 4 nodes
+  - Completed: 2025-01-12
 
 ### 2.2 Agent Implementations
 - [x] Meta-Controller Agent (Task Router)
