@@ -183,33 +183,37 @@
   - Files: `/app/backend/agents/retrieval_supervisor.py`
   - Purpose: Strategy selection (vector/keyword/hybrid)
   
-- [ ] Research Agent (Librarian)
-  - Status: TODO
+- [x] Research Agent (Librarian)
+  - Status: ✅ DONE
   - Files: `/app/backend/agents/researcher.py`
   - Purpose: Document retrieval from Qdrant
   - MCP Tools: Legal Document Server
+  - Features: Multi-collection search, MCP tool integration
+  - Completed: 2025-01-12
   
 - [ ] Web Scout Agent
-  - Status: TODO
+  - Status: TODO (Phase 3)
   - Files: `/app/backend/agents/web_scout.py`
   - Purpose: Live web search for precedents
   - MCP Tools: Web Search Server
   
 - [ ] Analyst Agent
-  - Status: TODO
+  - Status: TODO (Phase 3)
   - Files: `/app/backend/agents/analyst.py`
   - Purpose: Legal analysis, cross-reference
   
 - [ ] Auditor Agent (Quality Control)
-  - Status: TODO
+  - Status: TODO (Phase 3)
   - Files: `/app/backend/agents/auditor.py`
   - Purpose: Verification, faithfulness check
   - Pattern: Self-Correction
   
-- [ ] Synthesizer Agent (Strategist)
-  - Status: TODO
+- [x] Synthesizer Agent (Strategist)
+  - Status: ✅ DONE
   - Files: `/app/backend/agents/synthesizer.py`
   - Purpose: Final answer generation, causal inference
+  - Features: Citation generation, confidence scoring
+  - Completed: 2025-01-12
   
 - [ ] Reflection Agent
   - Status: TODO
