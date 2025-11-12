@@ -24,11 +24,23 @@ async def lifespan(app: FastAPI):
     """Lifecycle management for FastAPI app"""
     # Startup
     logger.info(f"Starting {settings.app_name} in {settings.environment} mode")
+    logger.info(f"Vector store type: {settings.vector_store_type}")
     
     # Initialize databases
     await mongodb_client.connect()
-    # Qdrant initialization disabled (not available in this environment)
-    # await qdrant_manager.initialize()
+    
+    # Initialize vector store based on config
+    if settings.vector_store_type == "qdrant":
+        try:
+            await qdrant_manager.initialize()
+            logger.info("✅ Qdrant initialized")
+        except Exception as e:
+            logger.warning(f"Qdrant initialization failed: {e}")
+            logger.info("Falling back to FAISS...")
+            await faiss_manager.initialize()
+    else:
+        # Use FAISS by default
+        await faiss_manager.initialize()
     
     logger.info("All services initialized successfully")
     
