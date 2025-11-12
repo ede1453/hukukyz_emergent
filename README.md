@@ -401,19 +401,64 @@ Bu platform yalnızca bilgilendirme amaçlıdır. Sunulan bilgiler hukuki tavsiy
 
 ---
 
-## 🚀 Başlangıç
+## 🚀 Quick Start
 
-Projeyi başlatmak için:
+### 1. Environment Setup
 
 ```bash
-# 1. İlk setup
-make setup
+# Backend .env oluştur
+cp backend/.env.example backend/.env
 
-# 2. Development başlat
-make dev
+# API key'lerini ekle (gerekli)
+# backend/.env dosyasını düzenle:
+# - OPENAI_API_KEY=your_key_here
+# - TAVILY_API_KEY=your_key_here (opsiyonel)
+```
 
-# 3. Tarayıcıda aç
-make open
+### 2. Backend Başlatma
+
+```bash
+cd /app
+
+# Dependencies yükle (zaten yüklü olmalı)
+# pip install -r backend/requirements.txt
+
+# Backend'i başlat (supervisor ile otomatik)
+sudo supervisorctl start backend
+
+# Backend log'larını kontrol et
+tail -f /var/log/supervisor/backend.*.log
+```
+
+### 3. Sample Data Yükleme
+
+```bash
+# Test verileri oluştur (TTK, TBK, İİK samples)
+cd /app
+python -m backend.scripts.create_sample_data
+
+# Çıktı:
+# ✅ Successfully created 6 sample documents!
+```
+
+### 4. API Test
+
+```bash
+# API'yi test et
+python -m backend.scripts.test_api
+
+# veya curl ile:
+curl -X POST http://localhost:8001/api/chat/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "TTK 11. madde nedir?"}'
+```
+
+### 5. Frontend (Mevcut)
+
+```bash
+cd frontend
+yarn start
+# http://localhost:3000
 ```
 
 ---
