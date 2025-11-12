@@ -64,13 +64,12 @@ async def analyst_node(state: AgentState) -> Dict:
     """Analyst: Analyze and cross-reference documents"""
     logger.info("[Node] Analyst")
     
-    query = state["query"]
     documents = state.get("retrieved_documents", [])
     
     # Perform legal analysis
     analysis = await analyst_agent.analyze(
-        query=query,
-        documents=documents
+        documents=documents,
+        analysis_type="comprehensive"
     )
     
     return {
