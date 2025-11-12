@@ -88,6 +88,20 @@ SAMPLE_TBK_ARTICLES = [
 (2) Belirli bir günde ifa edilmesi gereken borçlarda, o gün sonunda ifanın gerçekleşmemesi halinde borçlu temerrüde düşer.
 
 (3) İfanın belirli bir süre içinde yapılması öngörülmüşse, aksi kararlaştırılmadıkça borçlu o sürenin son günü sonuna kadar ifada bulunabilir."""
+    },
+    {
+        "madde_no": 123,
+        "title": "Temerrüdün Sonuçları",
+        "content": """MADDE 123 - (1) Borçlu temerrüde düştüğü anda, temerrüt faizi ödeme borcu altına girer.
+
+(2) Alacaklı, temerrüt sebebiyle uğradığı zararın giderilmesini isteyebilir.
+
+(3) Temerrüt faizi, yıllık yüzde on ikidir. Mevduat faizinde bir artış veya azalış olduğunda, temerrüt faizi de aynı oranda artar veya azalır."""
+    },
+    {
+        "madde_no": 420,
+        "title": "Satım Sözleşmesinin Tanımı",
+        "content": """MADDE 420 - Satım sözleşmesi, satıcının bir malı alıcıya devretmeyi ve alıcının da bu mala karşılık bir bedel ödemeyi üstlendiği sözleşmedir."""
     }
 ]
 
