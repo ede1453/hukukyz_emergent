@@ -76,10 +76,15 @@ Bu belgeleri analiz et.""")
         """Format documents for analysis"""
         formatted = []
         for i, doc in enumerate(documents, 1):
-            payload = doc.get("payload", {})
+            # Support both payload (Qdrant) and metadata (FAISS)
+            metadata = doc.get("payload") or doc.get("metadata", {})
+            content = metadata.get('content') or doc.get('text', '')
+            
             doc_str = f"\n=== Belge {i} ===\n"
-            doc_str += f"Kaynak: {payload.get('kaynak', 'Bilinmiyor')}\n"
-            doc_str += f"\n{payload.get('content', '')[:500]}...\n"
+            doc_str += f"Kaynak: {metadata.get('kaynak', 'Bilinmiyor')}\n"
+            if "madde_no" in metadata:
+                doc_str += f"Madde: {metadata['madde_no']}\n"
+            doc_str += f"\n{content[:500]}...\n"
             formatted.append(doc_str)
         return "\n".join(formatted)
     
