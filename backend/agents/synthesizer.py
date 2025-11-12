@@ -54,6 +54,10 @@ Yanıt Yapısı:
 Kaynak Gösterimi:
 Her paragrafta ilgili kaynağı belirt: [Kaynak: TTK m.11]
 
+Citation Formatı:
+- source alanını "Kaynak m.Madde" formatında doldur (örn: "TTK m.329", "TBK m.11", "İİK m.68")
+- Madde başlığı varsa text alanına ekle
+
 Güven Skoru:
 - 0.9-1.0: Çok net, birden fazla kaynak destekli
 - 0.7-0.9: İyi, tek kaynak veya kısmi bilgi
