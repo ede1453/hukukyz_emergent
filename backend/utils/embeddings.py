@@ -117,3 +117,27 @@ def clear_embedding_cache():
     global _embedding_cache
     _embedding_cache = {}
     logger.info("Embedding cache cleared")
+
+
+class EmbeddingService:
+    """Service for generating embeddings"""
+    
+    async def embed_single(self, text: str, use_cache: bool = True) -> List[float]:
+        """Generate embedding for single text"""
+        return await get_embedding(text, use_cache=use_cache)
+    
+    async def embed_batch(
+        self, 
+        texts: List[str], 
+        batch_size: int = 100
+    ) -> List[List[float]]:
+        """Generate embeddings for multiple texts"""
+        return await get_embeddings_batch(texts, batch_size=batch_size)
+    
+    def clear_cache(self):
+        """Clear embedding cache"""
+        clear_embedding_cache()
+
+
+# Global service instance
+embedding_service = EmbeddingService()
