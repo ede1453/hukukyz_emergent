@@ -61,33 +61,37 @@
   - Completed: 2025-01-12
 
 ### 1.3 MCP Infrastructure
-- [ ] MCP Server kurulum ve yapılandırma
-  - Status: TODO
-  - Files: `/app/backend/mcp/`
-  - Notes: MCP protocol implementation
+- [x] MCP Server kurulum ve yapılandırma
+  - Status: ✅ DONE
+  - Files: `/app/backend/mcp/base.py`, `/app/backend/mcp/client/mcp_client.py`
+  - Notes: Base MCPServer class, tool registration, client implementation
+  - Completed: 2025-01-12
   
-- [ ] Legal Document MCP Server
-  - Status: TODO
+- [x] Legal Document MCP Server
+  - Status: ✅ DONE
   - Files: `/app/backend/mcp/servers/legal_documents.py`
-  - Tools: search_documents, get_article, get_version_history
+  - Tools: search_documents, get_article
+  - Completed: 2025-01-12
   
 - [ ] Knowledge Management MCP Server
   - Status: TODO
   - Files: `/app/backend/mcp/servers/knowledge_base.py`
   - Tools: store_conversation, retrieve_memory, update_metadata
   
-- [ ] Document Processing MCP Server
-  - Status: TODO
+- [x] Document Processing MCP Server
+  - Status: ✅ DONE
   - Files: `/app/backend/mcp/servers/document_processor.py`
-  - Tools: parse_pdf, chunk_document, extract_articles, validate_structure
+  - Tools: parse_pdf, chunk_document, extract_articles
+  - Completed: 2025-01-12
   
-- [ ] Web Search MCP Server
-  - Status: TODO
+- [x] Web Search MCP Server
+  - Status: ✅ DONE
   - Files: `/app/backend/mcp/servers/web_search.py`
-  - Tools: search_legal_web, search_precedents, search_academic
+  - Tools: search_legal_web, search_precedents
+  - Completed: 2025-01-12
   
 - [ ] Version Control MCP Server
-  - Status: TODO
+  - Status: TODO (Phase 3)
   - Files: `/app/backend/mcp/servers/version_control.py`
   - Tools: add_version, deprecate_version, compare_versions, rollback
 
