@@ -81,18 +81,32 @@ class RetrievalPipeline:
         filters: Optional[Dict]
     ) -> List[Dict]:
         """Vector similarity search"""
-        # Generate embedding
-        query_vector = await get_embedding(query)
-        
-        # Search in Qdrant
-        results = self.qdrant.search(
-            collection_name=collection,
-            query_vector=query_vector,
-            limit=limit,
-            filters=filters
-        )
-        
-        return results
+        try:
+            # Use FAISS or Qdrant based on config
+            if self.vector_store_type == "faiss":
+                results = await self.faiss.search(
+                    collection_name=collection,
+                    query=query,
+                    limit=limit,
+                    metadata_filter=filters
+                )
+            else:
+                # Generate embedding
+                query_vector = await get_embedding(query)
+                
+                # Search in Qdrant
+                results = self.qdrant.search(
+                    collection_name=collection,
+                    query_vector=query_vector,
+                    limit=limit,
+                    filters=filters
+                )
+            
+            return results
+            
+        except Exception as e:
+            logger.error(f"Vector search error: {e}")
+            return []
     
     async def _keyword_search(
         self,
