@@ -51,22 +51,27 @@ const Home = () => {
             </div>
           </div>
           
-          <div className="mt-6 p-4 bg-blue-900 rounded border border-blue-700">
-            <p className="text-blue-100 text-sm">
-              💡 <strong>Not:</strong> Backend sistemi tam çalışır durumda! 
-              Şu an basit bir status sayfası görmektesiniz. 
-              Chat interface Phase 4'te eklenecek.
+          <div className="mt-6 p-4 bg-green-900 rounded border border-green-700">
+            <p className="text-green-100 text-sm">
+              ✅ <strong>Sistem Hazır!</strong> RAG pipeline aktif ve çalışıyor. 
+              12 hukuki belge yüklendi. Chat arayüzünü kullanabilirsiniz.
             </p>
           </div>
           
-          <div className="mt-6">
+          <div className="mt-6 flex gap-4">
+            <Link
+              to="/chat"
+              className="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+            >
+              💬 Chat Başlat
+            </Link>
             <a
-              href="http://localhost:8001/docs"
+              href={`${BACKEND_URL}/docs`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="flex-1 text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
             >
-              📖 API Documentation
+              📖 API Docs
             </a>
           </div>
         </div>
