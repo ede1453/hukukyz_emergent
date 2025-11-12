@@ -21,6 +21,13 @@ cp .env.example backend/.env
 ### 2. Docker ile Başlat
 
 ```bash
+# Hızlı başlatma
+./start.sh
+
+# VEYA make ile
+make up
+
+# VEYA docker-compose ile
 docker-compose up -d
 ```
 
