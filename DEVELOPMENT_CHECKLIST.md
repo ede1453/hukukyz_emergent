@@ -315,28 +315,30 @@
   - Completed: 2025-01-12
 
 ### 3.4 Legal-Specific Tools
-- [ ] Madde/Fıkra/Bent Parser
-  - Status: TODO
-  - Files: `/app/backend/tools/legal_parser.py`
-  - Example: "TTK m.11/2-c" → {madde: 11, fikra: 2, bent: 'c'}
+- [x] Madde/Fıkra/Bent Parser
+  - Status: ✅ DONE
+  - Files: `/app/backend/agents/tools/legal_parser.py`
+  - Features: Parse "TTK m.11/2-c", extract madde/fikra/bent
+  - Completed: 2025-01-12
   
-- [ ] Citation Tracker
-  - Status: TODO
-  - Files: `/app/backend/tools/citation_tracker.py`
-  - Purpose: Cross-reference between laws
+- [x] Citation Tracker
+  - Status: ✅ DONE
+  - Files: `/app/backend/agents/tools/citation_tracker.py`
+  - Purpose: Cross-reference tracking, citation graph
+  - Completed: 2025-01-12
   
 - [ ] Historical Query Handler
-  - Status: TODO
+  - Status: TODO (Phase 4)
   - Files: `/app/backend/tools/historical_query.py`
   - Purpose: Time-based version retrieval
   
 - [ ] Comparative Analyzer
-  - Status: TODO
+  - Status: TODO (Phase 4)
   - Files: `/app/backend/tools/comparative_analyzer.py`
   - Purpose: Law comparison (TTK vs TBK)
   
 - [ ] Precedent Linker
-  - Status: TODO
+  - Status: TODO (Phase 4)
   - Files: `/app/backend/tools/precedent_linker.py`
   - Purpose: Link court decisions to articles
 
