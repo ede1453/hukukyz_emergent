@@ -174,5 +174,69 @@
       "status": "active",
       "is_sample": false
     }
+  },
+  {
+    "id": "İşK_m2",
+    "text": "İşçi ve İşveren\n\nMADDE 2 - İşçi: Bir iş sözleşmesine dayanarak çalışan gerçek kişidir.\n\nİşveren: İşçi çalıştıran gerçek veya tüzel kişi yahut tüzel kişiliği olmayan kurum ve kuruluştur.\n\nİş sözleşmesi: Bir tarafın (işçi) bağımlı olarak iş görmeyi, diğer tarafın (işveren) da ücret ödemeyi üstlenmesinden oluşan sözleşmedir.",
+    "metadata": {
+      "doc_id": "İşK_2",
+      "kaynak": "İşK",
+      "doc_type": "kanun",
+      "hukuk_dali": "is_hukuku",
+      "madde_no": 2,
+      "title": "İşçi ve İşveren",
+      "content": "MADDE 2 - İşçi: Bir iş sözleşmesine dayanarak çalışan gerçek kişidir.\n\nİşveren: İşçi çalıştıran gerçek veya tüzel kişi yahut tüzel kişiliği olmayan kurum ve kuruluştur.\n\nİş sözleşmesi: Bir tarafın (işçi) bağımlı olarak iş görmeyi, diğer tarafın (işveren) da ücret ödemeyi üstlenmesinden oluşan sözleşmedir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "İşK_m17",
+    "text": "Bildirim Süreleri\n\nMADDE 17 - Belirsiz süreli iş sözleşmelerinin feshinde bildirim süreleri:\n\n- Altı aydan az kıdemlerde: İki hafta\n- Altı aydan bir buçuk yıla kadar: Dört hafta  \n- Bir buçuk yıldan üç yıla kadar: Altı hafta\n- Üç yıldan fazla: Sekiz hafta\n\nİşveren bildirim süresini vermeden feshettiği takdirde, bildirim süresine ait ücret ve diğer haklar peşin olarak ödenir.",
+    "metadata": {
+      "doc_id": "İşK_17",
+      "kaynak": "İşK",
+      "doc_type": "kanun",
+      "hukuk_dali": "is_hukuku",
+      "madde_no": 17,
+      "title": "Bildirim Süreleri",
+      "content": "MADDE 17 - Belirsiz süreli iş sözleşmelerinin feshinde bildirim süreleri:\n\n- Altı aydan az kıdemlerde: İki hafta\n- Altı aydan bir buçuk yıla kadar: Dört hafta  \n- Bir buçuk yıldan üç yıla kadar: Altı hafta\n- Üç yıldan fazla: Sekiz hafta\n\nİşveren bildirim süresini vermeden feshettiği takdirde, bildirim süresine ait ücret ve diğer haklar peşin olarak ödenir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "İşK_m32",
+    "text": "Hafta Tatili Ücreti\n\nMADDE 32 - İşçilere tatil gününden önce veya sonra iş verilmesi şartıyla hafta tatili gününde çalışmamış olsalar bile bir günlük ücret tutarında hafta tatili ücreti ödenir.\n\nİşçi hafta tatili gününde çalıştırılırsa, fazla çalışma ücretine ek olarak bir günlük ücret de ödenir.",
+    "metadata": {
+      "doc_id": "İşK_32",
+      "kaynak": "İşK",
+      "doc_type": "kanun",
+      "hukuk_dali": "is_hukuku",
+      "madde_no": 32,
+      "title": "Hafta Tatili Ücreti",
+      "content": "MADDE 32 - İşçilere tatil gününden önce veya sonra iş verilmesi şartıyla hafta tatili gününde çalışmamış olsalar bile bir günlük ücret tutarında hafta tatili ücreti ödenir.\n\nİşçi hafta tatili gününde çalıştırılırsa, fazla çalışma ücretine ek olarak bir günlük ücret de ödenir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "İşK_m120",
+    "text": "Kıdem Tazminatı\n\nMADDE 120 - İşçinin kıdem tazminatına hak kazanabilmesi için:\n\n- İş sözleşmesinin işverence feshedilmesi\n- İşçinin askerlik hizmeti dolayısıyla feshetmesi  \n- Emeklilik veya yaşlılık aylığı almak amacıyla feshetmesi\n- Bağlı oldukları kanunlar gereğince emeklilik için yaş hadlerini doldurmuş olmaları\n\nKıdem tazminatı, işçinin her geçen tam yıl için otuz günlük ücreti tutarındadır.",
+    "metadata": {
+      "doc_id": "İşK_120",
+      "kaynak": "İşK",
+      "doc_type": "kanun",
+      "hukuk_dali": "is_hukuku",
+      "madde_no": 120,
+      "title": "Kıdem Tazminatı",
+      "content": "MADDE 120 - İşçinin kıdem tazminatına hak kazanabilmesi için:\n\n- İş sözleşmesinin işverence feshedilmesi\n- İşçinin askerlik hizmeti dolayısıyla feshetmesi  \n- Emeklilik veya yaşlılık aylığı almak amacıyla feshetmesi\n- Bağlı oldukları kanunlar gereğince emeklilik için yaş hadlerini doldurmuş olmaları\n\nKıdem tazminatı, işçinin her geçen tam yıl için otuz günlük ücreti tutarındadır.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
   }
 ]

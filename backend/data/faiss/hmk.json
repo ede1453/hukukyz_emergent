@@ -1,0 +1,50 @@
+[
+  {
+    "id": "HMK_m118",
+    "text": "Dava Şartları\n\nMADDE 118 - Dava şartları, davanın esasının incelenebilmesi için bulunması gereken ön koşullardır:\n\n1. Hukuki yararın bulunması\n2. Ehliyet  \n3. Taraf ehliyeti\n4. Husumet\n5. Dava için gereken harç ve giderlerin yatırılmış olması\n\nDava şartları yokluğu halinde, dava usulden reddedilir.",
+    "metadata": {
+      "doc_id": "HMK_118",
+      "kaynak": "HMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "usul",
+      "madde_no": 118,
+      "title": "Dava Şartları",
+      "content": "MADDE 118 - Dava şartları, davanın esasının incelenebilmesi için bulunması gereken ön koşullardır:\n\n1. Hukuki yararın bulunması\n2. Ehliyet  \n3. Taraf ehliyeti\n4. Husumet\n5. Dava için gereken harç ve giderlerin yatırılmış olması\n\nDava şartları yokluğu halinde, dava usulden reddedilir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "HMK_m119",
+    "text": "Görevli ve Yetkili Mahkeme\n\nMADDE 119 - Davalar, aksine hüküm bulunmadıkça asliye hukuk mahkemesinde görülür.\n\nKonusu bir miktar para veya değeri ölçülebilen bir mal olan davalarda, sulh hukuk mahkemesinin görevine giren bir miktar Yargıtay Birinci Başkanlık Kurulunca belirlenir.\n\nTaraflar aralarında yetki sözleşmesi ile yetkili mahkemeyi kararlaştırabilirler.",
+    "metadata": {
+      "doc_id": "HMK_119",
+      "kaynak": "HMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "usul",
+      "madde_no": 119,
+      "title": "Görevli ve Yetkili Mahkeme",
+      "content": "MADDE 119 - Davalar, aksine hüküm bulunmadıkça asliye hukuk mahkemesinde görülür.\n\nKonusu bir miktar para veya değeri ölçülebilen bir mal olan davalarda, sulh hukuk mahkemesinin görevine giren bir miktar Yargıtay Birinci Başkanlık Kurulunca belirlenir.\n\nTaraflar aralarında yetki sözleşmesi ile yetkili mahkemeyi kararlaştırabilirler.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  },
+  {
+    "id": "HMK_m125",
+    "text": "İhtiyati Tedbir\n\nMADDE 125 - Hakkın güvence altına alınması için zorunluluk arz eden hâllerde ihtiyati tedbir kararı verilebilir.\n\nİhtiyati tedbir kararı verilmesi için:\n1. Hakkın varlığının muhtemel olması\n2. Hakkın daha sonra korunmasının önemli ölçüde zorlaşacağının veya imkânsız hâle geleceğinin veya acil durumun varlığının\n\nİspat edilmesi gerekir.",
+    "metadata": {
+      "doc_id": "HMK_125",
+      "kaynak": "HMK",
+      "doc_type": "kanun",
+      "hukuk_dali": "usul",
+      "madde_no": 125,
+      "title": "İhtiyati Tedbir",
+      "content": "MADDE 125 - Hakkın güvence altına alınması için zorunluluk arz eden hâllerde ihtiyati tedbir kararı verilebilir.\n\nİhtiyati tedbir kararı verilmesi için:\n1. Hakkın varlığının muhtemel olması\n2. Hakkın daha sonra korunmasının önemli ölçüde zorlaşacağının veya imkânsız hâle geleceğinin veya acil durumun varlığının\n\nİspat edilmesi gerekir.",
+      "version": "1.0",
+      "status": "active",
+      "is_sample": false
+    }
+  }
+]
