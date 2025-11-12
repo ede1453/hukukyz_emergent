@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     embedding_dimension: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
     
     # Databases
+    vector_store_type: str = os.getenv("VECTOR_STORE_TYPE", "faiss")  # "qdrant" or "faiss"
     qdrant_url: str = os.getenv("QDRANT_URL", "http://localhost:6333")
     qdrant_api_key: str = os.getenv("QDRANT_API_KEY", "")
     
