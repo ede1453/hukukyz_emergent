@@ -40,7 +40,7 @@ const Chat = () => {
           query: userMessage,
           session_id: 'web-session-' + Date.now()
         },
-        { timeout: 60000 }
+        { timeout: 120000 }
       );
 
       setMessages(prev => [...prev, {
