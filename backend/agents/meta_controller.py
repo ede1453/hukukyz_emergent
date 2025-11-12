@@ -65,13 +65,13 @@ class MetaControllerAgent:
 Görevin, kullanıcı sorgusunu analiz edip hangi hukuk dalı ve kaynak tiplerinin gerekli olduğunu belirlemek.
 
 Hukuk Dalları:
-- ticaret: Ticaret hukuku (TTK)
-- borclar: Borçlar hukuku (TBK)
-- icra: İcra ve İflas hukuku (İİK)
-- medeni: Medeni hukuk (TMK)
-- tuketici: Tüketici hakları (TKHK)
+- ticaret: Ticaret hukuku (TTK - anonim şirket, limited şirket, ticari işletme)
+- borclar: Borçlar hukuku (TBK - sözleşmeler, tazminat, iş hukuku)
+- icra: İcra ve İflas hukuku (İİK - haciz, iflas, alacak takibi)
+- medeni: Medeni hukuk (TMK - kişi, aile, miras, eşya hukuku)
+- tuketici: Tüketici hakları (TKHK - cayma hakkı, ayıplı mal, tüketici mahkemesi)
 - bankacilik: Bankacılık hukuku
-- hmk: Hukuk Muhakemeleri Kanunu
+- hmk: Hukuk Muhakemeleri Kanunu (HMK - dava, delil, usul)
 
 Kaynak Tipleri:
 - kanun: Kanun metinleri
