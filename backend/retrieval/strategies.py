@@ -6,6 +6,7 @@ import logging
 import asyncio
 
 from backend.database.qdrant_client import qdrant_manager
+from backend.database.faiss_store import faiss_manager
 from backend.utils.embeddings import get_embedding
 from backend.config import settings
 
@@ -24,6 +25,8 @@ class RetrievalPipeline:
     
     def __init__(self):
         self.qdrant = qdrant_manager
+        self.faiss = faiss_manager
+        self.vector_store_type = settings.vector_store_type
     
     async def search(
         self,
