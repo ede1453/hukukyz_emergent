@@ -26,7 +26,8 @@ async def lifespan(app: FastAPI):
     
     # Initialize databases
     await mongodb_client.connect()
-    await qdrant_manager.initialize()
+    # Qdrant initialization disabled (not available in this environment)
+    # await qdrant_manager.initialize()
     
     logger.info("All services initialized successfully")
     
