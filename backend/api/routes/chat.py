@@ -100,6 +100,50 @@ async def chat_query(request: QueryRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/history/{session_id}")
+async def get_conversation_history(session_id: str, limit: int = 20):
+    """Get conversation history for a session"""
+    try:
+        conversations = get_conversations_collection()
+        
+        # Get conversations for this session, sorted by timestamp
+        history = await conversations.find(
+            {"session_id": session_id},
+            {"_id": 0}  # Exclude MongoDB _id
+        ).sort("timestamp", -1).limit(limit).to_list(limit)
+        
+        # Reverse to get chronological order
+        history.reverse()
+        
+        return {
+            "session_id": session_id,
+            "count": len(history),
+            "conversations": history
+        }
+        
+    except Exception as e:
+        logger.error(f"History retrieval error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/history/{session_id}")
+async def clear_conversation_history(session_id: str):
+    """Clear conversation history for a session"""
+    try:
+        conversations = get_conversations_collection()
+        result = await conversations.delete_many({"session_id": session_id})
+        
+        return {
+            "session_id": session_id,
+            "deleted_count": result.deleted_count,
+            "status": "cleared"
+        }
+        
+    except Exception as e:
+        logger.error(f"History clear error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/health", response_model=HealthResponse)
 async def health_check():
     """Check health of chat service and MCP servers"""
