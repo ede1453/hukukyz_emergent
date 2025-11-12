@@ -151,11 +151,12 @@
   - Notes: Main orchestration graph
 
 ### 2.2 Agent Implementations
-- [ ] Meta-Controller Agent (Task Router)
-  - Status: TODO
+- [x] Meta-Controller Agent (Task Router)
+  - Status: ✅ DONE (Basic implementation)
   - Files: `/app/backend/agents/meta_controller.py`
   - Purpose: Hukuk dalı tespiti, koleksiyon routing
-  - MCP Tools: All servers
+  - Features: Pattern matching, LLM analysis
+  - Completed: 2025-01-12
   
 - [ ] Planner Agent
   - Status: TODO
