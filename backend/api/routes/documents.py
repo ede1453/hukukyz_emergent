@@ -29,8 +29,6 @@ class CollectionInfo(BaseModel):
 async def list_collections():
     """List all available collections"""
     try:
-        stats = faiss_manager.get_stats()
-        
         collection_info = {
             "ticaret_hukuku": {
                 "display_name": "Ticaret Hukuku (TTK)",
@@ -63,23 +61,43 @@ async def list_collections():
         }
         
         collections = []
-        for name, stat in stats.items():
-            info = collection_info.get(name, {
-                "display_name": name,
-                "description": "Genel hukuk koleksiyonu"
-            })
-            
-            collections.append(CollectionInfo(
-                name=name,
-                display_name=info["display_name"],
-                document_count=stat["document_count"],
-                description=info["description"]
-            ))
+        
+        if settings.vector_store_type == "qdrant":
+            # Get from Qdrant
+            qdrant_collections = qdrant_manager.client.get_collections()
+            for collection in qdrant_collections.collections:
+                info = qdrant_manager.client.get_collection(collection.name)
+                display_info = collection_info.get(collection.name, {
+                    "display_name": collection.name,
+                    "description": "Genel hukuk koleksiyonu"
+                })
+                
+                collections.append(CollectionInfo(
+                    name=collection.name,
+                    display_name=display_info["display_name"],
+                    document_count=info.points_count,
+                    description=display_info["description"]
+                ))
+        else:
+            # Get from FAISS
+            stats = faiss_manager.get_stats()
+            for name, stat in stats.items():
+                info = collection_info.get(name, {
+                    "display_name": name,
+                    "description": "Genel hukuk koleksiyonu"
+                })
+                
+                collections.append(CollectionInfo(
+                    name=name,
+                    display_name=info["display_name"],
+                    document_count=stat["document_count"],
+                    description=info["description"]
+                ))
         
         return collections
         
     except Exception as e:
-        logger.error(f"List collections error: {e}")
+        logger.error(f"List collections error: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 
