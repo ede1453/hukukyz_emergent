@@ -10,6 +10,7 @@ const Upload = () => {
   const [createNew, setCreateNew] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadResult, setUploadResult] = useState(null);
   const [stats, setStats] = useState(null);
 
