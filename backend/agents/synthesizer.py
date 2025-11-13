@@ -121,9 +121,16 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
             
             logger.info(f"Synthesized answer with {len(result.citations)} citations")
             
+            # Validate and enrich citations
+            enriched_citations = self._enrich_citations(
+                result.citations, 
+                result.answer,
+                documents
+            )
+            
             return {
                 "final_answer": result.answer,
-                "citations": [c.model_dump() if hasattr(c, 'model_dump') else c for c in result.citations],
+                "citations": enriched_citations,
                 "confidence": result.confidence,
                 "reasoning": result.reasoning
             }
