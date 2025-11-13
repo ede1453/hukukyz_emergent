@@ -73,7 +73,7 @@ const Home = () => {
               📄 PDF Yükle
             </Link>
             <a
-              href={`${BACKEND_URL}/api/docs`}
+              href="/docs"
               target="_blank"
               rel="noopener noreferrer"
               className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
