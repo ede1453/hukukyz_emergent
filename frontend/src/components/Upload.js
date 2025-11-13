@@ -192,11 +192,12 @@ const Upload = () => {
           {/* File Input */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              PDF Dosyası
+              PDF Dosyası (Toplu yükleme için birden fazla dosya seçebilirsiniz)
             </label>
             <input
               type="file"
               accept=".pdf"
+              multiple
               onChange={handleFileChange}
               disabled={uploading}
               className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 
@@ -205,10 +206,15 @@ const Upload = () => {
                        file:text-sm file:font-semibold file:bg-blue-600 file:text-white
                        hover:file:bg-blue-700"
             />
-            {selectedFile && (
-              <p className="mt-2 text-sm text-gray-400">
-                Seçili: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
-              </p>
+            {selectedFiles.length > 0 && (
+              <div className="mt-2 text-sm text-gray-400">
+                <p className="font-semibold">{selectedFiles.length} dosya seçildi:</p>
+                <ul className="list-disc list-inside mt-1 max-h-32 overflow-y-auto">
+                  {selectedFiles.map((file, idx) => (
+                    <li key={idx}>{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
 
