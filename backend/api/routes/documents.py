@@ -29,18 +29,34 @@ def check_duplicate_document(collection_name: str, file_hash: str) -> bool:
     """Check if document with same hash already exists"""
     try:
         if settings.vector_store_type == "qdrant":
-            # Search for documents with this hash in Qdrant
+            from qdrant_client.models import Filter, FieldCondition, MatchValue
+            
+            # Search for documents with this hash in Qdrant using correct filter syntax
             result = qdrant_manager.client.scroll(
                 collection_name=collection_name,
-                scroll_filter={"must": [{"key": "file_hash", "match": {"value": file_hash}}]},
-                limit=1
+                scroll_filter=Filter(
+                    must=[
+                        FieldCondition(
+                            key="file_hash",
+                            match=MatchValue(value=file_hash)
+                        )
+                    ]
+                ),
+                limit=1,
+                with_payload=True
             )
-            return len(result[0]) > 0
+            
+            if len(result[0]) > 0:
+                logger.info(f"✅ Duplicate detected: {file_hash[:16]}... already exists")
+                return True
+            else:
+                logger.info(f"✅ No duplicate: {file_hash[:16]}... is new")
+                return False
         else:
             # For FAISS, we'd need to check metadata (not implemented for now)
             return False
     except Exception as e:
-        logger.error(f"Error checking duplicate: {e}")
+        logger.error(f"Error checking duplicate: {e}", exc_info=True)
         return False
 
 router = APIRouter()
