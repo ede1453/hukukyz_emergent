@@ -52,12 +52,18 @@ class HukukYZTester:
         except Exception as e:
             self.log_test("Root Endpoint (/)", False, f"Error: {str(e)}")
 
-        # Test health endpoint
+        # Test health endpoint - Note: health is at root level, not /api/health
         try:
             response = await self.client.get(f"{BASE_URL}/health")
             if response.status_code == 200:
-                data = response.json()
-                self.log_test("Health Check (/health)", True, f"Status: {data.get('status', 'N/A')}")
+                # Check if response is JSON (backend) or HTML (frontend fallback)
+                content_type = response.headers.get('content-type', '')
+                if 'application/json' in content_type:
+                    data = response.json()
+                    self.log_test("Health Check (/health)", True, f"Status: {data.get('status', 'N/A')}")
+                else:
+                    # Getting HTML means routing issue - backend health not accessible
+                    self.log_test("Health Check (/health)", False, "Getting HTML instead of JSON - routing issue")
             else:
                 self.log_test("Health Check (/health)", False, f"Status: {response.status_code}")
         except Exception as e:
