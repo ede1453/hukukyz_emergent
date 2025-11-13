@@ -260,9 +260,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "FAISS Vector Store Integration"
-    - "Sample Data Creation"
-    - "RAG Pipeline End-to-End"
+    - "Backend Testing Complete"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
