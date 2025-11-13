@@ -31,26 +31,38 @@ def check_duplicate_document(collection_name: str, file_hash: str) -> bool:
         if settings.vector_store_type == "qdrant":
             from qdrant_client.models import Filter, FieldCondition, MatchValue
             
-            # Search for documents with this hash in Qdrant using correct filter syntax
-            result = qdrant_manager.client.scroll(
-                collection_name=collection_name,
-                scroll_filter=Filter(
-                    must=[
-                        FieldCondition(
-                            key="file_hash",
-                            match=MatchValue(value=file_hash)
-                        )
-                    ]
-                ),
-                limit=1,
-                with_payload=True
-            )
+            # Check if collection exists first
+            try:
+                qdrant_manager.client.get_collection(collection_name)
+            except Exception as col_error:
+                logger.warning(f"Collection {collection_name} doesn't exist yet, skipping duplicate check")
+                return False
             
-            if len(result[0]) > 0:
-                logger.info(f"✅ Duplicate detected: {file_hash[:16]}... already exists")
-                return True
-            else:
-                logger.info(f"✅ No duplicate: {file_hash[:16]}... is new")
+            # Search for documents with this hash in Qdrant using correct filter syntax
+            try:
+                result = qdrant_manager.client.scroll(
+                    collection_name=collection_name,
+                    scroll_filter=Filter(
+                        must=[
+                            FieldCondition(
+                                key="file_hash",
+                                match=MatchValue(value=file_hash)
+                            )
+                        ]
+                    ),
+                    limit=1,
+                    with_payload=True
+                )
+                
+                if len(result[0]) > 0:
+                    logger.info(f"✅ Duplicate detected: {file_hash[:16]}... already exists in {collection_name}")
+                    return True
+                else:
+                    logger.info(f"✅ No duplicate: {file_hash[:16]}... is new in {collection_name}")
+                    return False
+            except Exception as scroll_error:
+                logger.error(f"Scroll error: {scroll_error}", exc_info=True)
+                # If scroll fails, don't block upload - just skip duplicate check
                 return False
         else:
             # For FAISS, we'd need to check metadata (not implemented for now)
