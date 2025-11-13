@@ -70,7 +70,7 @@ async def chat_query(request: QueryRequest):
         confidence = final_state.get("confidence", 0.0)
         reasoning = final_state.get("reasoning", "")
         
-        # Build metadata
+        # Build metadata (include performance metrics if available)
         metadata = {
             "hukuk_dali": final_state.get("hukuk_dali", []),
             "collections": final_state.get("collections", []),
@@ -78,6 +78,11 @@ async def chat_query(request: QueryRequest):
             "plan_steps": len(final_state.get("plan", [])),
             "errors": final_state.get("errors", [])
         }
+        
+        # Add performance metrics if using optimized workflow
+        if "agent_timings" in final_state:
+            metadata["agent_timings"] = final_state["agent_timings"]
+            metadata["total_workflow_time"] = final_state.get("total_workflow_time", 0)
         
         # Save conversation to MongoDB
         conversations = get_conversations_collection()
