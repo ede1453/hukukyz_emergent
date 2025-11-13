@@ -98,14 +98,6 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
         Returns:
             Synthesis result with answer and citations
         """
-        
-        Args:
-            query: Original user query
-            documents: Retrieved documents
-        
-        Returns:
-            Synthesis output with answer, citations, confidence
-        """
         try:
             logger.info(f"Synthesizing answer from {len(documents)} documents")
             
