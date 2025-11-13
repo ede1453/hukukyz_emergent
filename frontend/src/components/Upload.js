@@ -24,9 +24,7 @@ const Upload = () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/api/documents/collections`);
       setCollections(response.data);
-      if (response.data.length > 0) {
-        setSelectedCollection(response.data[0].name);
-      }
+      // DO NOT auto-select first collection - user must explicitly choose
     } catch (error) {
       console.error('Collections yüklenemedi:', error);
     }
