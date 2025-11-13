@@ -27,6 +27,7 @@ class AgentState(TypedDict):
     # ========== Context ==========
     hukuk_dali: List[str]  # Legal domains: ["ticaret", "borclar", ...]
     kaynak_tipi: List[str]  # Source types: ["kanun", "ictihat", ...]
+    collections: List[str]  # Target collections: ["ticaret_hukuku", "borclar_hukuku", ...]
     madde_refs: List[str]  # Article references: ["TTK m.11", "TBK m.1", ...]
     
     # ========== Retrieved Documents ==========
