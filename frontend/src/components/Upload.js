@@ -138,8 +138,9 @@ const Upload = () => {
       await loadCollections();
       await loadStats();
 
-      // Clear form
+      // Clear form - IMPORTANT: Reset collection selection to force re-selection
       setSelectedFiles([]);
+      setSelectedCollection('');  // Reset collection to empty - user must choose again
       setNewCollectionName('');
       setCreateNew(false);
       setBulkMode(false);
