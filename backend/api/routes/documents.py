@@ -11,8 +11,37 @@ from backend.utils.pdf_processor import pdf_processor
 from backend.database.faiss_store import faiss_manager
 from backend.database.qdrant_client import qdrant_manager
 from backend.config import settings
+import hashlib
 
 logger = logging.getLogger(__name__)
+
+
+def calculate_file_hash(file_path: str) -> str:
+    """Calculate SHA256 hash of a file"""
+    sha256_hash = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+
+def check_duplicate_document(collection_name: str, file_hash: str) -> bool:
+    """Check if document with same hash already exists"""
+    try:
+        if settings.vector_store_type == "qdrant":
+            # Search for documents with this hash in Qdrant
+            result = qdrant_manager.client.scroll(
+                collection_name=collection_name,
+                scroll_filter={"must": [{"key": "file_hash", "match": {"value": file_hash}}]},
+                limit=1
+            )
+            return len(result[0]) > 0
+        else:
+            # For FAISS, we'd need to check metadata (not implemented for now)
+            return False
+    except Exception as e:
+        logger.error(f"Error checking duplicate: {e}")
+        return False
 
 router = APIRouter()
 
