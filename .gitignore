@@ -92,3 +92,7 @@ mongo_data/
 backend/data/faiss/
 *.pdf
 test_result.md
+-e 
+# Environment files
+*.env
+*.env.*
