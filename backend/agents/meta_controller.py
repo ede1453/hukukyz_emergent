@@ -24,12 +24,15 @@ class MetaControllerAgent:
     """Meta-Controller Agent for task routing"""
     
     # Mapping from legal domain to Qdrant collection
+    # Including both Turkish and ASCII versions for LLM compatibility
     DOMAIN_TO_COLLECTION = {
         "ticaret": "ticaret_hukuku",
         "ticaret hukuku": "ticaret_hukuku",
         "ttk": "ticaret_hukuku",
         "borçlar": "borclar_hukuku",
+        "borclar": "borclar_hukuku",  # ASCII version
         "borçlar hukuku": "borclar_hukuku",
+        "borclar hukuku": "borclar_hukuku",  # ASCII version
         "tbk": "borclar_hukuku",
         "icra": "icra_iflas",
         "iflas": "icra_iflas",
@@ -39,10 +42,14 @@ class MetaControllerAgent:
         "medeni hukuk": "medeni_hukuk",
         "tmk": "medeni_hukuk",
         "tüketici": "tuketici_haklari",
+        "tuketici": "tuketici_haklari",  # ASCII version
         "tüketici hakları": "tuketici_haklari",
+        "tuketici haklari": "tuketici_haklari",  # ASCII version
         "tkhk": "tuketici_haklari",
         "bankacılık": "bankacilik_hukuku",
+        "bankacilik": "bankacilik_hukuku",  # ASCII version
         "bankacılık hukuku": "bankacilik_hukuku",
+        "bankacilik hukuku": "bankacilik_hukuku",  # ASCII version
         "hmk": "hmk",
         "hukuk muhakemeleri": "hmk"
     }
