@@ -5,14 +5,15 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Upload = () => {
   const [collections, setCollections] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedCollection, setSelectedCollection] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);  // Support multiple files
+  const [selectedCollection, setSelectedCollection] = useState('');  // Empty by default - user must select
   const [createNew, setCreateNew] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadResult, setUploadResult] = useState(null);
   const [stats, setStats] = useState(null);
+  const [bulkMode, setBulkMode] = useState(false);
 
   useEffect(() => {
     loadCollections();
