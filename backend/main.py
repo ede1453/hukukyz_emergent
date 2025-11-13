@@ -10,6 +10,7 @@ from backend.config import settings
 from backend.database.mongodb import mongodb_client
 from backend.database.qdrant_client import qdrant_manager
 from backend.database.faiss_store import faiss_manager
+from backend.core.cache import cache_manager
 
 # Configure logging
 logging.basicConfig(
