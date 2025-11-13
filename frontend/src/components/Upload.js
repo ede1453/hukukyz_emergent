@@ -55,13 +55,13 @@ const Upload = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
-      alert('Lütfen bir PDF dosyası seçin');
+    if (selectedFiles.length === 0) {
+      alert('Lütfen en az bir PDF dosyası seçin');
       return;
     }
 
-    if (!createNew && !selectedCollection) {
-      alert('Lütfen bir koleksiyon seçin');
+    if (!selectedCollection) {
+      alert('⚠️ Lütfen bir koleksiyon seçin! Koleksiyon seçmeden yükleme yapılamaz.');
       return;
     }
 
@@ -75,42 +75,74 @@ const Upload = () => {
     setUploadProgress(0);
 
     const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('collection', selectedCollection);
-    formData.append('create_new', createNew);
-    if (createNew) {
-      formData.append('new_collection_name', newCollectionName);
-    }
-
+    
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/api/documents/upload`,
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 180000, // 3 minutes
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setUploadProgress(percentCompleted);
-          }
-        }
-      );
+      if (bulkMode || selectedFiles.length > 1) {
+        // Bulk upload
+        selectedFiles.forEach(file => {
+          formData.append('files', file);
+        });
+        formData.append('collection', selectedCollection);
 
-      setUploadResult({
-        success: true,
-        ...response.data
-      });
+        const response = await axios.post(
+          `${BACKEND_URL}/api/documents/upload/bulk`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 300000, // 5 minutes for bulk
+            onUploadProgress: (progressEvent) => {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              setUploadProgress(percentCompleted);
+            }
+          }
+        );
+
+        setUploadResult({
+          success: true,
+          bulk: true,
+          ...response.data
+        });
+      } else {
+        // Single file upload
+        formData.append('file', selectedFiles[0]);
+        formData.append('collection', selectedCollection);
+        formData.append('create_new', createNew);
+        if (createNew) {
+          formData.append('new_collection_name', newCollectionName);
+        }
+
+        const response = await axios.post(
+          `${BACKEND_URL}/api/documents/upload`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+            timeout: 180000, // 3 minutes
+            onUploadProgress: (progressEvent) => {
+              const percentCompleted = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total
+              );
+              setUploadProgress(percentCompleted);
+            }
+          }
+        );
+
+        setUploadResult({
+          success: true,
+          ...response.data
+        });
+      }
 
       // Refresh collections and stats
       await loadCollections();
       await loadStats();
 
       // Clear form
-      setSelectedFile(null);
+      setSelectedFiles([]);
       setNewCollectionName('');
       setCreateNew(false);
+      setBulkMode(false);
 
     } catch (error) {
       setUploadResult({
