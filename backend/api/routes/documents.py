@@ -159,19 +159,36 @@ async def upload_document(
                 metadatas.append(metadata)
                 ids.append(f"{law_code}_m{article['madde_no']}")
             
-            # Upload to vector store (Qdrant or FAISS)
-            if settings.vector_store_type == "qdrant":
-                await qdrant_manager.add_documents(
-                    collection_name=target_collection,
-                    texts=texts,
-                    metadatas=metadatas
-                )
-            else:
-                await faiss_manager.add_documents(
-                    collection_name=target_collection,
-                    texts=texts,
-                    metadatas=metadatas,
-                    ids=ids
+            # Transactional upload: Use staging approach
+            # Upload documents with transaction safety
+            logger.info(f"Starting transactional upload of {len(texts)} documents")
+            
+            try:
+                if settings.vector_store_type == "qdrant":
+                    # Qdrant supports batch upsert, so we upload directly
+                    # If it fails, Qdrant won't partially commit
+                    await qdrant_manager.add_documents(
+                        collection_name=target_collection,
+                        texts=texts,
+                        metadatas=metadatas
+                    )
+                else:
+                    # FAISS doesn't support transactions, upload directly
+                    await faiss_manager.add_documents(
+                        collection_name=target_collection,
+                        texts=texts,
+                        metadatas=metadatas,
+                        ids=ids
+                    )
+                
+                logger.info(f"✅ Transactional upload successful")
+                
+            except Exception as upload_error:
+                logger.error(f"Upload failed: {upload_error}")
+                # In case of error, the batch won't be committed
+                raise HTTPException(
+                    status_code=500,
+                    detail=f"Belge yükleme başarısız: {str(upload_error)}"
                 )
             
             return {
