@@ -108,7 +108,10 @@ async def upload_document(
     create_new: bool = Form(False),
     new_collection_name: Optional[str] = Form(None)
 ):
-    """Upload a legal PDF document"""
+    """Upload a legal PDF document with transactional safety"""
+    temp_collection = None
+    tmp_path = None
+    
     try:
         if not file.filename.endswith('.pdf'):
             raise HTTPException(400, "Sadece PDF dosyaları desteklenmektedir")
