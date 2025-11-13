@@ -26,42 +26,56 @@ def calculate_file_hash(file_path: str) -> str:
 
 
 def check_duplicate_document(collection_name: str, file_hash: str) -> bool:
-    """Check if document with same hash already exists"""
+    """Check if document with same hash already exists
+    
+    Note: Since Qdrant requires indexed fields for filtering, we use scroll
+    and check client-side. For better performance in production, consider
+    creating a keyword index on 'file_hash' field.
+    """
     try:
         if settings.vector_store_type == "qdrant":
-            from qdrant_client.models import Filter, FieldCondition, MatchValue
-            
             # Check if collection exists first
             try:
-                qdrant_manager.client.get_collection(collection_name)
+                collection_info = qdrant_manager.client.get_collection(collection_name)
             except Exception as col_error:
                 logger.warning(f"Collection {collection_name} doesn't exist yet, skipping duplicate check")
                 return False
             
-            # Search for documents with this hash in Qdrant using correct filter syntax
+            # Scroll through documents and check file_hash client-side
+            # This is less efficient but doesn't require indexed fields
             try:
-                result = qdrant_manager.client.scroll(
-                    collection_name=collection_name,
-                    scroll_filter=Filter(
-                        must=[
-                            FieldCondition(
-                                key="file_hash",
-                                match=MatchValue(value=file_hash)
-                            )
-                        ]
-                    ),
-                    limit=1,
-                    with_payload=True
-                )
+                batch_size = 100
+                offset = None
                 
-                if len(result[0]) > 0:
-                    logger.info(f"✅ Duplicate detected: {file_hash[:16]}... already exists in {collection_name}")
-                    return True
-                else:
-                    logger.info(f"✅ No duplicate: {file_hash[:16]}... is new in {collection_name}")
-                    return False
+                # Check in batches until we find a match or exhaust all documents
+                while True:
+                    result = qdrant_manager.client.scroll(
+                        collection_name=collection_name,
+                        limit=batch_size,
+                        offset=offset,
+                        with_payload=["file_hash"]  # Only fetch file_hash to reduce data transfer
+                    )
+                    
+                    points, next_offset = result
+                    
+                    # Check this batch for matching hash
+                    for point in points:
+                        point_hash = point.payload.get("file_hash")
+                        if point_hash == file_hash:
+                            logger.info(f"✅ Duplicate detected: {file_hash[:16]}... already exists in {collection_name}")
+                            return True
+                    
+                    # No more documents to check
+                    if next_offset is None:
+                        break
+                    
+                    offset = next_offset
+                
+                logger.info(f"✅ No duplicate: {file_hash[:16]}... is new in {collection_name}")
+                return False
+                
             except Exception as scroll_error:
-                logger.error(f"Scroll error: {scroll_error}", exc_info=True)
+                logger.error(f"Scroll error during duplicate check: {scroll_error}", exc_info=True)
                 # If scroll fails, don't block upload - just skip duplicate check
                 return False
         else:
