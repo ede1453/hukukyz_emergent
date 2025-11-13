@@ -115,6 +115,12 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
             # Format documents for prompt
             formatted_docs = self._format_documents(documents)
             
+            # Add analysis insights if available
+            if analysis and "insights" in analysis:
+                formatted_docs += "\n\n=== Analiz İçgörüleri ===\n"
+                for insight in analysis.get("insights", []):
+                    formatted_docs += f"• {insight}\n"
+            
             # Generate synthesis
             result = await self.chain.ainvoke({
                 "query": query,
