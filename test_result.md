@@ -195,3 +195,5 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Completed Phase 1: FAISS integration to replace unavailable Qdrant. Web scraper integrated into Web Scout agent. Next step: Need OpenAI API key to test sample data upload and RAG pipeline."
+  - agent: "fork_agent"
+    message: "Fixed critical issues: (1) API Docs now accessible at /api/docs - FastAPI docs_url configured correctly. (2) PDF upload working - tested with 5-article test PDF. (3) RAG pipeline working - Meta-Controller ASCII character mapping fixed, AgentState updated with 'collections' field. System now retrieves documents and generates answers with citations. Ready for comprehensive testing."
