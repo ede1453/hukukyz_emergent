@@ -193,6 +193,50 @@ class QdrantManager:
         except Exception as e:
             logger.error(f"Error getting collection info: {e}")
             return {}
+    
+    async def add_documents(
+        self,
+        collection_name: str,
+        texts: List[str],
+        metadatas: List[Dict]
+    ):
+        """Add documents to collection with embeddings"""
+        try:
+            from backend.utils.embeddings import embedding_service
+            
+            logger.info(f"Adding {len(texts)} documents to {collection_name}")
+            
+            # Generate embeddings
+            embeddings = await embedding_service.embed_batch(texts)
+            
+            # Create points with auto-generated integer IDs
+            points = []
+            
+            # Get current max ID in collection
+            try:
+                collection_info = self.client.get_collection(collection_name)
+                start_id = collection_info.points_count
+            except:
+                start_id = 0
+            
+            for i, (text, embedding, metadata) in enumerate(zip(texts, embeddings, metadatas)):
+                points.append({
+                    "id": start_id + i,
+                    "vector": embedding,
+                    "payload": {
+                        **metadata,
+                        "text": text
+                    }
+                })
+            
+            # Upsert to Qdrant
+            self.upsert_points(collection_name, points)
+            
+            logger.info(f"✅ Added {len(points)} documents to {collection_name}")
+            
+        except Exception as e:
+            logger.error(f"Error adding documents to {collection_name}: {e}", exc_info=True)
+            raise
 
 
 # Global Qdrant manager instance
