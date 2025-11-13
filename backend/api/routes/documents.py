@@ -131,7 +131,7 @@ async def upload_document(
             # Process PDF
             law_code, law_name, articles = pdf_processor.process_pdf(tmp_path)
             
-            # Prepare for FAISS
+            # Prepare documents
             texts = []
             metadatas = []
             ids = []
@@ -156,13 +156,20 @@ async def upload_document(
                 metadatas.append(metadata)
                 ids.append(f"{law_code}_m{article['madde_no']}")
             
-            # Upload to FAISS
-            await faiss_manager.add_documents(
-                collection_name=target_collection,
-                texts=texts,
-                metadatas=metadatas,
-                ids=ids
-            )
+            # Upload to vector store (Qdrant or FAISS)
+            if settings.vector_store_type == "qdrant":
+                await qdrant_manager.add_documents(
+                    collection_name=target_collection,
+                    texts=texts,
+                    metadatas=metadatas
+                )
+            else:
+                await faiss_manager.add_documents(
+                    collection_name=target_collection,
+                    texts=texts,
+                    metadatas=metadatas,
+                    ids=ids
+                )
             
             return {
                 "status": "success",
