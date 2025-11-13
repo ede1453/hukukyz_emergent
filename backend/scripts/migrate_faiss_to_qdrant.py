@@ -68,10 +68,10 @@ async def migrate():
                 doc_id_str = metadata.get('doc_id', f"{collection_name}_{i}")
                 
                 points.append({
-                    "id": point_id,
+                    "id": point_id,  # Integer ID
                     "vector": embedding_vector.tolist(),
                     "payload": {
-                        "doc_id": point_id,
+                        "doc_id": doc_id_str,  # Original string ID in payload
                         "text": doc.text,
                         "kaynak": metadata.get('kaynak', 'UNKNOWN'),
                         "doc_type": metadata.get('doc_type', 'kanun'),
