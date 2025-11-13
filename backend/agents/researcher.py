@@ -36,6 +36,13 @@ class ResearcherAgent:
             List of retrieved documents
         """
         try:
+            # Check cache first
+            from backend.core.cache import cache_manager
+            cached_docs = await cache_manager.get_document_cache(query, collections, limit=20)
+            if cached_docs:
+                logger.info(f"✅ Using cached documents: {len(cached_docs)} docs")
+                return cached_docs
+            
             logger.info(f"Researching: {query[:100]}...")
             logger.info(f"Collections: {collections}")
             
@@ -67,6 +74,9 @@ class ResearcherAgent:
             
             # Limit to top results
             top_results = all_results[:20]  # Keep top 20 across all collections
+            
+            # Cache results
+            await cache_manager.set_document_cache(query, collections, top_results, limit=20)
             
             logger.info(f"Total research results: {len(top_results)}")
             return top_results
