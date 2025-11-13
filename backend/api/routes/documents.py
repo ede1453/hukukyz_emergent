@@ -257,6 +257,115 @@ async def upload_document(
         raise HTTPException(500, f"Yükleme hatası: {str(e)}")
 
 
+@router.post("/upload/bulk")
+async def upload_bulk_documents(
+    files: List[UploadFile] = File(...),
+    collection: str = Form(...)
+):
+    """Upload multiple PDF documents at once"""
+    results = []
+    successful = 0
+    failed = 0
+    duplicates = 0
+    
+    logger.info(f"Bulk upload: {len(files)} files to {collection}")
+    
+    for file in files:
+        try:
+            if not file.filename.endswith('.pdf'):
+                results.append({
+                    "file": file.filename,
+                    "status": "skipped",
+                    "message": "Sadece PDF dosyaları desteklenmektedir"
+                })
+                failed += 1
+                continue
+            
+            # Save temp file
+            tmp_path = None
+            try:
+                with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp:
+                    content = await file.read()
+                    tmp.write(content)
+                    tmp_path = tmp.name
+                
+                # Calculate hash
+                file_hash = calculate_file_hash(tmp_path)
+                
+                # Check duplicate
+                if check_duplicate_document(collection, file_hash):
+                    results.append({
+                        "file": file.filename,
+                        "status": "duplicate",
+                        "message": "Bu PDF daha önce yüklenmiş"
+                    })
+                    duplicates += 1
+                    continue
+                
+                # Process PDF
+                law_code, law_name, articles = pdf_processor.process_pdf(tmp_path)
+                
+                # Prepare documents
+                texts = []
+                metadatas = []
+                ids = []
+                
+                for article in articles:
+                    full_text = f"{article['title']}\n\n{article['content']}"
+                    metadata = {
+                        "doc_id": f"{law_code}_{article['madde_no']}",
+                        "kaynak": law_code,
+                        "doc_type": "kanun",
+                        "hukuk_dali": collection.replace("_hukuku", "").replace("_haklari", ""),
+                        "madde_no": article['madde_no'],
+                        "title": article['title'],
+                        "content": article['content'],
+                        "version": "1.0",
+                        "status": "active",
+                        "source_file": file.filename,
+                        "file_hash": file_hash
+                    }
+                    texts.append(full_text)
+                    metadatas.append(metadata)
+                    ids.append(f"{law_code}_m{article['madde_no']}")
+                
+                # Upload
+                if settings.vector_store_type == "qdrant":
+                    await qdrant_manager.add_documents(collection, texts, metadatas)
+                else:
+                    await faiss_manager.add_documents(collection, texts, metadatas, ids)
+                
+                results.append({
+                    "file": file.filename,
+                    "status": "success",
+                    "law_code": law_code,
+                    "articles_count": len(articles),
+                    "message": f"{len(articles)} madde yüklendi"
+                })
+                successful += 1
+                
+            finally:
+                if tmp_path and os.path.exists(tmp_path):
+                    os.unlink(tmp_path)
+                    
+        except Exception as e:
+            logger.error(f"Error uploading {file.filename}: {e}")
+            results.append({
+                "file": file.filename,
+                "status": "error",
+                "message": str(e)
+            })
+            failed += 1
+    
+    return {
+        "total": len(files),
+        "successful": successful,
+        "failed": failed,
+        "duplicates": duplicates,
+        "results": results
+    }
+
+
 @router.get("/stats")
 async def get_stats():
     """Get document statistics"""
