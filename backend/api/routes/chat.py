@@ -48,7 +48,14 @@ async def chat_query(request: QueryRequest):
         logger.info(f"Received query: {request.query[:100]}...")
         
         # Import workflow here to avoid circular imports
-        from backend.agents.workflow import execute_workflow
+        from backend.config import settings
+        
+        if settings.use_optimized_workflow:
+            from backend.agents.workflow_optimized import execute_workflow
+            logger.info("Using optimized workflow")
+        else:
+            from backend.agents.workflow import execute_workflow
+            logger.info("Using standard workflow")
         
         # Execute full agent workflow
         final_state = await execute_workflow(
