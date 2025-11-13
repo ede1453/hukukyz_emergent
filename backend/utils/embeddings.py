@@ -25,7 +25,7 @@ async def get_embedding(
     model: str = None,
     use_cache: bool = True
 ) -> List[float]:
-    """Generate embedding for text
+    """Generate embedding for text with Redis cache
     
     Args:
         text: Input text
@@ -40,12 +40,12 @@ async def get_embedding(
     
     model = model or settings.embedding_model
     
-    # Check cache
+    # Check Redis cache
     if use_cache:
-        cache_key = _get_cache_key(f"{model}:{text}")
-        if cache_key in _embedding_cache:
-            logger.debug(f"Cache hit for embedding")
-            return _embedding_cache[cache_key]
+        from backend.core.cache import cache_manager
+        cached = await cache_manager.get_embedding_cache(text)
+        if cached:
+            return cached
     
     try:
         # Generate embedding
@@ -56,9 +56,10 @@ async def get_embedding(
         
         embedding = response.data[0].embedding
         
-        # Cache result
+        # Cache result in Redis
         if use_cache:
-            _embedding_cache[cache_key] = embedding
+            from backend.core.cache import cache_manager
+            await cache_manager.set_embedding_cache(text, embedding)
         
         logger.debug(f"Generated embedding: {len(embedding)} dimensions")
         return embedding
