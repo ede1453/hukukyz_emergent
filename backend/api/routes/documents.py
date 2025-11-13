@@ -160,6 +160,18 @@ async def upload_document(
             tmp_path = tmp.name
         
         try:
+            # Calculate file hash for duplicate detection
+            file_hash = calculate_file_hash(tmp_path)
+            logger.info(f"File hash: {file_hash[:16]}...")
+            
+            # Check for duplicates
+            if check_duplicate_document(target_collection, file_hash):
+                logger.warning(f"Duplicate document detected: {file.filename}")
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"Bu PDF daha önce '{target_collection}' koleksiyonuna yüklenmiş. Aynı içeriğe sahip belgeler tekrar yüklenemez."
+                )
+            
             # Process PDF
             law_code, law_name, articles = pdf_processor.process_pdf(tmp_path)
             
