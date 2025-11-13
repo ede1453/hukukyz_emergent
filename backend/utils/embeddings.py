@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 # Initialize OpenAI client
 client = AsyncOpenAI(api_key=settings.openai_api_key)
 
-# Simple in-memory cache (in production, use Redis)
-_embedding_cache = {}
-
 
 def _get_cache_key(text: str) -> str:
     """Generate cache key for text"""
