@@ -241,6 +241,29 @@ const Upload = () => {
               '📤 PDF Yükle'
             )}
           </button>
+
+          {/* Progress Bar */}
+          {uploading && (
+            <div className="mt-4">
+              <div className="flex justify-between text-sm text-gray-400 mb-2">
+                <span>Yükleme İlerlemesi</span>
+                <span>{uploadProgress}%</span>
+              </div>
+              <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                <div
+                  className="bg-blue-500 h-full rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${uploadProgress}%` }}
+                >
+                  <div className="h-full w-full bg-gradient-to-r from-blue-400 to-blue-600 animate-pulse"></div>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                {uploadProgress < 100 
+                  ? 'PDF işleniyor ve vektör veritabanına yükleniyor...' 
+                  : 'Tamamlanıyor...'}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Upload Result */}
