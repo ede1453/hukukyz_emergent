@@ -62,8 +62,10 @@ async def migrate():
                 # We need to extract it from FAISS index
                 embedding_vector = faiss_collection.index.reconstruct(i)
                 
-                # Create Qdrant point
-                point_id = metadata.get('doc_id', f"{collection_name}_{i}")
+                # Create Qdrant point (ID must be integer or UUID, not string)
+                # Use index as ID for simplicity
+                point_id = i
+                doc_id_str = metadata.get('doc_id', f"{collection_name}_{i}")
                 
                 points.append({
                     "id": point_id,
