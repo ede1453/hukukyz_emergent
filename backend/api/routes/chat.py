@@ -107,13 +107,22 @@ async def chat_query(request: QueryRequest):
         
         logger.info(f"Query processed successfully. Confidence: {confidence:.2f}")
         
-        return QueryResponse(
+        response = QueryResponse(
             answer=answer,
             citations=citations,
             confidence=confidence,
             reasoning=reasoning,
             metadata=metadata
         )
+        
+        # Cache the result
+        await cache_manager.set_query_cache(
+            request.query,
+            response.model_dump(),
+            collections=metadata.get("collections", [])
+        )
+        
+        return response
         
     except Exception as e:
         logger.error(f"Query processing error: {e}", exc_info=True)
