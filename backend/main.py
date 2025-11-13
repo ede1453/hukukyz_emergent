@@ -30,6 +30,9 @@ async def lifespan(app: FastAPI):
     # Initialize databases
     await mongodb_client.connect()
     
+    # Initialize cache
+    await cache_manager.connect()
+    
     # Initialize vector store based on config
     if settings.vector_store_type == "qdrant":
         try:
