@@ -4222,5 +4222,85 @@
       "status": "active",
       "source_file": "test_iik.pdf"
     }
+  },
+  {
+    "id": "TBK_m1",
+    "text": "- Borçlu, borcunu zamannnda ödemekle yükümlüdür\n\n- Borçlu, borcunu zamannnda ödemekle yükümlüdür.",
+    "metadata": {
+      "doc_id": "TBK_1",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "1",
+      "title": "- Borçlu, borcunu zamannnda ödemekle yükümlüdür",
+      "content": "- Borçlu, borcunu zamannnda ödemekle yükümlüdür.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "TBK_m2",
+    "text": "- Ödeme yapnlmadnnn takdirde faiz inlemeye banlar\n\n- Ödeme yapnlmadnnn takdirde faiz inlemeye banlar.",
+    "metadata": {
+      "doc_id": "TBK_2",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "2",
+      "title": "- Ödeme yapnlmadnnn takdirde faiz inlemeye banlar",
+      "content": "- Ödeme yapnlmadnnn takdirde faiz inlemeye banlar.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "TBK_m3",
+    "text": "- Alacakln, borcun tahsili için icra takibi banlatabilir\n\n- Alacakln, borcun tahsili için icra takibi banlatabilir.",
+    "metadata": {
+      "doc_id": "TBK_3",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "3",
+      "title": "- Alacakln, borcun tahsili için icra takibi banlatabilir",
+      "content": "- Alacakln, borcun tahsili için icra takibi banlatabilir.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "TBK_m4",
+    "text": "- Bu hükümler Türk Borçlar Kanunu kapsamnndadnr\n\n- Bu hükümler Türk Borçlar Kanunu kapsamnndadnr.",
+    "metadata": {
+      "doc_id": "TBK_4",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "4",
+      "title": "- Bu hükümler Türk Borçlar Kanunu kapsamnndadnr",
+      "content": "- Bu hükümler Türk Borçlar Kanunu kapsamnndadnr.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "TBK_m5",
+    "text": "- Sözlenme taraflarn bu kurallara uymakla yükümlüdür\n\n- Sözlenme taraflarn bu kurallara uymakla yükümlüdür.",
+    "metadata": {
+      "doc_id": "TBK_5",
+      "kaynak": "TBK",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "5",
+      "title": "- Sözlenme taraflarn bu kurallara uymakla yükümlüdür",
+      "content": "- Sözlenme taraflarn bu kurallara uymakla yükümlüdür.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
   }
 ]
