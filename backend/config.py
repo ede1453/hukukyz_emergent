@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     openai_model: str = os.getenv("OPENAI_MODEL", "gpt-4")
     openai_temperature: float = float(os.getenv("OPENAI_TEMPERATURE", "0"))
     
+    # Workflow
+    use_optimized_workflow: bool = os.getenv("USE_OPTIMIZED_WORKFLOW", "true").lower() == "true"
+    
     # Embeddings
     embedding_model: str = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
     embedding_dimension: int = int(os.getenv("EMBEDDING_DIMENSION", "1536"))
