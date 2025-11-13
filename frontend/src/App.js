@@ -73,7 +73,7 @@ const Home = () => {
               📄 PDF Yükle
             </Link>
             <a
-              href="https://lawassist-7.preview.emergentagent.com:8001/docs"
+              href={`${BACKEND_URL}/api/docs`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
