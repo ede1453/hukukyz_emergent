@@ -85,9 +85,19 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
     async def synthesize(
         self,
         query: str,
-        documents: List[Dict]
+        documents: List[Dict],
+        analysis: Dict = None
     ) -> Dict:
         """Synthesize final answer from retrieved documents
+        
+        Args:
+            query: User query
+            documents: Retrieved documents
+            analysis: Optional analysis from Analyst agent
+        
+        Returns:
+            Synthesis result with answer and citations
+        """
         
         Args:
             query: Original user query
