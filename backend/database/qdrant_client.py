@@ -198,19 +198,14 @@ class QdrantManager:
         self,
         collection_name: str,
         texts: List[str],
-        metadatas: List[Dict]
+        metadatas: List[Dict],
+        batch_size: int = 50  # Smaller batches to avoid payload size limit
     ):
-        """Add documents to collection with embeddings"""
+        """Add documents to collection with embeddings in batches"""
         try:
             from backend.utils.embeddings import embedding_service
             
-            logger.info(f"Adding {len(texts)} documents to {collection_name}")
-            
-            # Generate embeddings
-            embeddings = await embedding_service.embed_batch(texts)
-            
-            # Create points with auto-generated integer IDs
-            points = []
+            logger.info(f"Adding {len(texts)} documents to {collection_name} in batches of {batch_size}")
             
             # Get current max ID in collection
             try:
@@ -219,20 +214,41 @@ class QdrantManager:
             except:
                 start_id = 0
             
-            for i, (text, embedding, metadata) in enumerate(zip(texts, embeddings, metadatas)):
-                points.append({
-                    "id": start_id + i,
-                    "vector": embedding,
-                    "payload": {
-                        **metadata,
-                        "text": text
-                    }
-                })
+            total_added = 0
             
-            # Upsert to Qdrant
-            self.upsert_points(collection_name, points)
+            # Process in batches
+            for batch_start in range(0, len(texts), batch_size):
+                batch_end = min(batch_start + batch_size, len(texts))
+                batch_texts = texts[batch_start:batch_end]
+                batch_metadatas = metadatas[batch_start:batch_end]
+                
+                logger.info(f"Processing batch {batch_start//batch_size + 1}/{(len(texts)-1)//batch_size + 1}")
+                
+                # Generate embeddings for this batch
+                embeddings = await embedding_service.embed_batch(batch_texts)
+                
+                # Create points
+                points = []
+                for i, (text, embedding, metadata) in enumerate(zip(batch_texts, embeddings, batch_metadatas)):
+                    points.append({
+                        "id": start_id + batch_start + i,
+                        "vector": embedding,
+                        "payload": {
+                            **metadata,
+                            "text": text
+                        }
+                    })
+                
+                # Upsert this batch to Qdrant
+                success = self.upsert_points(collection_name, points)
+                if success:
+                    total_added += len(points)
+                    logger.info(f"✅ Batch uploaded: {len(points)} documents")
+                else:
+                    logger.error(f"❌ Batch upload failed for range {batch_start}-{batch_end}")
+                    raise Exception(f"Failed to upload batch {batch_start}-{batch_end}")
             
-            logger.info(f"✅ Added {len(points)} documents to {collection_name}")
+            logger.info(f"✅ Successfully added {total_added}/{len(texts)} documents to {collection_name}")
             
         except Exception as e:
             logger.error(f"Error adding documents to {collection_name}: {e}", exc_info=True)
