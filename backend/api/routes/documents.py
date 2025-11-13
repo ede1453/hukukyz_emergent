@@ -9,6 +9,8 @@ import os
 
 from backend.utils.pdf_processor import pdf_processor
 from backend.database.faiss_store import faiss_manager
+from backend.database.qdrant_client import qdrant_manager
+from backend.config import settings
 
 logger = logging.getLogger(__name__)
 
