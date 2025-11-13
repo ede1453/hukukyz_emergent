@@ -232,19 +232,28 @@ const Upload = () => {
             </label>
 
             {!createNew ? (
-              <select
-                value={selectedCollection}
-                onChange={(e) => setSelectedCollection(e.target.value)}
-                disabled={uploading}
-                className="w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 
-                         focus:outline-none focus:border-blue-500 disabled:opacity-50"
-              >
-                {collections.map((col) => (
-                  <option key={col.name} value={col.name}>
-                    {col.display_name} ({col.document_count} belge)
-                  </option>
-                ))}
-              </select>
+              <>
+                <select
+                  value={selectedCollection}
+                  onChange={(e) => setSelectedCollection(e.target.value)}
+                  disabled={uploading}
+                  className={`w-full px-4 py-3 bg-gray-700 text-white rounded-lg border ${
+                    !selectedCollection ? 'border-yellow-500' : 'border-gray-600'
+                  } focus:outline-none focus:border-blue-500 disabled:opacity-50`}
+                >
+                  <option value="">⚠️ Koleksiyon Seçin (Zorunlu)</option>
+                  {collections.map((col) => (
+                    <option key={col.name} value={col.name}>
+                      {col.display_name} ({col.document_count} belge)
+                    </option>
+                  ))}
+                </select>
+                {!selectedCollection && (
+                  <p className="mt-1 text-xs text-yellow-400">
+                    ⚠️ Yükleme yapmadan önce mutlaka bir koleksiyon seçmelisiniz!
+                  </p>
+                )}
+              </>
             ) : (
               <input
                 type="text"
