@@ -43,13 +43,21 @@ class HealthResponse(BaseModel):
 
 @router.post("/query", response_model=QueryResponse)
 async def chat_query(request: QueryRequest):
-    """Process chat query using full agent workflow"""
+    """Process chat query using full agent workflow with caching"""
     try:
         logger.info(f"Received query: {request.query[:100]}...")
         
-        # Import workflow here to avoid circular imports
+        # Import cache and config
         from backend.config import settings
+        from backend.core.cache import cache_manager
         
+        # Check cache first
+        cached_result = await cache_manager.get_query_cache(request.query)
+        if cached_result:
+            logger.info("✅ Returning cached result")
+            return QueryResponse(**cached_result)
+        
+        # Cache miss - execute workflow
         if settings.use_optimized_workflow:
             from backend.agents.workflow_optimized import execute_workflow
             logger.info("Using optimized workflow")
