@@ -329,15 +329,45 @@ const Upload = () => {
             }`}>
               {uploadResult.success ? '✅ Başarılı!' : '❌ Hata'}
             </h3>
-            <p className={uploadResult.success ? 'text-green-200' : 'text-red-200'}>
-              {uploadResult.message}
-            </p>
-            {uploadResult.success && (
-              <div className="mt-3 text-sm text-green-300">
-                <p>• Kanun: {uploadResult.law_code} - {uploadResult.law_name}</p>
-                <p>• Koleksiyon: {uploadResult.collection}</p>
-                <p>• Yüklenen Madde: {uploadResult.articles_count}</p>
+            
+            {uploadResult.bulk ? (
+              // Bulk upload results
+              <div className="text-green-200">
+                <p className="mb-2">Toplu yükleme tamamlandı:</p>
+                <div className="grid grid-cols-4 gap-2 text-sm mb-3">
+                  <div className="bg-green-800 p-2 rounded">Toplam: {uploadResult.total}</div>
+                  <div className="bg-blue-800 p-2 rounded">Başarılı: {uploadResult.successful}</div>
+                  <div className="bg-yellow-800 p-2 rounded">Duplicate: {uploadResult.duplicates}</div>
+                  <div className="bg-red-800 p-2 rounded">Hatalı: {uploadResult.failed}</div>
+                </div>
+                {uploadResult.results && (
+                  <div className="max-h-64 overflow-y-auto mt-3">
+                    {uploadResult.results.map((result, idx) => (
+                      <div key={idx} className={`text-xs p-2 mb-1 rounded ${
+                        result.status === 'success' ? 'bg-green-800' :
+                        result.status === 'duplicate' ? 'bg-yellow-800' :
+                        'bg-red-800'
+                      }`}>
+                        <span className="font-semibold">{result.file}:</span> {result.message}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
+            ) : (
+              // Single upload result
+              <>
+                <p className={uploadResult.success ? 'text-green-200' : 'text-red-200'}>
+                  {uploadResult.message}
+                </p>
+                {uploadResult.success && (
+                  <div className="mt-3 text-sm text-green-300">
+                    <p>• Kanun: {uploadResult.law_code} - {uploadResult.law_name}</p>
+                    <p>• Koleksiyon: {uploadResult.collection}</p>
+                    <p>• Yüklenen Madde: {uploadResult.articles_count}</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
