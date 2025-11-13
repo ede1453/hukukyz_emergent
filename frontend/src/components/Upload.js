@@ -40,12 +40,17 @@ const Upload = () => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type === 'application/pdf') {
-      setSelectedFile(file);
+    const files = Array.from(e.target.files);
+    const pdfFiles = files.filter(f => f.type === 'application/pdf');
+    
+    if (pdfFiles.length !== files.length) {
+      alert('Sadece PDF dosyaları seçilebilir. PDF olmayan dosyalar filtrelendi.');
+    }
+    
+    if (pdfFiles.length > 0) {
+      setSelectedFiles(pdfFiles);
+      setBulkMode(pdfFiles.length > 1);
       setUploadResult(null);
-    } else {
-      alert('Lütfen sadece PDF dosyası seçin');
     }
   };
 
