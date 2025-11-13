@@ -193,7 +193,8 @@ async def upload_document(
                     "content": article['content'],
                     "version": "1.0",
                     "status": "active",
-                    "source_file": file.filename
+                    "source_file": file.filename,
+                    "file_hash": file_hash  # For duplicate detection
                 }
                 
                 texts.append(full_text)
