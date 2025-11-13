@@ -58,7 +58,10 @@ app = FastAPI(
     description="Advanced AI-Powered Legal Assistant for Turkish Law",
     version="0.1.0",
     lifespan=lifespan,
-    debug=settings.debug
+    debug=settings.debug,
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 
 # Add CORS middleware
