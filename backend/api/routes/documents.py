@@ -202,8 +202,14 @@ async def upload_document(
             }
             
         finally:
-            os.unlink(tmp_path)
+            # Cleanup temporary PDF file
+            if tmp_path and os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+                logger.info("Temporary file cleaned up")
         
+    except HTTPException:
+        # Re-raise HTTP exceptions as-is
+        raise
     except Exception as e:
         logger.error(f"Upload error: {e}", exc_info=True)
         raise HTTPException(500, f"Yükleme hatası: {str(e)}")
