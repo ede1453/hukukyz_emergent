@@ -173,6 +173,36 @@ async def clear_conversation_history(session_id: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/cache/stats")
+async def cache_stats():
+    """Get cache statistics"""
+    try:
+        from backend.core.cache import cache_manager
+        stats = await cache_manager.get_stats()
+        return {
+            "cache": stats,
+            "message": "Cache statistics retrieved successfully"
+        }
+    except Exception as e:
+        logger.error(f"Cache stats error: {e}")
+        return {
+            "cache": {"connected": False, "error": str(e)},
+            "message": "Failed to retrieve cache stats"
+        }
+
+
+@router.post("/cache/clear")
+async def clear_cache():
+    """Clear all cache"""
+    try:
+        from backend.core.cache import cache_manager
+        await cache_manager.clear_all()
+        return {"message": "Cache cleared successfully"}
+    except Exception as e:
+        logger.error(f"Cache clear error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/health", response_model=HealthResponse)
 async def health_check():
     """Check health of chat service and MCP servers"""
