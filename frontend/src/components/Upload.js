@@ -68,6 +68,7 @@ const Upload = () => {
 
     setUploading(true);
     setUploadResult(null);
+    setUploadProgress(0);
 
     const formData = new FormData();
     formData.append('file', selectedFile);
@@ -83,7 +84,13 @@ const Upload = () => {
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 180000 // 3 minutes
+          timeout: 180000, // 3 minutes
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          }
         }
       );
 
