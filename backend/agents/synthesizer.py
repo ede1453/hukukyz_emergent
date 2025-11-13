@@ -168,6 +168,66 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
         
         return "\n".join(formatted)
     
+    def _enrich_citations(
+        self,
+        citations: List,
+        answer: str,
+        documents: List[Dict]
+    ) -> List[Dict]:
+        """Enrich citations with legal parser and validation
+        
+        Args:
+            citations: Raw citations from LLM
+            answer: Generated answer text
+            documents: Source documents
+        
+        Returns:
+            Enriched citations with validation
+        """
+        try:
+            from backend.tools.legal_parser import legal_parser
+            from backend.tools.citation_tracker import citation_tracker
+            
+            enriched = []
+            
+            # Parse answer for legal references
+            parsed_refs = legal_parser.parse(answer)
+            
+            # Track citations
+            citation_tracker.track_document("answer", answer)
+            
+            # Enrich each citation
+            for citation in citations:
+                if hasattr(citation, 'model_dump'):
+                    citation_dict = citation.model_dump()
+                else:
+                    citation_dict = citation if isinstance(citation, dict) else {}
+                
+                source = citation_dict.get("source", "")
+                
+                # Parse source for better formatting
+                if source:
+                    refs = legal_parser.parse(source)
+                    if refs:
+                        formatted_source = legal_parser.format_reference(refs[0])
+                        citation_dict["source"] = formatted_source
+                        
+                        # Add law name
+                        if refs[0].kanun_kodu:
+                            law_name = legal_parser.get_law_name(refs[0].kanun_kodu)
+                            if law_name:
+                                citation_dict["law_name"] = law_name
+                
+                enriched.append(citation_dict)
+            
+            logger.debug(f"Enriched {len(enriched)} citations with legal parser")
+            return enriched
+            
+        except Exception as e:
+            logger.error(f"Citation enrichment error: {e}")
+            # Return original citations on error
+            return [c.model_dump() if hasattr(c, 'model_dump') else c for c in citations]
+    
     def _empty_response(self, query: str) -> Dict:
         """Generate response when no documents found"""
         return {
