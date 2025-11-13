@@ -168,13 +168,35 @@ async def upload_document(
 async def get_stats():
     """Get document statistics"""
     try:
-        stats = faiss_manager.get_stats()
-        total = sum(s["document_count"] for s in stats.values())
-        
-        return {
-            "total_documents": total,
-            "total_collections": len(stats),
-            "collections": stats
-        }
+        if settings.vector_store_type == "qdrant":
+            # Get stats from Qdrant
+            collections = qdrant_manager.client.get_collections()
+            stats = {}
+            total = 0
+            
+            for collection in collections.collections:
+                info = qdrant_manager.client.get_collection(collection.name)
+                stats[collection.name] = {
+                    "document_count": info.points_count,
+                    "dimension": info.config.params.vectors.size
+                }
+                total += info.points_count
+                
+            return {
+                "total_documents": total,
+                "total_collections": len(stats),
+                "collections": stats
+            }
+        else:
+            # Get stats from FAISS
+            stats = faiss_manager.get_stats()
+            total = sum(s["document_count"] for s in stats.values())
+            
+            return {
+                "total_documents": total,
+                "total_collections": len(stats),
+                "collections": stats
+            }
     except Exception as e:
+        logger.error(f"Stats error: {e}", exc_info=True)
         raise HTTPException(500, str(e))
