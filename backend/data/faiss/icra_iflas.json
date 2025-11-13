@@ -4142,5 +4142,85 @@
       "status": "active",
       "source_file": "test_iik.pdf"
     }
+  },
+  {
+    "id": "GENEL_m1",
+    "text": ": Borçlunun ödeme gücü olmadnnn takdirde alacakln, mahkemeye banvurarak icra takibi yapabilir\n\n: Borçlunun ödeme gücü olmadnnn takdirde alacakln, mahkemeye banvurarak icra takibi yapabilir.",
+    "metadata": {
+      "doc_id": "GENEL_1",
+      "kaynak": "GENEL",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "1",
+      "title": ": Borçlunun ödeme gücü olmadnnn takdirde alacakln, mahkemeye banvurarak icra takibi yapabilir",
+      "content": ": Borçlunun ödeme gücü olmadnnn takdirde alacakln, mahkemeye banvurarak icra takibi yapabilir.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "GENEL_m2",
+    "text": ": ncra takibi, alacaklnnnn yaznln banvurusu ile banlar\n\n: ncra takibi, alacaklnnnn yaznln banvurusu ile banlar. Banvuruda alacak miktarn ve borçlu bilgileri yer alnr.",
+    "metadata": {
+      "doc_id": "GENEL_2",
+      "kaynak": "GENEL",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "2",
+      "title": ": ncra takibi, alacaklnnnn yaznln banvurusu ile banlar",
+      "content": ": ncra takibi, alacaklnnnn yaznln banvurusu ile banlar. Banvuruda alacak miktarn ve borçlu bilgileri yer alnr.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "GENEL_m3",
+    "text": ": Borçlu, tebligat almasnndan itibaren 7 gün içinde itiraz edebilir\n\n: Borçlu, tebligat almasnndan itibaren 7 gün içinde itiraz edebilir. ntiraz süresi geçtikten sonra icra kesinlenir.",
+    "metadata": {
+      "doc_id": "GENEL_3",
+      "kaynak": "GENEL",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "3",
+      "title": ": Borçlu, tebligat almasnndan itibaren 7 gün içinde itiraz edebilir",
+      "content": ": Borçlu, tebligat almasnndan itibaren 7 gün içinde itiraz edebilir. ntiraz süresi geçtikten sonra icra kesinlenir.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "GENEL_m4",
+    "text": ": Kesinlenen icrada haciz inlemi yapnlnr\n\n: Kesinlenen icrada haciz inlemi yapnlnr. Haciz, borçlunun mal varlnnn üzerine konulur.",
+    "metadata": {
+      "doc_id": "GENEL_4",
+      "kaynak": "GENEL",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "4",
+      "title": ": Kesinlenen icrada haciz inlemi yapnlnr",
+      "content": ": Kesinlenen icrada haciz inlemi yapnlnr. Haciz, borçlunun mal varlnnn üzerine konulur.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
+  },
+  {
+    "id": "GENEL_m5",
+    "text": ": Hacze itiraz edilebilir\n\n: Hacze itiraz edilebilir. ntiraz mahkemece karara banlannr.",
+    "metadata": {
+      "doc_id": "GENEL_5",
+      "kaynak": "GENEL",
+      "doc_type": "kanun",
+      "hukuk_dali": "icra_iflas",
+      "madde_no": "5",
+      "title": ": Hacze itiraz edilebilir",
+      "content": ": Hacze itiraz edilebilir. ntiraz mahkemece karara banlannr.",
+      "version": "1.0",
+      "status": "active",
+      "source_file": "test_iik.pdf"
+    }
   }
 ]
