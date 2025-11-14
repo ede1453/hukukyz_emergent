@@ -107,7 +107,8 @@ export const AuthProvider = ({ children }) => {
       register,
       logout,
       updateProfile,
-      isAuthenticated: !!user
+      isAuthenticated: !!user,
+      isAdmin
     }}>
       {children}
     </AuthContext.Provider>
