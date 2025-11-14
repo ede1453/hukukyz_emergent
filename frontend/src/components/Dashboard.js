@@ -9,6 +9,13 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [limit, setLimit] = useState(20);
+  
+  // Article content modal states
+  const [articleContent, setArticleContent] = useState(null);
+  const [relatedArticles, setRelatedArticles] = useState(null);
+  const [loadingArticle, setLoadingArticle] = useState(false);
+  const [loadingRelated, setLoadingRelated] = useState(false);
+  const [navigationStack, setNavigationStack] = useState([]);
 
   useEffect(() => {
     fetchDashboardData();
