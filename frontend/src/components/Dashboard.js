@@ -261,9 +261,13 @@ const Dashboard = () => {
                   : 0;
 
                 return (
-                  <div
+                  <button
                     key={index}
-                    className="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-blue-600 transition"
+                    onClick={() => {
+                      setNavigationStack([]);
+                      fetchArticleContent(item.reference);
+                    }}
+                    className="w-full bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-blue-600 transition cursor-pointer text-left"
                   >
                     <div className="flex items-center gap-4">
                       {/* Rank */}
@@ -306,7 +310,7 @@ const Dashboard = () => {
                         {item.citation_count}
                       </div>
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
