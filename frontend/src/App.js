@@ -104,6 +104,16 @@ const Home = () => {
             </a>
           </div>
 
+          {/* Admin Link */}
+          <div className="mt-4 text-center">
+            <Link
+              to="/admin/qdrant"
+              className="text-gray-500 hover:text-gray-400 text-sm"
+            >
+              🗄️ Qdrant Admin
+            </Link>
+          </div>
+
           {/* Auth Buttons */}
           <div className="mt-6 flex justify-center gap-3">
             {isAuthenticated ? (
