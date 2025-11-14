@@ -15,6 +15,7 @@ const API = `${BACKEND_URL}/api`;
 
 const Home = () => {
   const [backendStatus, setBackendStatus] = React.useState("checking...");
+  const { user, isAuthenticated } = useAuth();
   
   const checkBackend = async () => {
     try {
