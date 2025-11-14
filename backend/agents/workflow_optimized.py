@@ -29,21 +29,33 @@ def track_performance(func):
     """Decorator to track agent performance"""
     async def wrapper(state: AgentState):
         start_time = time.time()
+        func_name = func.__name__.replace("_node", "")  # Clean name
+        
         try:
             result = await func(state)
             elapsed = time.time() - start_time
             
-            # Add timing to state
-            timings = state.get("agent_timings", {})
-            timings[func.__name__] = round(elapsed, 2)
-            result["agent_timings"] = timings
+            # Ensure result is a dict
+            if not isinstance(result, dict):
+                result = {}
             
-            logger.info(f"{func.__name__} completed in {elapsed:.2f}s")
+            # Get existing timings from state
+            current_timings = state.get("agent_timings", {})
+            
+            # Add this function's timing
+            updated_timings = {**current_timings, func_name: round(elapsed, 2)}
+            
+            # Add to result
+            result["agent_timings"] = updated_timings
+            
+            logger.info(f"⏱️  {func_name}: {elapsed:.2f}s")
             return result
+            
         except Exception as e:
             elapsed = time.time() - start_time
-            logger.error(f"{func.__name__} failed after {elapsed:.2f}s: {e}")
+            logger.error(f"❌ {func_name} failed after {elapsed:.2f}s: {e}")
             raise
+    
     return wrapper
 
 
