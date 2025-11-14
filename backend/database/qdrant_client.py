@@ -91,23 +91,37 @@ class QdrantManager:
         collection_name: str,
         query_vector: List[float],
         limit: int = 10,
-        filters: Optional[Dict] = None,
+        filters = None,  # Can be Dict or Filter object
         score_threshold: Optional[float] = None
     ) -> List[Dict]:
-        """Search vectors in collection"""
+        """Search vectors in collection
+        
+        Args:
+            filters: Can be either:
+                - Dict: {field: value} format (will be converted to Filter)
+                - Filter: Qdrant Filter object (used directly)
+        """
         try:
-            # Build filter if provided
+            # Build filter based on type
             query_filter = None
             if filters:
-                query_filter = models.Filter(
-                    must=[
-                        models.FieldCondition(
-                            key=key,
-                            match=models.MatchValue(value=value)
-                        )
-                        for key, value in filters.items()
-                    ]
-                )
+                if isinstance(filters, dict):
+                    # Legacy dict format - convert to Filter
+                    query_filter = models.Filter(
+                        must=[
+                            models.FieldCondition(
+                                key=key,
+                                match=models.MatchValue(value=value)
+                            )
+                            for key, value in filters.items()
+                        ]
+                    )
+                elif isinstance(filters, models.Filter):
+                    # Already a Filter object
+                    query_filter = filters
+                else:
+                    # Unknown type, try to use as-is
+                    query_filter = filters
             
             # Search
             results = self.client.search(
