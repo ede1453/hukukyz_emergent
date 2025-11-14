@@ -365,7 +365,7 @@ class CitationTracker:
                 "documents_tracked": len(self.document_citations)
             }
     
-    def get_related_articles(
+    async def get_related_articles(
         self, 
         reference: str, 
         limit: int = 5
@@ -379,37 +379,48 @@ class CitationTracker:
         Returns:
             List of (related_ref, relationship) tuples
         """
-        if reference not in self.citations:
+        await self._ensure_initialized()
+        
+        try:
+            db = mongodb_client.get_database()
+            
+            # Get the reference node
+            ref_doc = await db.citations.find_one({"reference": reference})
+            if not ref_doc:
+                return []
+            
+            related = []
+            cited_by = set(ref_doc.get("cited_by", []))
+            
+            # Find co-cited articles (cited by same documents)
+            if cited_by:
+                async for doc in db.document_citations.find({"doc_id": {"$in": list(cited_by)}}):
+                    for cited_ref in doc.get("citations", []):
+                        if cited_ref != reference:
+                            related.append((cited_ref, "co-cited"))
+            
+            # Find articles that this one cites
+            for cited_ref in ref_doc.get("cites", []):
+                related.append((cited_ref, "cites"))
+            
+            # Find articles that cite this one
+            async for doc in db.citations.find({"cites": reference}):
+                related.append((doc["reference"], "cited-by"))
+            
+            # Count and sort
+            from collections import Counter
+            related_counts = Counter(r[0] for r in related)
+            sorted_related = sorted(
+                related_counts.items(),
+                key=lambda x: x[1],
+                reverse=True
+            )
+            
+            return [(ref, "related") for ref, _ in sorted_related[:limit]]
+            
+        except Exception as e:
+            logger.error(f"Error getting related articles: {e}")
             return []
-        
-        node = self.citations[reference]
-        related = []
-        
-        # Find articles cited by same documents
-        for doc_id in node.cited_by:
-            for cited_ref in self.document_citations[doc_id]:
-                if cited_ref != reference:
-                    related.append((cited_ref, "co-cited"))
-        
-        # Find articles that cite this one
-        for cited_ref in node.cites:
-            related.append((cited_ref, "cites"))
-        
-        # Find articles that this one cites
-        for citing_ref, citing_node in self.citations.items():
-            if reference in citing_node.cites:
-                related.append((citing_ref, "cited-by"))
-        
-        # Count and sort
-        from collections import Counter
-        related_counts = Counter(r[0] for r in related)
-        sorted_related = sorted(
-            related_counts.items(),
-            key=lambda x: x[1],
-            reverse=True
-        )
-        
-        return [(ref, "related") for ref, _ in sorted_related[:limit]]
     
     def clear(self):
         """Clear all tracked citations"""
