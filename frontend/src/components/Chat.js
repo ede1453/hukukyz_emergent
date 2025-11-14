@@ -190,14 +190,22 @@ const Chat = () => {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {message.citations.map((citation, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setSelectedCitation(citation)}
-                          className="px-3 py-1 text-xs bg-gray-700 text-blue-300 rounded-full hover:bg-gray-600 transition cursor-pointer border border-gray-600"
-                          title="Detayları görüntüle"
-                        >
-                          {citation.source || `Kaynak ${i + 1}`}
-                        </button>
+                        <div key={i} className="flex gap-1">
+                          <button
+                            onClick={() => setSelectedCitation(citation)}
+                            className="px-3 py-1 text-xs bg-gray-700 text-blue-300 rounded-full hover:bg-gray-600 transition cursor-pointer border border-gray-600"
+                            title="Detayları görüntüle"
+                          >
+                            {citation.source || `Kaynak ${i + 1}`}
+                          </button>
+                          <button
+                            onClick={() => fetchRelatedArticles(citation.source || citation.law_name)}
+                            className="px-2 py-1 text-xs bg-purple-700 text-purple-200 rounded-full hover:bg-purple-600 transition cursor-pointer border border-purple-600"
+                            title="İlgili maddeleri gör"
+                          >
+                            🔗
+                          </button>
+                        </div>
                       ))}
                     </div>
                   </div>
