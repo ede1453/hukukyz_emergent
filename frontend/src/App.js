@@ -172,6 +172,7 @@ function App() {
             <Route path="/upload" element={<Upload />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin/qdrant" element={<QdrantAdmin />} />
+            <Route path="/admin/users" element={<UserManagement />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
