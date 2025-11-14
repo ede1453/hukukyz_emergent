@@ -162,6 +162,45 @@ const Chat = () => {
     'Kıdem tazminatı nasıl hesaplanır?'
   ];
 
+  // Auto-linking function: Convert legal references to clickable links
+  const autoLinkReferences = (text) => {
+    // Regex to match legal references like "TTK m.365", "TBK m.1", "İİK m.165"
+    const referenceRegex = /(TTK|TBK|TMK|İİK|HMK)\s+m\.(\d+)/gi;
+    
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+    
+    while ((match = referenceRegex.exec(text)) !== null) {
+      // Add text before match
+      if (match.index > lastIndex) {
+        parts.push({
+          type: 'text',
+          content: text.substring(lastIndex, match.index)
+        });
+      }
+      
+      // Add matched reference as link
+      parts.push({
+        type: 'link',
+        content: match[0],
+        reference: match[0]
+      });
+      
+      lastIndex = match.index + match[0].length;
+    }
+    
+    // Add remaining text
+    if (lastIndex < text.length) {
+      parts.push({
+        type: 'text',
+        content: text.substring(lastIndex)
+      });
+    }
+    
+    return parts.length > 0 ? parts : [{ type: 'text', content: text }];
+  };
+
   const copyToClipboard = (text, index) => {
     try {
       // Create textarea element
