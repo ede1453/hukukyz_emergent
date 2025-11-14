@@ -350,3 +350,49 @@ Status: ✅ WORKING
 3. Popular Articles Dashboard
 4. Auto-linking feature
 
+
+---
+## include_deprecated User Control Feature - Completed
+Date: 2025-11-14 20:24
+Status: ✅ WORKING
+
+### What was done:
+1. ✅ Added `include_deprecated` parameter to QueryRequest (API)
+2. ✅ Added to AgentState and workflow execution
+3. ✅ Researcher now respects include_deprecated flag from state
+4. ✅ **Frontend**: Checkbox added to Chat.js
+   - User can toggle deprecated document inclusion
+   - Warning message shown when enabled
+5. ✅ **Telegram Bot**: `/deprecated` command added
+   - `/deprecated on` - Enable old versions
+   - `/deprecated off` - Disable old versions
+   - `/deprecated` - Show current status
+   - Settings saved in MongoDB per user
+
+### User Controls:
+**Web Interface:**
+- Checkbox: "Eski/iptal edilmiş belge versiyonlarını da dahil et"
+- Located at bottom of chat input
+- Persists for session
+
+**Telegram Bot:**
+- `/deprecated on` or `/deprecated off`
+- Settings stored in MongoDB (telegram_settings collection)
+- Persists across sessions
+
+**API:**
+- POST /api/chat/query with `include_deprecated: true/false`
+
+### Testing Results:
+- ✅ Frontend checkbox visible and functional
+- ✅ Telegram bot command handlers added
+- ✅ MongoDB user settings storage working
+- ✅ Default: deprecated documents excluded
+- ✅ When enabled: all versions included
+
+### Next Steps:
+1. Related Articles Widget (Frontend) - Show citation data
+2. Performance Measurement System
+3. Popular Articles Dashboard
+4. Auto-linking feature
+
