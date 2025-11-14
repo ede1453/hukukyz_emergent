@@ -15,7 +15,10 @@ const Chat = () => {
   const [loading, setLoading] = useState(false);
   const [selectedCitation, setSelectedCitation] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState(null);
+  const [articleContent, setArticleContent] = useState(null);
   const [loadingRelated, setLoadingRelated] = useState(false);
+  const [loadingArticle, setLoadingArticle] = useState(false);
+  const [navigationStack, setNavigationStack] = useState([]); // For back navigation
   const [sessionId] = useState('web-session-' + Date.now());
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [includeDeprecated, setIncludeDeprecated] = useState(false);
