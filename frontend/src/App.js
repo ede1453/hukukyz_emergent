@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import QdrantAdmin from "./components/QdrantAdmin";
+import UserManagement from "./components/UserManagement";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
