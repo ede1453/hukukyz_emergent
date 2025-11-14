@@ -311,7 +311,9 @@ async def upload_document(
                 "law_name": law_name,
                 "collection": target_collection,
                 "articles_count": len(articles),
-                "file_name": file.filename
+                "file_name": file.filename,
+                "version": version_meta['version'],
+                "effective_date": version_meta['effective_date']
             }
             
         finally:
