@@ -120,6 +120,38 @@ JSON formatında yanıt ver:
                     "collections": collections
                 }
             
+            # Parse legal references in query for smart routing
+            from backend.tools.legal_parser import legal_parser
+            parsed_refs = legal_parser.parse(query)
+            
+            if parsed_refs:
+                # Direct routing based on legal references
+                ref_collections = []
+                for ref in parsed_refs:
+                    if ref.kanun_kodu:
+                        code = ref.kanun_kodu.lower()
+                        # Map law code to collection
+                        if code in ["ttk"]:
+                            ref_collections.append("ticaret_hukuku")
+                        elif code in ["tbk"]:
+                            ref_collections.append("borclar_hukuku")
+                        elif code in ["iik", "İİK"]:
+                            ref_collections.append("icra_iflas")
+                        elif code == "tmk":
+                            ref_collections.append("medeni_hukuk")
+                        elif code == "tkhk":
+                            ref_collections.append("tuketici_haklari")
+                        elif code == "hmk":
+                            ref_collections.append("hmk")
+                
+                if ref_collections:
+                    logger.info(f"✅ Smart routing: Found {len(parsed_refs)} legal refs → {ref_collections}")
+                    return {
+                        "hukuk_dali": list(set([self._get_domain_from_collection(c) for c in ref_collections])),
+                        "collections": list(set(ref_collections)),
+                        "parsed_references": [legal_parser.format_reference(r) for r in parsed_refs]
+                    }
+            
             # Use LLM for complex queries
             result = await self.chain.ainvoke({"query": query})
             
