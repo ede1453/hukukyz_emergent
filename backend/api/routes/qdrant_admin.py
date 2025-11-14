@@ -36,7 +36,7 @@ async def delete_collection(
 ):
     """Delete a collection (admin only)"""
     try:
-        client = qdrant_client.client
+        client = qdrant_manager.client
         
         # Check if collection exists
         collections = client.get_collections()
