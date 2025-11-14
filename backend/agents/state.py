@@ -13,6 +13,7 @@ class AgentState(TypedDict):
     query: str  # Original user query
     user_id: str  # User identifier
     session_id: str  # Session identifier
+    include_deprecated: bool  # Include deprecated document versions
     
     # ========== Planning ==========
     plan: List[Dict]  # List of planned steps
