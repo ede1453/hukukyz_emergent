@@ -106,6 +106,7 @@ async def register(user_data: UserRegister):
             "email": user_data.email,
             "password": hashed_password,
             "full_name": user_data.full_name,
+            "role": "avukat",  # Default role
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat(),
             "preferences": {
