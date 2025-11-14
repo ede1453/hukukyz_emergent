@@ -346,10 +346,45 @@ Bu bot genel bilgi amaçlıdır. Kesin hukuki tavsiye için avukata danışın.
             """
             await query.message.reply_text(about_text, parse_mode='Markdown')
     
+    async def get_user_setting(self, user_id: str, setting_name: str, default=None):
+        """Get user setting from MongoDB"""
+        try:
+            db = mongodb_client.db
+            user_settings = await db.telegram_settings.find_one({"user_id": user_id})
+            
+            if user_settings and setting_name in user_settings:
+                return user_settings[setting_name]
+            
+            return default
+        except Exception as e:
+            logger.error(f"Error getting user setting: {e}")
+            return default
+    
+    async def set_user_setting(self, user_id: str, setting_name: str, value):
+        """Set user setting in MongoDB"""
+        try:
+            db = mongodb_client.db
+            await db.telegram_settings.update_one(
+                {"user_id": user_id},
+                {
+                    "$set": {
+                        setting_name: value,
+                        "updated_at": datetime.now().isoformat()
+                    },
+                    "$setOnInsert": {
+                        "created_at": datetime.now().isoformat()
+                    }
+                },
+                upsert=True
+            )
+        except Exception as e:
+            logger.error(f"Error setting user setting: {e}")
+            raise
+    
     async def save_to_history(self, user_id: str, question: str, answer: str):
         """Save interaction to MongoDB"""
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             await db.telegram_history.insert_one({
                 "user_id": user_id,
                 "question": question,
