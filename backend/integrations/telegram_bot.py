@@ -251,7 +251,7 @@ Limited şirket nedir?
         
         try:
             # Clear history
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             result = await db.telegram_history.delete_many({"user_id": user_id})
             
             await update.message.reply_text(
@@ -261,6 +261,53 @@ Limited şirket nedir?
         except Exception as e:
             logger.error(f"Error clearing history: {e}")
             await update.message.reply_text("❌ Geçmiş temizlenirken hata oluştu.")
+    
+    async def deprecated_command(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /deprecated command"""
+        user = update.effective_user
+        user_id = str(user.id)
+        
+        try:
+            # Check if user wants to toggle or just see status
+            if context.args:
+                action = context.args[0].lower()
+                
+                if action in ['on', 'açık', '1', 'evet', 'yes']:
+                    await self.set_user_setting(user_id, "include_deprecated", True)
+                    await update.message.reply_text(
+                        "✅ **Eski Versiyonlar Aktif**\n\n"
+                        "Artık aramalar eski/iptal edilmiş belge versiyonlarını da içerecek.\n\n"
+                        "❗ Not: Bu, güncel olmayan bilgiler içerebilir."
+                    )
+                elif action in ['off', 'kapalı', '0', 'hayır', 'no']:
+                    await self.set_user_setting(user_id, "include_deprecated", False)
+                    await update.message.reply_text(
+                        "✅ **Eski Versiyonlar Kapalı**\n\n"
+                        "Aramalar sadece güncel belgeleri içerecek."
+                    )
+                else:
+                    await update.message.reply_text(
+                        "❓ Geçersiz parametre.\n\n"
+                        "Kullanım:\n"
+                        "`/deprecated on` - Eski versiyonları dahil et\n"
+                        "`/deprecated off` - Sadece güncel belgeler",
+                        parse_mode='Markdown'
+                    )
+            else:
+                # Show current status
+                current = await self.get_user_setting(user_id, "include_deprecated", False)
+                status = "Açık ✅" if current else "Kapalı ❌"
+                
+                await update.message.reply_text(
+                    f"📋 **Eski Versiyonlar:** {status}\n\n"
+                    "Değiştirmek için:\n"
+                    "`/deprecated on` veya `/deprecated off`",
+                    parse_mode='Markdown'
+                )
+                
+        except Exception as e:
+            logger.error(f"Error in deprecated command: {e}")
+            await update.message.reply_text("❌ Ayar değiştirilirken hata oluştu.")
     
     async def button_callback(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle button callbacks"""
