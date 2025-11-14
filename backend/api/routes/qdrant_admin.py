@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from typing import Optional
 import logging
 
-from backend.database.qdrant_client import qdrant_client
+from backend.database.qdrant_client import qdrant_manager
 from backend.api.routes.auth import get_current_user
 
 logger = logging.getLogger(__name__)
