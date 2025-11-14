@@ -22,7 +22,8 @@ class ResearcherAgent:
         query: str,
         collections: List[str],
         filters: Dict = None,
-        strategy: str = "hybrid"
+        strategy: str = "hybrid",
+        include_deprecated: bool = False
     ) -> List[Dict]:
         """Execute research across collections
         
