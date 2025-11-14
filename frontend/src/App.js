@@ -105,10 +105,10 @@ const Home = () => {
           </div>
 
           {/* Admin Link */}
-          <div className="mt-4 text-center">
+          <div className="mt-4">
             <Link
               to="/admin/qdrant"
-              className="text-gray-500 hover:text-gray-400 text-sm"
+              className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium block"
             >
               🗄️ Qdrant Admin
             </Link>
