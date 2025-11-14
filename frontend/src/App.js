@@ -109,12 +109,18 @@ const Home = () => {
 
           {/* Admin Only Section */}
           {isAdmin() && (
-            <div className="mt-4">
+            <div className="mt-4 grid grid-cols-2 gap-4">
               <Link
                 to="/admin/qdrant"
-                className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium block"
+                className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium"
               >
                 🗄️ Qdrant Admin
+              </Link>
+              <Link
+                to="/admin/users"
+                className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium"
+              >
+                👥 Kullanıcılar
               </Link>
             </div>
           )}
