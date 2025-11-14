@@ -50,6 +50,7 @@ Merhaba! Ben HukukYZ, Türk hukuku konusunda size yardımcı olacak yapay zeka a
 /ask - Hukuki soru sorun
 /history - Son sorularınızı görün
 /clear - Geçmişinizi temizleyin
+/deprecated - Eski versiyonları dahil et/hariç tut
 /help - Yardım menüsü
 
 💡 **Örnek Sorular:**
