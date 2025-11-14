@@ -64,6 +64,15 @@ const Home = () => {
               12 hukuki belge yüklendi. Chat arayüzünü kullanabilirsiniz.
             </p>
           </div>
+
+          {/* Auth Status */}
+          {isAuthenticated && user && (
+            <div className="mt-4 text-center">
+              <p className="text-gray-400 text-sm">
+                Hoş geldiniz, <span className="text-blue-400 font-semibold">{user.full_name}</span>
+              </p>
+            </div>
+          )}
           
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link
