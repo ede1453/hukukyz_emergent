@@ -125,6 +125,7 @@ async def register(user_data: UserRegister):
             "user": {
                 "email": user["email"],
                 "full_name": user["full_name"],
+                "role": user.get("role", "avukat"),
                 "created_at": user["created_at"]
             }
         }
