@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -14,11 +16,18 @@ const Upload = () => {
   const [uploadResult, setUploadResult] = useState(null);
   const [stats, setStats] = useState(null);
   const [bulkMode, setBulkMode] = useState(false);
+  const navigate = useNavigate();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
+    if (!isAdmin()) {
+      alert('⚠️ Bu sayfaya erişim için admin yetkisi gereklidir.');
+      navigate('/');
+      return;
+    }
     loadCollections();
     loadStats();
-  }, []);
+  }, [isAdmin, navigate]);
 
   const loadCollections = async () => {
     try {
