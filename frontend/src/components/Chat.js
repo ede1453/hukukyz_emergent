@@ -271,7 +271,31 @@ const Chat = () => {
                 )}
                 
                 <div className="flex items-start gap-2">
-                  <div className="flex-1 whitespace-pre-wrap">{message.content}</div>
+                  <div className="flex-1 whitespace-pre-wrap">
+                    {message.role === 'assistant' ? (
+                      // Auto-link legal references in assistant messages
+                      autoLinkReferences(message.content).map((part, i) => (
+                        part.type === 'link' ? (
+                          <button
+                            key={i}
+                            onClick={() => {
+                              setNavigationStack([]);
+                              fetchArticleContent(part.reference);
+                            }}
+                            className="text-blue-400 hover:text-blue-300 underline cursor-pointer font-semibold"
+                            title="İçeriğini görüntüle"
+                          >
+                            {part.content}
+                          </button>
+                        ) : (
+                          <span key={i}>{part.content}</span>
+                        )
+                      ))
+                    ) : (
+                      // User messages without auto-linking
+                      message.content
+                    )}
+                  </div>
                   {message.role === 'assistant' && (
                     <button
                       onClick={() => copyToClipboard(message.content, index)}
