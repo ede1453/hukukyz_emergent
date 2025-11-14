@@ -86,6 +86,108 @@ class CollectionInfo(BaseModel):
     description: str
 
 
+@router.post("/deprecate")
+async def deprecate_document_version(
+    collection: str = Form(...),
+    doc_id: str = Form(...),
+    version: str = Form(...),
+    reason: str = Form(...),
+    replaced_by: Optional[str] = Form(None)
+):
+    """Deprecate a specific document version
+    
+    Args:
+        collection: Collection name
+        doc_id: Document ID
+        version: Version to deprecate
+        reason: Deprecation reason
+        replaced_by: Version that replaces this
+    """
+    try:
+        from backend.core.version_manager import version_manager
+        
+        await version_manager.deprecate_version(
+            qdrant_manager.client,
+            collection,
+            doc_id,
+            version,
+            reason,
+            replaced_by
+        )
+        
+        return {
+            "success": True,
+            "message": f"Version {version} deprecated",
+            "doc_id": doc_id,
+            "version": version,
+            "reason": reason
+        }
+    except Exception as e:
+        logger.error(f"Deprecation error: {e}")
+        raise HTTPException(500, str(e))
+
+
+@router.get("/versions/{collection}/{doc_id}")
+async def get_document_versions(
+    collection: str,
+    doc_id: str,
+    include_deprecated: bool = False
+):
+    """Get all versions of a document
+    
+    Args:
+        collection: Collection name
+        doc_id: Document ID
+        include_deprecated: Include deprecated versions
+    """
+    try:
+        from backend.core.version_manager import version_manager
+        
+        versions = await version_manager.get_versions(
+            qdrant_manager.client,
+            collection,
+            doc_id,
+            include_deprecated
+        )
+        
+        return {
+            "success": True,
+            "doc_id": doc_id,
+            "versions": [v.to_dict() for v in versions],
+            "count": len(versions)
+        }
+    except Exception as e:
+        logger.error(f"Get versions error: {e}")
+        raise HTTPException(500, str(e))
+
+
+@router.get("/versions/{collection}/{doc_id}/active")
+async def get_active_version(collection: str, doc_id: str):
+    """Get the currently active version of a document"""
+    try:
+        from backend.core.version_manager import version_manager
+        
+        version = await version_manager.get_active_version(
+            qdrant_manager.client,
+            collection,
+            doc_id
+        )
+        
+        if not version:
+            raise HTTPException(404, "No active version found")
+        
+        return {
+            "success": True,
+            "doc_id": doc_id,
+            "version": version.to_dict()
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Get active version error: {e}")
+        raise HTTPException(500, str(e))
+
+
 @router.get("/collections", response_model=List[CollectionInfo])
 async def list_collections():
     """List all available collections"""
