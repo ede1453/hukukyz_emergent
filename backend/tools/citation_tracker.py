@@ -161,7 +161,7 @@ class CitationTracker:
         
         return references
     
-    def get_most_cited(self, limit: int = 10) -> List[Tuple[str, int]]:
+    async def get_most_cited(self, limit: int = 10) -> List[Tuple[str, int]]:
         """Get most cited articles
         
         Args:
@@ -170,13 +170,32 @@ class CitationTracker:
         Returns:
             List of (reference, count) tuples
         """
-        sorted_citations = sorted(
-            self.citations.items(),
-            key=lambda x: x[1].citation_count,
-            reverse=True
-        )
+        await self._ensure_initialized()
         
-        return [(ref, node.citation_count) for ref, node in sorted_citations[:limit]]
+        try:
+            db = mongodb_client.get_database()
+            
+            # Get from MongoDB (always fresh)
+            cursor = db.citations.find(
+                {},
+                {"reference": 1, "citation_count": 1, "_id": 0}
+            ).sort("citation_count", -1).limit(limit)
+            
+            results = []
+            async for doc in cursor:
+                results.append((doc["reference"], doc["citation_count"]))
+            
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error getting most cited from DB: {e}. Using memory cache.")
+            # Fallback to memory
+            sorted_citations = sorted(
+                self.citations.items(),
+                key=lambda x: x[1].citation_count,
+                reverse=True
+            )
+            return [(ref, node.citation_count) for ref, node in sorted_citations[:limit]]
     
     def get_citation_chain(self, reference: str, max_depth: int = 3) -> List[List[str]]:
         """Get citation chain (who cites what)
