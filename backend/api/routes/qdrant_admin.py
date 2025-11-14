@@ -131,7 +131,7 @@ async def recreate_collection(
 ):
     """Recreate a collection (delete and create with same settings) - admin only"""
     try:
-        client = qdrant_client.client
+        client = qdrant_manager.client
         
         # Get current collection info before deleting
         try:
