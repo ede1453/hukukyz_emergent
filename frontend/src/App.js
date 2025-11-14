@@ -142,14 +142,19 @@ const Home = () => {
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </div>
   );
 }
