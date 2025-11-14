@@ -9,6 +9,8 @@ const QdrantAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [actionLoading, setActionLoading] = useState(null);
+  const [confirmDialog, setConfirmDialog] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
