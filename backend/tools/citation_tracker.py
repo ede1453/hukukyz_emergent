@@ -422,11 +422,26 @@ class CitationTracker:
             logger.error(f"Error getting related articles: {e}")
             return []
     
-    def clear(self):
-        """Clear all tracked citations"""
+    async def clear(self):
+        """Clear all tracked citations (memory and database)"""
+        await self._ensure_initialized()
+        
+        try:
+            db = mongodb_client.get_database()
+            
+            # Clear MongoDB collections
+            await db.citations.delete_many({})
+            await db.document_citations.delete_many({})
+            
+            logger.info("✅ Citation tracker cleared from MongoDB")
+            
+        except Exception as e:
+            logger.error(f"Error clearing citations from DB: {e}")
+        
+        # Clear memory cache
         self.citations.clear()
         self.document_citations.clear()
-        logger.info("Citation tracker cleared")
+        logger.info("Citation tracker memory cleared")
 
 
 # Global citation tracker instance
