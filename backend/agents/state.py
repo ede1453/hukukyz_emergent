@@ -58,6 +58,7 @@ class AgentState(TypedDict):
     created_at: str  # Timestamp
     total_tokens: int  # Total tokens used
     agent_iterations: int  # Number of agent iterations
+    agent_timings: Dict[str, float]  # Agent execution times
     errors: Annotated[List[str], operator.add]  # Error messages
 
 
