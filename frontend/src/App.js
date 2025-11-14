@@ -82,12 +82,14 @@ const Home = () => {
             >
               💬 Chat Başlat
             </Link>
-            <Link
-              to="/upload"
-              className="text-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
-            >
-              📄 PDF Yükle
-            </Link>
+            {isAdmin() && (
+              <Link
+                to="/upload"
+                className="text-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
+              >
+                📄 PDF Yükle
+              </Link>
+            )}
             <Link
               to="/dashboard"
               className="text-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium"
@@ -104,15 +106,17 @@ const Home = () => {
             </a>
           </div>
 
-          {/* Admin Link */}
-          <div className="mt-4">
-            <Link
-              to="/admin/qdrant"
-              className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium block"
-            >
-              🗄️ Qdrant Admin
-            </Link>
-          </div>
+          {/* Admin Only Section */}
+          {isAdmin() && (
+            <div className="mt-4">
+              <Link
+                to="/admin/qdrant"
+                className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-medium block"
+              >
+                🗄️ Qdrant Admin
+              </Link>
+            </div>
+          )}
 
           {/* Auth Buttons */}
           <div className="mt-6 flex justify-center gap-3">
