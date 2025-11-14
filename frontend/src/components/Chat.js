@@ -221,23 +221,40 @@ const Chat = () => {
 
       <div className="p-4 bg-gray-800 border-t border-gray-700">
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Hukuki sorunuzu yazın..."
-              disabled={loading}
-              className="flex-1 px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 disabled:opacity-50"
-            />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-            >
-              {loading ? '⏳' : 'Gönder'}
-            </button>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Hukuki sorunuzu yazın..."
+                disabled={loading}
+                className="flex-1 px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 disabled:opacity-50"
+              />
+              <button
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              >
+                {loading ? '⏳' : 'Gönder'}
+              </button>
+            </div>
+            
+            {/* Deprecated checkbox */}
+            <div className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-400 hover:text-gray-300">
+                <input
+                  type="checkbox"
+                  checked={includeDeprecated}
+                  onChange={(e) => setIncludeDeprecated(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
+                />
+                <span>Eski/iptal edilmiş belge versiyonlarını da dahil et</span>
+                <span className="text-xs text-yellow-500">(⚠️ Güncel olmayan bilgiler içerebilir)</span>
+              </label>
+            </div>
           </form>
+          
           <p className="text-xs text-gray-500 mt-2 text-center">
             ⚠️ Test amaçlıdır. Profesyonel hukuki danışmanlık yerine geçmez.
           </p>
