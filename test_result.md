@@ -307,3 +307,46 @@ Status: ✅ WORKING
 3. Performance Measurement System
 4. Popular Articles Dashboard
 
+
+---
+## Payload Index Creation & Version Filtering - Completed
+Date: 2025-11-14 20:06
+Status: ✅ WORKING
+
+### What was done:
+1. ✅ Created payload indexes for all Qdrant collections
+   - `status` field (KEYWORD) - for version filtering
+   - `version` field (KEYWORD) - for version queries
+   - `doc_type` field (KEYWORD) - for document type filtering
+   - `doc_id` field (KEYWORD) - for document identification
+   
+2. ✅ Re-enabled version filtering in retrieval pipeline
+   - Filter excludes deprecated documents by default
+   - `include_deprecated=True` parameter to include all versions
+   
+3. ✅ Updated qdrant_manager.search() to accept Filter objects
+   - Backward compatible with Dict format
+   - Now supports complex Qdrant Filter objects
+
+### Testing Results:
+- ✅ Payload indexes created successfully (8 collections)
+- ✅ Version filtering working correctly
+- ✅ Active documents retrieved by default
+- ✅ Deprecated documents excluded from search results
+- ✅ E2E test passed (5 documents, confidence 65%, all active)
+- ✅ Telegram bot operational with filtering
+
+### Collections Updated:
+- mevzuat, tuketici_haklari, icra_iflas, medeni_hukuk
+- hmk, ticaret_hukuku, borclar_hukuku, bankacilik_hukuku
+
+### API Impact:
+- Retrieval now filters deprecated documents automatically
+- Version manager fully functional for document lifecycle management
+
+### Next Steps:
+1. Related Articles Widget (Frontend)
+2. Performance Measurement System
+3. Popular Articles Dashboard
+4. Auto-linking feature
+
