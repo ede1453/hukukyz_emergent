@@ -167,9 +167,22 @@ async def upload_document(
     file: UploadFile = File(...),
     collection: str = Form(...),
     create_new: bool = Form(False),
-    new_collection_name: Optional[str] = Form(None)
+    new_collection_name: Optional[str] = Form(None),
+    version: Optional[str] = Form(None),
+    replaces_version: Optional[str] = Form(None),
+    effective_date: Optional[str] = Form(None)
 ):
-    """Upload a legal PDF document with transactional safety"""
+    """Upload a legal PDF document with versioning support
+    
+    Args:
+        file: PDF file
+        collection: Target collection
+        create_new: Create new collection
+        new_collection_name: New collection name
+        version: Document version (auto-generated if not provided)
+        replaces_version: If this replaces an old version, specify which
+        effective_date: When this version becomes effective (ISO format)
+    """
     temp_collection = None
     tmp_path = None
     
