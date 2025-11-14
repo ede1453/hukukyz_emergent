@@ -304,29 +304,66 @@ class CitationTracker:
         
         return validation
     
-    def get_citation_stats(self) -> Dict:
+    async def get_citation_stats(self) -> Dict:
         """Get overall citation statistics
         
         Returns:
             Statistics dict
         """
-        if not self.citations:
+        await self._ensure_initialized()
+        
+        try:
+            db = mongodb_client.get_database()
+            
+            # Get stats from MongoDB
+            total_citations = 0
+            unique_refs = 0
+            
+            cursor = db.citations.find({}, {"citation_count": 1})
+            async for doc in cursor:
+                total_citations += doc.get("citation_count", 0)
+                unique_refs += 1
+            
+            doc_count = await db.document_citations.count_documents({})
+            
+            if unique_refs == 0:
+                return {
+                    "total_citations": 0,
+                    "unique_references": 0,
+                    "avg_citations_per_ref": 0,
+                    "most_cited": [],
+                    "documents_tracked": 0
+                }
+            
             return {
-                "total_citations": 0,
-                "unique_references": 0,
-                "avg_citations_per_ref": 0,
-                "most_cited": []
+                "total_citations": total_citations,
+                "unique_references": unique_refs,
+                "avg_citations_per_ref": round(total_citations / unique_refs, 2),
+                "most_cited": await self.get_most_cited(5),
+                "documents_tracked": doc_count
             }
-        
-        total = sum(node.citation_count for node in self.citations.values())
-        
-        return {
-            "total_citations": total,
-            "unique_references": len(self.citations),
-            "avg_citations_per_ref": round(total / len(self.citations), 2),
-            "most_cited": self.get_most_cited(5),
-            "documents_tracked": len(self.document_citations)
-        }
+            
+        except Exception as e:
+            logger.error(f"Error getting citation stats: {e}. Using memory cache.")
+            # Fallback to memory
+            if not self.citations:
+                return {
+                    "total_citations": 0,
+                    "unique_references": 0,
+                    "avg_citations_per_ref": 0,
+                    "most_cited": [],
+                    "documents_tracked": 0
+                }
+            
+            total = sum(node.citation_count for node in self.citations.values())
+            
+            return {
+                "total_citations": total,
+                "unique_references": len(self.citations),
+                "avg_citations_per_ref": round(total / len(self.citations), 2),
+                "most_cited": await self.get_most_cited(5),
+                "documents_tracked": len(self.document_citations)
+            }
     
     def get_related_articles(
         self, 
