@@ -396,3 +396,52 @@ Status: ✅ WORKING
 3. Popular Articles Dashboard
 4. Auto-linking feature
 
+
+---
+## Related Articles Widget (Frontend) - Completed
+Date: 2025-11-14 20:45
+Status: ✅ WORKING
+
+### What was done:
+1. ✅ Created Related Articles Widget in Chat.js
+2. ✅ Added 🔗 button next to each citation
+3. ✅ Integrated with /api/citations/related/{reference} endpoint
+4. ✅ Modal shows related articles when clicked
+5. ✅ Chain exploration: click 🔗 on related articles to see their relations
+
+### Features:
+**UI Components:**
+- 🔗 Purple button next to each citation
+- Modal with list of related articles
+- Relationship type indicators:
+  - 🔗 İlişkili (co-cited)
+  - ⬅️ Buna atıf yapan (cited-by)
+  - ➡️ Bunun atıf yaptığı (cites)
+- Chain navigation: explore relations recursively
+
+**User Experience:**
+- Click citation to see details
+- Click 🔗 to see related articles
+- From related articles, click 🔗 again to explore deeper
+- Visual feedback with purple theme
+
+### Testing Results:
+- ✅ Widget renders correctly
+- ✅ API integration working
+- ✅ Related articles displayed (4+ articles)
+- ✅ Chain navigation functional
+- ✅ Empty state handled gracefully
+- ✅ Loading states implemented
+
+### Data Source:
+- MongoDB citation_tracker data
+- Populated from document citations
+- Real-time updates as documents are processed
+
+### Next Steps:
+1. Performance Measurement System
+2. Popular Articles Dashboard  
+3. Auto-linking feature
+4. Mobil Uygulama API'leri
+5. Qdrant Yönetim Dashboard'u
+
