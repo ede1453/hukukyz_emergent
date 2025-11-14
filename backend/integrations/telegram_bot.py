@@ -415,6 +415,7 @@ Bu bot genel bilgi amaçlıdır. Kesin hukuki tavsiye için avukata danışın.
         app.add_handler(CommandHandler("ask", self.ask_command))
         app.add_handler(CommandHandler("history", self.history_command))
         app.add_handler(CommandHandler("clear", self.clear_command))
+        app.add_handler(CommandHandler("deprecated", self.deprecated_command))
         
         # Message handler (for direct questions)
         app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, self.handle_message))
