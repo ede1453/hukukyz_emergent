@@ -40,12 +40,49 @@ class CitationNode:
 
 
 class CitationTracker:
-    """Track and analyze legal citations"""
+    """Track and analyze legal citations with MongoDB persistence"""
     
     def __init__(self):
         self.parser = LegalParser()
-        self.citations: Dict[str, CitationNode] = {}  # reference -> node
-        self.document_citations: Dict[str, List[str]] = defaultdict(list)  # doc_id -> citations
+        self.citations: Dict[str, CitationNode] = {}  # reference -> node (memory cache)
+        self.document_citations: Dict[str, List[str]] = defaultdict(list)  # doc_id -> citations (memory cache)
+        self._initialized = False
+    
+    async def _ensure_initialized(self):
+        """Ensure MongoDB connection and load existing data"""
+        if self._initialized:
+            return
+        
+        try:
+            db = mongodb_client.get_database()
+            
+            # Create indexes
+            await db.citations.create_index("reference", unique=True)
+            await db.citations.create_index([("citation_count", -1)])
+            await db.document_citations.create_index("doc_id")
+            
+            # Load existing citations into memory cache
+            citations_cursor = db.citations.find()
+            async for doc in citations_cursor:
+                ref = doc["reference"]
+                self.citations[ref] = CitationNode(
+                    reference=ref,
+                    cited_by=set(doc.get("cited_by", [])),
+                    cites=set(doc.get("cites", [])),
+                    citation_count=doc.get("citation_count", 0)
+                )
+            
+            # Load document citations
+            doc_citations_cursor = db.document_citations.find()
+            async for doc in doc_citations_cursor:
+                self.document_citations[doc["doc_id"]] = doc.get("citations", [])
+            
+            self._initialized = True
+            logger.info(f"✅ Citation tracker initialized: {len(self.citations)} citations loaded")
+            
+        except Exception as e:
+            logger.warning(f"Citation tracker initialization failed: {e}. Running in memory-only mode.")
+            self._initialized = True  # Mark as initialized but with fallback mode
     
     def track_document(self, doc_id: str, text: str) -> List[LegalReference]:
         """Track citations in a document
