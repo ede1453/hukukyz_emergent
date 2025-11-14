@@ -72,20 +72,32 @@ Bu cevabı denetle.""")
                 "sources": formatted_sources
             })
             
+            # Validate citations
+            citation_valid, citation_issues = self._validate_citations(answer, sources)
+            
             avg_score = (
                 result.faithfulness_score + 
                 result.relevance_score + 
                 result.consistency_score
             ) / 3
             
+            # Adjust score based on citation validation
+            if not citation_valid:
+                avg_score *= 0.9  # 10% penalty for invalid citations
+                logger.warning("Citation validation issues detected")
+            
             passed = (
                 result.faithfulness_score >= 0.7 and
                 result.relevance_score >= 0.7 and
                 result.consistency_score >= 0.8 and
-                avg_score >= 0.75
+                avg_score >= 0.75 and
+                citation_valid
             )
             
-            logger.info(f"Audit: {'PASSED' if passed else 'FAILED'}")
+            logger.info(f"Audit: {'PASSED' if passed else 'FAILED'} (Citations: {'VALID' if citation_valid else 'INVALID'})")
+            
+            # Merge issues
+            all_issues = result.issues + citation_issues
             
             return VerificationResult(
                 passed=passed,
@@ -93,7 +105,7 @@ Bu cevabı denetle.""")
                 relevance_score=result.relevance_score,
                 consistency_score=result.consistency_score,
                 feedback=result.feedback,
-                issues=result.issues
+                issues=all_issues
             )
             
         except Exception as e:
