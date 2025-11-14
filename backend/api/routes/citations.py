@@ -5,10 +5,13 @@ from typing import List, Dict
 import logging
 
 from backend.tools.citation_tracker import citation_tracker
+from backend.database.qdrant_client import qdrant_manager
+from backend.tools.legal_parser import LegalParser
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/citations", tags=["citations"])
+legal_parser = LegalParser()
 
 
 @router.get("/stats")
