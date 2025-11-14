@@ -299,6 +299,53 @@ const QdrantAdmin = () => {
         </div>
       </div>
 
+      {/* Confirmation Dialog */}
+      {confirmDialog && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => setConfirmDialog(null)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg p-6 max-w-md w-full border border-gray-700"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl font-bold text-white mb-4">
+              {confirmDialog.type === 'delete' ? '⚠️ Koleksiyonu Sil' : '🔄 Koleksiyonu Yenile'}
+            </h3>
+            <p className="text-gray-300 mb-6">
+              {confirmDialog.type === 'delete' 
+                ? `'${confirmDialog.collection.name}' koleksiyonunu silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!`
+                : `'${confirmDialog.collection.name}' koleksiyonu silinip yeniden oluşturulacak. Tüm veriler silinecek!`
+              }
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmDialog(null)}
+                className="flex-1 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition"
+              >
+                İptal
+              </button>
+              <button
+                onClick={() => {
+                  if (confirmDialog.type === 'delete') {
+                    handleDeleteCollection(confirmDialog.collection.id);
+                  } else {
+                    handleRecreateCollection(confirmDialog.collection.id);
+                  }
+                }}
+                className={`flex-1 px-4 py-2 text-white rounded transition ${
+                  confirmDialog.type === 'delete'
+                    ? 'bg-red-600 hover:bg-red-700'
+                    : 'bg-yellow-600 hover:bg-yellow-700'
+                }`}
+              >
+                {confirmDialog.type === 'delete' ? 'Evet, Sil' : 'Evet, Yenile'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Collection Details Modal */}
       {selectedCollection && (
         <div 
