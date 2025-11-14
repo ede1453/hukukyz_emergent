@@ -16,6 +16,7 @@ const Chat = () => {
   const [selectedCitation, setSelectedCitation] = useState(null);
   const [sessionId] = useState('web-session-' + Date.now());
   const [copiedIndex, setCopiedIndex] = useState(null);
+  const [includeDeprecated, setIncludeDeprecated] = useState(false);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
