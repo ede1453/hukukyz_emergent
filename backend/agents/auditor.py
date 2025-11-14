@@ -119,6 +119,64 @@ Bu cevabı denetle.""")
                 issues=["Audit failed"]
             )
     
+    def _validate_citations(
+        self, 
+        answer: str, 
+        sources: List[Dict]
+    ) -> tuple[bool, List[str]]:
+        """Validate if citations in answer match available sources
+        
+        Args:
+            answer: Generated answer
+            sources: Available source documents
+        
+        Returns:
+            Tuple of (is_valid, list_of_issues)
+        """
+        try:
+            from backend.tools.legal_parser import legal_parser
+            
+            issues = []
+            
+            # Parse references in answer
+            answer_refs = legal_parser.parse(answer)
+            if not answer_refs:
+                return True, []  # No citations to validate
+            
+            # Parse references in sources
+            source_refs = set()
+            for source in sources:
+                text = source.get("text", "")
+                metadata = source.get("payload") or source.get("metadata", {})
+                
+                # Add references from source text
+                refs = legal_parser.parse(text)
+                for ref in refs:
+                    source_refs.add(legal_parser.format_reference(ref))
+                
+                # Add source identifier
+                if metadata.get("madde_no"):
+                    source_refs.add(f"{metadata.get('kaynak', '')} m.{metadata.get('madde_no')}")
+            
+            # Check if answer references are in sources
+            unmatched = 0
+            for ref in answer_refs:
+                formatted = legal_parser.format_reference(ref)
+                if formatted not in source_refs:
+                    unmatched += 1
+                    logger.debug(f"Unmatched citation: {formatted}")
+            
+            if unmatched > 0:
+                issues.append(f"{unmatched} citation(s) not found in sources")
+                return False, issues
+            
+            logger.debug(f"✅ All {len(answer_refs)} citations validated")
+            return True, []
+            
+        except Exception as e:
+            logger.error(f"Citation validation error: {e}")
+            return True, []  # Don't fail on validation error
+    
     def _format_sources(self, sources: List[Dict]) -> str:
         """Format sources for audit"""
         if not sources:
