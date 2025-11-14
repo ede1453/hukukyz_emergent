@@ -56,7 +56,8 @@ class ResearcherAgent:
                         query=query,
                         collection=collection,
                         strategy=SearchStrategy(strategy),
-                        filters=filters
+                        filters=filters,
+                        include_deprecated=include_deprecated
                     )
                     
                     # Add source collection to each result
