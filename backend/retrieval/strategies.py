@@ -107,6 +107,11 @@ class RetrievalPipeline:
                     metadata_filter=filters
                 )
             else:
+                # Ensure Qdrant is initialized
+                if self.qdrant.client is None:
+                    logger.warning("Qdrant client not initialized, initializing now...")
+                    await self.qdrant.initialize()
+                
                 # Generate embedding
                 query_vector = await get_embedding(query)
                 
