@@ -203,6 +203,39 @@ async def clear_cache():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/citations/stats")
+async def citation_stats():
+    """Get citation statistics"""
+    try:
+        from backend.tools.citation_tracker import citation_tracker
+        stats = citation_tracker.get_citation_stats()
+        return {
+            "success": True,
+            "stats": stats
+        }
+    except Exception as e:
+        logger.error(f"Citation stats error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/citations/most-cited")
+async def most_cited_articles(limit: int = 10):
+    """Get most cited articles"""
+    try:
+        from backend.tools.citation_tracker import citation_tracker
+        most_cited = citation_tracker.get_most_cited(limit)
+        return {
+            "success": True,
+            "most_cited": [
+                {"reference": ref, "count": count}
+                for ref, count in most_cited
+            ]
+        }
+    except Exception as e:
+        logger.error(f"Most cited error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/health", response_model=HealthResponse)
 async def health_check():
     """Check health of chat service and MCP servers"""
