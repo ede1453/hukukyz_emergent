@@ -75,11 +75,14 @@ class ResearcherAgent:
             # Limit to top results
             top_results = all_results[:20]  # Keep top 20 across all collections
             
-            # Cache results
-            await cache_manager.set_document_cache(query, collections, top_results, limit=20)
+            # Enrich results with related articles
+            enriched_results = self._enrich_with_related_articles(top_results)
             
-            logger.info(f"Total research results: {len(top_results)}")
-            return top_results
+            # Cache results
+            await cache_manager.set_document_cache(query, collections, enriched_results, limit=20)
+            
+            logger.info(f"Total research results: {len(enriched_results)}")
+            return enriched_results
             
         except Exception as e:
             logger.error(f"Research error: {e}")
