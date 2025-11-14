@@ -325,9 +325,13 @@ const Dashboard = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
               {stats.most_cited.map(([ref, count], index) => (
-                <div
+                <button
                   key={index}
-                  className="bg-gray-900 p-4 rounded-lg border border-gray-700 text-center"
+                  onClick={() => {
+                    setNavigationStack([]);
+                    fetchArticleContent(ref);
+                  }}
+                  className="bg-gray-900 p-4 rounded-lg border border-gray-700 text-center hover:border-purple-600 transition cursor-pointer"
                 >
                   <div className="text-sm text-gray-400 mb-2">#{index + 1}</div>
                   <div className="font-semibold text-blue-300 mb-2 text-sm">
@@ -337,7 +341,7 @@ const Dashboard = () => {
                     {count}
                   </div>
                   <div className="text-xs text-gray-500 mt-1">alıntı</div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
