@@ -69,7 +69,7 @@ async def create_snapshot(
 ):
     """Create a snapshot of a collection (admin only)"""
     try:
-        client = qdrant_client.client
+        client = qdrant_manager.client
         
         # Check if collection exists
         collections = client.get_collections()
