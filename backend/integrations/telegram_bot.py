@@ -38,6 +38,9 @@ class HukukYZBot:
         
         # Bot info
         self.bot_username = "HukukYZ_bot"
+        
+        # User settings cache (user_id -> settings)
+        self.user_settings = {}
         self.welcome_message = """
 🏛️ **HukukYZ - Hukuki Asistan Bot**
 
