@@ -144,8 +144,21 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
         formatted = []
         
         for i, doc in enumerate(documents, 1):
-            # Support both 'payload' (Qdrant) and 'metadata' (FAISS) formats
-            metadata = doc.get("payload") or doc.get("metadata", {})
+            # Support multiple formats:
+            # 1. Normalized Qdrant (fields at top level)
+            # 2. Raw Qdrant (fields in 'payload')
+            # 3. FAISS (fields in 'metadata')
+            
+            # Try to get metadata from different locations
+            if 'payload' in doc:
+                # Raw Qdrant format
+                metadata = doc['payload']
+            elif 'metadata' in doc:
+                # FAISS format
+                metadata = doc['metadata']
+            else:
+                # Normalized format - fields are at top level
+                metadata = doc
             
             doc_str = f"\n--- Belge {i} ---\n"
             doc_str += f"Kaynak: {metadata.get('kaynak', 'Bilinmiyor')}\n"
@@ -157,12 +170,13 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
                 doc_str += f"Başlık: {metadata['title']}\n"
             
             # Get content from multiple possible locations
-            content = metadata.get('content') or doc.get('text', '')
+            content = metadata.get('content') or metadata.get('text', '') or doc.get('text', '')
             doc_str += f"\n{content}\n"
             
             # Add score
-            if "score" in doc:
-                doc_str += f"\n(Alakalılık: {doc['score']:.2f})\n"
+            score = doc.get("score") or doc.get("rrf_score", 0)
+            if score:
+                doc_str += f"\n(Alakalılık: {score:.2f})\n"
             
             formatted.append(doc_str)
         
