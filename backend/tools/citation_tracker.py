@@ -54,7 +54,10 @@ class CitationTracker:
             return
         
         try:
-            db = mongodb_client.get_database()
+            if mongodb_client.db is None:
+                raise RuntimeError("MongoDB not connected")
+            
+            db = mongodb_client.db
             
             # Create indexes
             await db.citations.create_index("reference", unique=True)
