@@ -118,9 +118,10 @@ async def root():
 
 
 # Import and include routers
-from backend.api.routes import chat, documents, citations
+from backend.api.routes import chat, documents, citations, auth
 from backend.mcp.client.mcp_client import mcp_client
 
+app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
 app.include_router(citations.router, prefix="/api", tags=["citations"])
