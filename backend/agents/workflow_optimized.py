@@ -244,7 +244,8 @@ def create_workflow():
 async def execute_workflow(
     query: str,
     user_id: str,
-    session_id: str
+    session_id: str,
+    include_deprecated: bool = False
 ) -> Dict:
     """Execute optimized agent workflow
     
@@ -252,6 +253,7 @@ async def execute_workflow(
         query: User query
         user_id: User identifier
         session_id: Session identifier
+        include_deprecated: Include deprecated document versions
     
     Returns:
         Final state with answer and performance metrics
@@ -264,7 +266,8 @@ async def execute_workflow(
         initial_state = create_initial_state(
             query=query,
             user_id=user_id,
-            session_id=session_id
+            session_id=session_id,
+            include_deprecated=include_deprecated
         )
         
         # Create and run workflow
