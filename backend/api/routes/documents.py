@@ -225,6 +225,17 @@ async def upload_document(
             metadatas = []
             ids = []
             
+            # Generate version metadata
+            from backend.core.version_manager import version_manager, DocumentStatus
+            
+            version_meta = await version_manager.create_version_metadata(
+                doc_id=f"{law_code}_base",
+                version=version,
+                status=DocumentStatus.ACTIVE,
+                effective_date=effective_date,
+                reason=f"Uploaded from {file.filename}"
+            )
+            
             for article in articles:
                 full_text = f"{article['title']}\n\n{article['content']}"
                 
@@ -236,10 +247,10 @@ async def upload_document(
                     "madde_no": article['madde_no'],
                     "title": article['title'],
                     "content": article['content'],
-                    "version": "1.0",
-                    "status": "active",
                     "source_file": file.filename,
-                    "file_hash": file_hash  # For duplicate detection
+                    "file_hash": file_hash,  # For duplicate detection
+                    # Version fields
+                    **version_meta
                 }
                 
                 texts.append(full_text)
