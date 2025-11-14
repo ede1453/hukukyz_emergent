@@ -35,9 +35,10 @@ class RetrievalPipeline:
         strategy: SearchStrategy = SearchStrategy.HYBRID,
         limit: int = None,
         filters: Optional[Dict] = None,
-        rerank: bool = True
+        rerank: bool = True,
+        include_deprecated: bool = False
     ) -> List[Dict]:
-        """Execute search with specified strategy
+        """Execute search with specified strategy and version filtering
         
         Args:
             query: Search query
@@ -46,6 +47,7 @@ class RetrievalPipeline:
             limit: Number of results
             filters: Metadata filters
             rerank: Apply reranking
+            include_deprecated: Include deprecated document versions
         
         Returns:
             List of retrieved documents
