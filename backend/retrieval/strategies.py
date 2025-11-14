@@ -117,6 +117,16 @@ class RetrievalPipeline:
                     limit=limit,
                     filters=filters
                 )
+                
+                # Normalize Qdrant results: flatten payload to top level
+                normalized_results = []
+                for hit in results:
+                    doc = hit.get('payload', {}).copy()
+                    doc['score'] = hit.get('score', 0.0)
+                    doc['id'] = hit.get('id')
+                    normalized_results.append(doc)
+                
+                return normalized_results
             
             return results
             
