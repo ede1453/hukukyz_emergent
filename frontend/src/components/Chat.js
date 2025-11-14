@@ -296,6 +296,95 @@ const Chat = () => {
         </div>
       </div>
 
+      {/* Related Articles Modal */}
+      {relatedArticles && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => setRelatedArticles(null)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full border border-gray-700 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                🔗 İlgili Maddeler
+              </h3>
+              <button
+                onClick={() => setRelatedArticles(null)}
+                className="text-gray-400 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-sm text-gray-400">
+                <span className="font-semibold text-blue-400">{relatedArticles.reference}</span> ile ilgili maddeler:
+              </p>
+            </div>
+            
+            {loadingRelated ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <span className="ml-3 text-gray-400">Yükleniyor...</span>
+              </div>
+            ) : relatedArticles.error ? (
+              <div className="text-center py-8 text-gray-400">
+                <p>❌ {relatedArticles.error}</p>
+              </div>
+            ) : relatedArticles.articles.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <p>📭 İlgili madde bulunamadı</p>
+                <p className="text-sm mt-2">Bu madde henüz başka maddelerle ilişkilendirilmemiş olabilir.</p>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {relatedArticles.articles.map((article, i) => (
+                  <div 
+                    key={i}
+                    className="bg-gray-900 p-4 rounded-lg border border-gray-700 hover:border-purple-600 transition"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="font-semibold text-blue-300 mb-1">
+                          {article.reference}
+                        </p>
+                        <p className="text-xs text-gray-500 capitalize">
+                          {article.relationship === 'related' ? '🔗 İlişkili' : 
+                           article.relationship === 'cited-by' ? '⬅️ Buna atıf yapan' :
+                           article.relationship === 'cites' ? '➡️ Bunun atıf yaptığı' :
+                           article.relationship}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setRelatedArticles(null);
+                          fetchRelatedArticles(article.reference);
+                        }}
+                        className="px-2 py-1 text-xs bg-purple-700 text-purple-200 rounded hover:bg-purple-600 transition"
+                        title="Bu maddenin ilgili maddelerini gör"
+                      >
+                        🔗
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setRelatedArticles(null)}
+                className="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              >
+                Kapat
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Citation Modal */}
       {selectedCitation && (
         <div 
