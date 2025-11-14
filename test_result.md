@@ -587,3 +587,57 @@ Dashboard → Click article → Read content → Click related → Read → Back
 
 Seamless integration with existing article browsing system!
 
+
+---
+## Auto-linking & User Authentication - Completed
+Date: 2025-11-14 21:56
+Status: ✅ WORKING
+
+### Auto-linking Feature:
+1. ✅ Auto-link function to parse legal references (TTK m.365, etc.)
+2. ✅ References in assistant messages become clickable links
+3. ✅ Click reference → Opens article content modal
+4. ✅ Regex pattern: (TTK|TBK|TMK|İİK|HMK) m.\d+
+
+### User Authentication System:
+**Backend (FastAPI):**
+- ✅ /api/auth/register - User registration
+- ✅ /api/auth/login - User login
+- ✅ /api/auth/me - Get current user profile
+- ✅ PUT /api/auth/me - Update profile
+- ✅ PUT /api/auth/preferences - Update preferences
+- ✅ JWT token authentication
+- ✅ Password hashing with bcrypt
+- ✅ HTTPBearer security
+
+**Frontend (React):**
+- ✅ AuthContext with JWT management
+- ✅ Login page (/login)
+- ✅ Register page (/register)
+- ✅ Profile page (/profile)
+- ✅ Auth-based UI (Giriş Yap / Kayıt Ol / Profilim buttons)
+- ✅ User greeting on home page
+- ✅ Logout functionality
+- ✅ Token stored in localStorage
+
+### Features:
+- User registration with email, password, full name
+- Secure login with JWT tokens (7 days expiry)
+- Profile editing
+- User preferences storage
+- Logout button
+- Protected routes ready (can be added)
+
+### Testing Results:
+- ✅ Auth API working (test user registered)
+- ✅ Register page rendered correctly
+- ✅ Login/Register buttons on home
+- ✅ JWT token generation working
+- ✅ Password hashing functional
+
+### Database:
+- MongoDB 'users' collection with:
+  - email, password (hashed), full_name
+  - created_at, updated_at
+  - preferences (include_deprecated, etc.)
+
