@@ -260,9 +260,12 @@ const Chat = () => {
                             {citation.source || `Kaynak ${i + 1}`}
                           </button>
                           <button
-                            onClick={() => fetchRelatedArticles(citation.source || citation.law_name)}
+                            onClick={() => {
+                              setNavigationStack([]);
+                              fetchArticleContent(citation.source || citation.law_name);
+                            }}
                             className="px-2 py-1 text-xs bg-purple-700 text-purple-200 rounded-full hover:bg-purple-600 transition cursor-pointer border border-purple-600"
-                            title="İlgili maddeleri gör"
+                            title="İçerik ve ilgili maddeleri gör"
                           >
                             🔗
                           </button>
