@@ -281,6 +281,21 @@ async def upload_document(
                 
                 logger.info(f"✅ Transactional upload successful")
                 
+                # If this replaces an old version, deprecate it
+                if replaces_version:
+                    try:
+                        await version_manager.deprecate_version(
+                            qdrant_manager.client,
+                            target_collection,
+                            f"{law_code}_base",
+                            replaces_version,
+                            reason=f"Replaced by version {version_meta['version']}",
+                            replaced_by=version_meta['version']
+                        )
+                        logger.info(f"✅ Deprecated old version: {replaces_version}")
+                    except Exception as e:
+                        logger.error(f"Failed to deprecate old version: {e}")
+                
             except Exception as upload_error:
                 logger.error(f"Upload failed: {upload_error}")
                 # In case of error, the batch won't be committed
