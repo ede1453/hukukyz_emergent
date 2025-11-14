@@ -158,11 +158,15 @@ Limited şirket nedir?
             
             logger.info(f"Processing question from {user_id}: {question[:100]}")
             
+            # Get user settings (include_deprecated)
+            include_deprecated = await self.get_user_setting(user_id, "include_deprecated", False)
+            
             # Execute workflow
             result = await execute_workflow(
                 query=question,
                 user_id=user_id,
-                session_id=f"telegram_{user_id}"
+                session_id=f"telegram_{user_id}",
+                include_deprecated=include_deprecated
             )
             
             # Get answer
