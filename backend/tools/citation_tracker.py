@@ -5,14 +5,18 @@ Tracks citations across documents and answers to:
 - Detect circular references
 - Build citation graphs
 - Find most cited articles
+
+Now with MongoDB persistence for tracking across sessions.
 """
 
 from typing import List, Dict, Set, Optional, Tuple
 from dataclasses import dataclass, field
 from collections import defaultdict
+from datetime import datetime
 import logging
 
 from backend.tools.legal_parser import LegalParser, LegalReference, ReferenceType
+from backend.database.mongodb import mongodb_client
 
 logger = logging.getLogger(__name__)
 
