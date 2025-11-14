@@ -88,6 +88,46 @@ class ResearcherAgent:
             logger.error(f"Research error: {e}")
             return []
     
+    def _enrich_with_related_articles(self, documents: List[Dict]) -> List[Dict]:
+        """Enrich documents with related article suggestions
+        
+        Args:
+            documents: Retrieved documents
+        
+        Returns:
+            Enriched documents with related_articles field
+        """
+        try:
+            from backend.tools.legal_parser import legal_parser
+            from backend.tools.citation_tracker import citation_tracker
+            
+            for doc in documents:
+                # Get document text
+                text = doc.get("text", "")
+                metadata = doc.get("payload") or doc.get("metadata", {})
+                
+                # Parse references in this document
+                refs = legal_parser.parse(text)
+                
+                if refs:
+                    # Track citations
+                    doc_id = metadata.get("doc_id", "unknown")
+                    citation_tracker.track_document(doc_id, text)
+                    
+                    # Get related articles for first reference
+                    main_ref = legal_parser.format_reference(refs[0])
+                    related = citation_tracker.get_related_articles(main_ref, limit=3)
+                    
+                    if related:
+                        doc["related_articles"] = [ref for ref, _ in related]
+                        logger.debug(f"Added {len(related)} related articles to {doc_id}")
+            
+            return documents
+            
+        except Exception as e:
+            logger.error(f"Error enriching with related articles: {e}")
+            return documents
+    
     async def get_article(
         self,
         kanun_adi: str,
