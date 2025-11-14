@@ -42,7 +42,8 @@ const Chat = () => {
         `${BACKEND_URL}/api/chat/query`,
         {
           query: userMessage,
-          session_id: sessionId
+          session_id: sessionId,
+          include_deprecated: includeDeprecated
         },
         { timeout: 120000 }
       );
