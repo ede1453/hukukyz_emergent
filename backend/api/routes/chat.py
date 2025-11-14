@@ -73,7 +73,8 @@ async def chat_query(request: QueryRequest):
         final_state = await execute_workflow(
             query=request.query,
             user_id=request.user_id,
-            session_id=request.session_id
+            session_id=request.session_id,
+            include_deprecated=request.include_deprecated
         )
         
         # Extract response fields
