@@ -58,15 +58,18 @@ class RetrievalPipeline:
             logger.info(f"Searching {collection} with {strategy} strategy")
             
             # Add version filtering to filters
-            if not include_deprecated:
-                from backend.core.version_manager import version_manager
-                version_filter = version_manager.build_version_filter(include_deprecated=False)
-                
-                if filters and version_filter:
-                    # Merge filters (simplified - would need proper filter merging)
-                    filters = version_filter
-                elif version_filter:
-                    filters = version_filter
+            # TEMPORARY FIX: Disable version filtering until payload indexes are created
+            # Qdrant requires payload indexes for filtered fields
+            # TODO: Create payload index for 'status' field, then re-enable this
+            # if not include_deprecated:
+            #     from backend.core.version_manager import version_manager
+            #     version_filter = version_manager.build_version_filter(include_deprecated=False)
+            #     
+            #     if filters and version_filter:
+            #         # Merge filters (simplified - would need proper filter merging)
+            #         filters = version_filter
+            #     elif version_filter:
+            #         filters = version_filter
             
             if strategy == SearchStrategy.VECTOR:
                 results = await self._vector_search(query, collection, limit, filters)
