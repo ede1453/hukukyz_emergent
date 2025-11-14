@@ -102,6 +102,33 @@ const Home = () => {
               📖 API Docs
             </a>
           </div>
+
+          {/* Auth Buttons */}
+          <div className="mt-6 flex justify-center gap-3">
+            {isAuthenticated ? (
+              <Link
+                to="/profile"
+                className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              >
+                👤 Profilim
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+                >
+                  🔐 Giriş Yap
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                  ✍️ Kayıt Ol
+                </Link>
+              </>
+            )}
+          </div>
         </div>
         
         <div className="mt-8 text-sm text-gray-500">
