@@ -84,7 +84,7 @@ class CitationTracker:
             logger.warning(f"Citation tracker initialization failed: {e}. Running in memory-only mode.")
             self._initialized = True  # Mark as initialized but with fallback mode
     
-    def track_document(self, doc_id: str, text: str) -> List[LegalReference]:
+    async def track_document(self, doc_id: str, text: str) -> List[LegalReference]:
         """Track citations in a document
         
         Args:
@@ -94,24 +94,71 @@ class CitationTracker:
         Returns:
             List of parsed references
         """
+        await self._ensure_initialized()
+        
         # Parse references
         references = self.parser.parse(text)
         
-        # Track each reference
-        for ref in references:
-            formatted_ref = self.parser.format_reference(ref)
-            
-            # Create node if doesn't exist
-            if formatted_ref not in self.citations:
-                self.citations[formatted_ref] = CitationNode(reference=formatted_ref)
-            
-            # Add citation from this document
-            self.citations[formatted_ref].add_citation_from(doc_id)
-            
-            # Track in document
-            self.document_citations[doc_id].append(formatted_ref)
+        if not references:
+            return []
         
-        logger.debug(f"Tracked {len(references)} citations in document {doc_id}")
+        try:
+            db = mongodb_client.get_database()
+            
+            # Track each reference
+            for ref in references:
+                formatted_ref = self.parser.format_reference(ref)
+                
+                # Create/update node in memory
+                if formatted_ref not in self.citations:
+                    self.citations[formatted_ref] = CitationNode(reference=formatted_ref)
+                
+                # Add citation from this document
+                self.citations[formatted_ref].add_citation_from(doc_id)
+                
+                # Update in MongoDB
+                await db.citations.update_one(
+                    {"reference": formatted_ref},
+                    {
+                        "$set": {
+                            "reference": formatted_ref,
+                            "citation_count": self.citations[formatted_ref].citation_count,
+                            "cited_by": list(self.citations[formatted_ref].cited_by),
+                            "cites": list(self.citations[formatted_ref].cites),
+                            "updated_at": datetime.utcnow()
+                        },
+                        "$setOnInsert": {
+                            "created_at": datetime.utcnow()
+                        }
+                    },
+                    upsert=True
+                )
+                
+                # Track in document
+                if formatted_ref not in self.document_citations[doc_id]:
+                    self.document_citations[doc_id].append(formatted_ref)
+            
+            # Update document citations in MongoDB
+            await db.document_citations.update_one(
+                {"doc_id": doc_id},
+                {
+                    "$set": {
+                        "doc_id": doc_id,
+                        "citations": self.document_citations[doc_id],
+                        "updated_at": datetime.utcnow()
+                    },
+                    "$setOnInsert": {
+                        "created_at": datetime.utcnow()
+                    }
+                },
+                upsert=True
+            )
+            
+            logger.debug(f"Tracked {len(references)} citations in document {doc_id}")
+            
+        except Exception as e:
+            logger.error(f"Error persisting citations: {e}. Continuing with memory-only tracking.")
+        
         return references
     
     def get_most_cited(self, limit: int = 10) -> List[Tuple[str, int]]:
