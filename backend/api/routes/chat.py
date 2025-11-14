@@ -23,6 +23,10 @@ class QueryRequest(BaseModel):
     query: str = Field(description="User query")
     user_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     session_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    include_deprecated: bool = Field(
+        default=False,
+        description="Include deprecated/outdated document versions in search results"
+    )
 
 
 class QueryResponse(BaseModel):
