@@ -222,7 +222,7 @@ Limited şirket nedir?
         
         try:
             # Get history from MongoDB
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             history = await db.telegram_history.find(
                 {"user_id": user_id}
             ).sort("timestamp", -1).limit(5).to_list(5)
