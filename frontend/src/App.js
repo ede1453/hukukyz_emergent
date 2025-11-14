@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Chat from "./components/Chat";
 import Upload from "./components/Upload";
 import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Profile from "./components/Profile";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
