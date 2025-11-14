@@ -106,7 +106,7 @@ class CitationTracker:
             return []
         
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             
             # Track each reference
             for ref in references:
@@ -176,7 +176,7 @@ class CitationTracker:
         await self._ensure_initialized()
         
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             
             # Get from MongoDB (always fresh)
             cursor = db.citations.find(
@@ -316,7 +316,7 @@ class CitationTracker:
         await self._ensure_initialized()
         
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             
             # Get stats from MongoDB
             total_citations = 0
@@ -385,7 +385,7 @@ class CitationTracker:
         await self._ensure_initialized()
         
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             
             # Get the reference node
             ref_doc = await db.citations.find_one({"reference": reference})
@@ -430,7 +430,7 @@ class CitationTracker:
         await self._ensure_initialized()
         
         try:
-            db = mongodb_client.get_database()
+            db = mongodb_client.db
             
             # Clear MongoDB collections
             await db.citations.delete_many({})
