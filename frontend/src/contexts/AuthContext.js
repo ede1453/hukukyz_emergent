@@ -70,6 +70,10 @@ export const AuthProvider = ({ children }) => {
     return userData;
   };
 
+  const isAdmin = () => {
+    return user && user.role === 'admin';
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     setToken(null);
