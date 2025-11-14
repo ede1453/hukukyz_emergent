@@ -151,5 +151,6 @@ def create_initial_state(
         created_at=datetime.utcnow().isoformat(),
         total_tokens=0,
         agent_iterations=0,
+        agent_timings={},
         errors=[]
     )
