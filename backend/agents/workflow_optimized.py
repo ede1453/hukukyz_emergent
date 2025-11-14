@@ -84,10 +84,12 @@ async def researcher_node(state: AgentState) -> Dict:
             query = params.get("query", query)
             collections = [params.get("collection")] if "collection" in params else collections
     
-    # Execute research
+    # Execute research with deprecated flag from state
+    include_deprecated = state.get("include_deprecated", False)
     documents = await researcher_agent.research(
         query=query,
-        collections=collections
+        collections=collections,
+        include_deprecated=include_deprecated
     )
     
     return {
