@@ -54,6 +54,89 @@ const Dashboard = () => {
     fetchDashboardData();
   };
 
+  const fetchArticleContent = async (reference) => {
+    setLoadingArticle(true);
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/citations/article/${encodeURIComponent(reference)}`
+      );
+      
+      if (response.data.success) {
+        // Save current state to navigation stack
+        if (articleContent) {
+          setNavigationStack(prev => [...prev, articleContent]);
+        }
+        
+        setArticleContent(response.data.data);
+        
+        // Also fetch related articles
+        const relatedResponse = await axios.get(
+          `${BACKEND_URL}/api/citations/related/${encodeURIComponent(reference)}?limit=5`
+        );
+        
+        if (relatedResponse.data.success) {
+          setRelatedArticles({
+            reference,
+            articles: relatedResponse.data.data
+          });
+        }
+      } else {
+        setArticleContent({
+          reference,
+          error: response.data.error || 'İçerik bulunamadı'
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching article:', error);
+      setArticleContent({
+        reference,
+        error: 'İçerik yüklenirken hata oluştu'
+      });
+    } finally {
+      setLoadingArticle(false);
+    }
+  };
+
+  const goBack = () => {
+    if (navigationStack.length > 0) {
+      const previous = navigationStack[navigationStack.length - 1];
+      setNavigationStack(prev => prev.slice(0, -1));
+      setArticleContent(previous);
+      
+      // Fetch related for the previous article
+      fetchRelatedArticles(previous.reference);
+    } else {
+      // Close modal
+      setArticleContent(null);
+      setRelatedArticles(null);
+    }
+  };
+
+  const fetchRelatedArticles = async (reference) => {
+    setLoadingRelated(true);
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/citations/related/${encodeURIComponent(reference)}?limit=5`
+      );
+      
+      if (response.data.success) {
+        setRelatedArticles({
+          reference,
+          articles: response.data.data
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching related articles:', error);
+      setRelatedArticles({
+        reference,
+        articles: [],
+        error: 'İlgili maddeler yüklenirken hata oluştu'
+      });
+    } finally {
+      setLoadingRelated(false);
+    }
+  };
+
   if (loading && !stats) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
