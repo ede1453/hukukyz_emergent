@@ -212,13 +212,37 @@ const QdrantAdmin = () => {
                 </div>
               </div>
 
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4 space-y-2">
                 <button
                   onClick={() => setSelectedCollection(collection)}
-                  className="flex-1 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition text-sm"
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition text-sm"
                 >
                   📊 Detaylar
                 </button>
+                
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={() => handleCreateSnapshot(collection.id)}
+                    disabled={actionLoading === collection.id}
+                    className="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition text-xs disabled:opacity-50"
+                  >
+                    📸 Snapshot
+                  </button>
+                  <button
+                    onClick={() => setConfirmDialog({ type: 'recreate', collection })}
+                    disabled={actionLoading === collection.id}
+                    className="px-3 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition text-xs disabled:opacity-50"
+                  >
+                    🔄 Yenile
+                  </button>
+                  <button
+                    onClick={() => setConfirmDialog({ type: 'delete', collection })}
+                    disabled={actionLoading === collection.id}
+                    className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition text-xs disabled:opacity-50"
+                  >
+                    🗑️ Sil
+                  </button>
+                </div>
               </div>
             </div>
           ))}
