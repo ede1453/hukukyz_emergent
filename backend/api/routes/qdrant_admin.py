@@ -103,7 +103,7 @@ async def get_collection_info(
 ):
     """Get detailed collection information (admin only)"""
     try:
-        client = qdrant_client.client
+        client = qdrant_manager.client
         
         # Get collection info
         info = client.get_collection(collection_name=collection_name)
