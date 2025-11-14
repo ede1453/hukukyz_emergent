@@ -235,3 +235,69 @@ async def update_preferences(
     except Exception as e:
         logger.error(f"Preferences update error: {e}")
         raise HTTPException(status_code=500, detail="Preferences update failed")
+
+
+async def require_admin(current_user: dict = Depends(get_current_user)):
+    """Verify user has admin role"""
+    if current_user.get("role") != "admin":
+        raise HTTPException(
+            status_code=403, 
+            detail="Bu işlem için admin yetkisi gereklidir"
+        )
+    return current_user
+
+
+@router.get("/users")
+async def list_users(current_user: dict = Depends(require_admin)):
+    """Get all users (admin only)"""
+    try:
+        db = mongodb_client.db
+        users = await db.users.find({}, {"_id": 0, "password": 0}).to_list(1000)
+        
+        return {
+            "success": True,
+            "users": users
+        }
+        
+    except Exception as e:
+        logger.error(f"List users error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to fetch users")
+
+
+@router.put("/users/{user_email}/role")
+async def update_user_role(
+    user_email: str,
+    role_data: dict,
+    current_user: dict = Depends(require_admin)
+):
+    """Update user role (admin only)"""
+    try:
+        db = mongodb_client.db
+        
+        new_role = role_data.get("role")
+        if new_role not in ["admin", "avukat"]:
+            raise HTTPException(status_code=400, detail="Geçersiz rol. Sadece 'admin' veya 'avukat' olabilir")
+        
+        result = await db.users.update_one(
+            {"email": user_email},
+            {
+                "$set": {
+                    "role": new_role,
+                    "updated_at": datetime.utcnow().isoformat()
+                }
+            }
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
+        
+        return {
+            "success": True,
+            "message": f"Kullanıcı rolü '{new_role}' olarak güncellendi"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Update role error: {e}")
+        raise HTTPException(status_code=500, detail="Rol güncellenemedi")
