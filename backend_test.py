@@ -12,7 +12,7 @@ from typing import Dict, Any
 from datetime import datetime
 
 # Use the production URL from frontend/.env
-BASE_URL = "https://legaltech-tr.preview.emergentagent.com"
+BASE_URL = "https://lawbot-tr.preview.emergentagent.com"
 
 class HukukYZTester:
     def __init__(self):
