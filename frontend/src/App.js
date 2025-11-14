@@ -60,7 +60,7 @@ const Home = () => {
             </p>
           </div>
           
-          <div className="mt-6 grid grid-cols-3 gap-4">
+          <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link
               to="/chat"
               className="text-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
@@ -72,6 +72,12 @@ const Home = () => {
               className="text-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
             >
               📄 PDF Yükle
+            </Link>
+            <Link
+              to="/dashboard"
+              className="text-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium"
+            >
+              📊 Dashboard
             </Link>
             <a
               href="/api/docs"
