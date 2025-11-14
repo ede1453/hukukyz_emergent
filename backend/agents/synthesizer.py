@@ -207,8 +207,12 @@ Bu bilgileri kullanarak kapsamlı, kaynak gösterimli bir cevap hazırla.""")
             # Parse answer for legal references
             parsed_refs = legal_parser.parse(answer)
             
-            # Track citations
-            citation_tracker.track_document("answer", answer)
+            # Track citations (async, but don't wait - fire and forget)
+            import asyncio
+            try:
+                asyncio.create_task(citation_tracker.track_document("answer", answer))
+            except Exception as e:
+                logger.debug(f"Citation tracking skipped: {e}")
             
             # Enrich each citation
             for citation in citations:
