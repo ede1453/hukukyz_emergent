@@ -29,6 +29,31 @@ const Chat = () => {
     scrollToBottom();
   }, [messages]);
 
+  const fetchRelatedArticles = async (reference) => {
+    setLoadingRelated(true);
+    try {
+      const response = await axios.get(
+        `${BACKEND_URL}/api/citations/related/${encodeURIComponent(reference)}?limit=5`
+      );
+      
+      if (response.data.success) {
+        setRelatedArticles({
+          reference,
+          articles: response.data.data
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching related articles:', error);
+      setRelatedArticles({
+        reference,
+        articles: [],
+        error: 'İlgili maddeler yüklenirken hata oluştu'
+      });
+    } finally {
+      setLoadingRelated(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || loading) return;
