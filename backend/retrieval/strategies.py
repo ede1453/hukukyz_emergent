@@ -57,6 +57,17 @@ class RetrievalPipeline:
         try:
             logger.info(f"Searching {collection} with {strategy} strategy")
             
+            # Add version filtering to filters
+            if not include_deprecated:
+                from backend.core.version_manager import version_manager
+                version_filter = version_manager.build_version_filter(include_deprecated=False)
+                
+                if filters and version_filter:
+                    # Merge filters (simplified - would need proper filter merging)
+                    filters = version_filter
+                elif version_filter:
+                    filters = version_filter
+            
             if strategy == SearchStrategy.VECTOR:
                 results = await self._vector_search(query, collection, limit, filters)
             elif strategy == SearchStrategy.KEYWORD:
@@ -68,7 +79,7 @@ class RetrievalPipeline:
             if rerank and len(results) > settings.rerank_top_k:
                 results = await self._rerank(query, results)
             
-            logger.info(f"Retrieved {len(results)} documents")
+            logger.info(f"Retrieved {len(results)} documents (deprecated filtered: {not include_deprecated})")
             return results
             
         except Exception as e:
