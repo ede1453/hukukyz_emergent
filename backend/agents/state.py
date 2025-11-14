@@ -102,7 +102,8 @@ class VerificationResult(TypedDict):
 def create_initial_state(
     query: str,
     user_id: str,
-    session_id: str
+    session_id: str,
+    include_deprecated: bool = False
 ) -> AgentState:
     """Create initial agent state"""
     return AgentState(
@@ -110,6 +111,7 @@ def create_initial_state(
         query=query,
         user_id=user_id,
         session_id=session_id,
+        include_deprecated=include_deprecated,
         
         # Planning
         plan=[],
