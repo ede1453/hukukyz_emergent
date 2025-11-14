@@ -36,6 +36,75 @@ const QdrantAdmin = () => {
     }
   };
 
+  const handleDeleteCollection = async (collectionId) => {
+    setActionLoading(collectionId);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `${BACKEND_URL}/api/admin/qdrant/collections/${collectionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      alert(`✅ '${collectionId}' koleksiyonu silindi`);
+      await fetchCollections();
+      setConfirmDialog(null);
+    } catch (err) {
+      console.error('Delete error:', err);
+      const message = err.response?.data?.detail || 'Silme işlemi başarısız oldu';
+      alert(`❌ ${message}`);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleCreateSnapshot = async (collectionId) => {
+    setActionLoading(collectionId);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        `${BACKEND_URL}/api/admin/qdrant/collections/${collectionId}/snapshot`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      alert(`✅ Snapshot oluşturuldu: ${response.data.snapshot_name}`);
+    } catch (err) {
+      console.error('Snapshot error:', err);
+      const message = err.response?.data?.detail || 'Snapshot oluşturulamadı';
+      alert(`❌ ${message}`);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRecreateCollection = async (collectionId) => {
+    setActionLoading(collectionId);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `${BACKEND_URL}/api/admin/qdrant/collections/recreate/${collectionId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      alert(`✅ '${collectionId}' koleksiyonu yeniden oluşturuldu`);
+      await fetchCollections();
+      setConfirmDialog(null);
+    } catch (err) {
+      console.error('Recreate error:', err);
+      const message = err.response?.data?.detail || 'Yeniden oluşturma başarısız';
+      alert(`❌ ${message}`);
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
