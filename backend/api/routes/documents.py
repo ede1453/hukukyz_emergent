@@ -313,7 +313,8 @@ async def upload_document(
                 "articles_count": len(articles),
                 "file_name": file.filename,
                 "version": version_meta['version'],
-                "effective_date": version_meta['effective_date']
+                "effective_date": version_meta['effective_date'],
+                "replaces_version": replaces_version if replaces_version else None
             }
             
         finally:
