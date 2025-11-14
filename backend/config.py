@@ -76,9 +76,14 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = os.getenv("LOG_LEVEL", "INFO")
     
+    # Telegram Bot
+    telegram_bot_token: str = os.getenv("TELEGRAM_BOT_TOKEN", "")
+    telegram_webhook_url: str = os.getenv("TELEGRAM_WEBHOOK_URL", "")
+    
     class Config:
         env_file = ".env"
         case_sensitive = False
+        extra = "ignore"  # Allow extra fields in .env without validation errors
 
 
 # Global settings instance
