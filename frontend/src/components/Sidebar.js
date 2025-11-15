@@ -45,10 +45,21 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       {/* Header */}
       <div className="p-4 border-b border-gray-700 flex items-center justify-between">
         {!collapsed && (
-          <div className="flex items-center gap-2">
+          <Link 
+            to={isUserAdmin ? '/admin/dashboard' : '/chat'} 
+            className="flex items-center gap-2 hover:opacity-80 transition"
+          >
             <span className="text-2xl">🏛️</span>
             <span className="text-lg font-bold text-white">HukukYZ</span>
-          </div>
+          </Link>
+        )}
+        {collapsed && (
+          <Link 
+            to={isUserAdmin ? '/admin/dashboard' : '/chat'}
+            className="hover:opacity-80 transition"
+          >
+            <span className="text-2xl">🏛️</span>
+          </Link>
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
