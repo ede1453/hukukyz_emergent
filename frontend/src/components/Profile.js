@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
-import Navbar from './Navbar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -83,7 +82,7 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <p className="text-gray-400 mb-4">Giriş yapmanız gerekiyor</p>
           <button
@@ -98,27 +97,12 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      <Navbar />
-      
-      {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-white">
-              👤 Profil Ayarları
-            </h1>
-            <button
-              onClick={() => navigate('/')}
-              className="text-gray-400 hover:text-white transition"
-            >
-              ← Ana Sayfa
-            </button>
-          </div>
-        </div>
-      </div>
+    <div style={{ height: '100vh', overflowY: 'auto' }} className="bg-gray-900 p-6">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-white mb-6">
+          👤 Profil Ayarları
+        </h1>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Message */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-lg border ${
@@ -320,141 +304,7 @@ const Profile = () => {
             </div>
           )}
         </div>
-
-        {/* Credit History */}
-        <div className="bg-gray-800 rounded-lg border border-gray-700 p-8 mb-6">
-          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <span>💳</span> Kredi Geçmişi
-          </h2>
-          <CreditHistoryWidget />
-        </div>
-
-        {/* Logout Button */}
-        <div className="bg-gray-800 rounded-lg border border-gray-700 p-8">
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <span>🚪</span> Oturum
-          </h2>
-          <p className="text-gray-400 mb-4">
-            Hesabınızdan güvenli bir şekilde çıkış yapın.
-          </p>
-          <button
-            onClick={handleLogout}
-            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
-          >
-            Çıkış Yap
-          </button>
-        </div>
       </div>
-    </div>
-  );
-};
-
-// Credit History Widget Component
-const CreditHistoryWidget = () => {
-  const [history, setHistory] = useState([]);
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { token } = useAuth();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const [historyRes, statsRes] = await Promise.all([
-        axios.get(`${BACKEND_URL}/api/credits/history?limit=10`, {
-          headers: { Authorization: `Bearer ${token}` }
-        }),
-        axios.get(`${BACKEND_URL}/api/credits/stats`, {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-      ]);
-
-      if (historyRes.data.success) {
-        setHistory(historyRes.data.transactions);
-      }
-      if (statsRes.data.success) {
-        setStats(statsRes.data.stats);
-      }
-    } catch (error) {
-      console.error('Error fetching credit data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return <p className="text-gray-400 text-center py-4">Yükleniyor...</p>;
-  }
-
-  return (
-    <div>
-      {/* Stats Summary */}
-      {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <p className="text-xs text-gray-400 mb-1">Mevcut</p>
-            <p className="text-xl font-bold text-white">{stats.current_balance.toFixed(2)}</p>
-          </div>
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <p className="text-xs text-gray-400 mb-1">Satın Alınan</p>
-            <p className="text-xl font-bold text-green-400">{stats.total_purchased.toFixed(2)}</p>
-          </div>
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <p className="text-xs text-gray-400 mb-1">Harcanan</p>
-            <p className="text-xl font-bold text-red-400">{stats.total_spent.toFixed(2)}</p>
-          </div>
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <p className="text-xs text-gray-400 mb-1">İşlem</p>
-            <p className="text-xl font-bold text-blue-400">{stats.transaction_count}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Recent Transactions */}
-      {history.length === 0 ? (
-        <p className="text-gray-400 text-center py-4">Henüz işlem bulunmuyor</p>
-      ) : (
-        <div className="space-y-2">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-semibold text-gray-300">Son 10 İşlem</h3>
-            <a href="/credits" className="text-xs text-blue-400 hover:text-blue-300">
-              Tümünü Gör →
-            </a>
-          </div>
-          {history.map((transaction, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-3 bg-gray-700 rounded-lg hover:bg-gray-650 transition"
-            >
-              <div className="flex items-center gap-3">
-                <span className={`text-2xl ${
-                  transaction.type === 'credit' ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {transaction.type === 'credit' ? '➕' : '➖'}
-                </span>
-                <div>
-                  <p className="text-sm text-white font-medium">{transaction.reason}</p>
-                  <p className="text-xs text-gray-400">
-                    {new Date(transaction.created_at).toLocaleString('tr-TR')}
-                  </p>
-                </div>
-              </div>
-              <div className="text-right">
-                <p className={`text-sm font-bold ${
-                  transaction.amount > 0 ? 'text-green-400' : 'text-red-400'
-                }`}>
-                  {transaction.amount > 0 ? '+' : ''}{transaction.amount.toFixed(4)}
-                </p>
-                <p className="text-xs text-gray-400">
-                  Bakiye: {transaction.balance_after.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
