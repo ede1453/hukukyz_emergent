@@ -10,13 +10,15 @@ const Navbar = () => {
   const { user, token, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
+  const isUserAdmin = user && user.role === 'admin';
+
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && !isUserAdmin) {
       fetchBalance();
       const interval = setInterval(fetchBalance, 30000);
       return () => clearInterval(interval);
     }
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated, token, isUserAdmin]);
 
   const fetchBalance = async () => {
     try {
