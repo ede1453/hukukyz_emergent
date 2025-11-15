@@ -10,6 +10,9 @@ const UserManagement = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(null);
+  const [addCreditDialog, setAddCreditDialog] = useState(null);
+  const [creditAmount, setCreditAmount] = useState(10);
+  const [creditReason, setCreditReason] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
   const [message, setMessage] = useState({ type: '', text: '' });
   const navigate = useNavigate();
