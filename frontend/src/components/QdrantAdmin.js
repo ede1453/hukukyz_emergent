@@ -137,6 +137,8 @@ const QdrantAdmin = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      
       {/* Header */}
       <div className="bg-gray-800 border-b border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-6">
