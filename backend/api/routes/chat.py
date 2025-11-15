@@ -313,6 +313,24 @@ async def most_cited_articles(limit: int = 10):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/rate-limit-status")
+async def get_rate_limit_status(current_user: dict = Depends(get_current_user)):
+    """Get current rate limit status"""
+    from backend.middleware.rate_limiter import rate_limiter
+    
+    info = await rate_limiter.get_rate_limit_info(
+        current_user["email"],
+        current_user.get("role", "avukat")
+    )
+    
+    return {
+        "success": True,
+        "user": current_user["email"],
+        "role": current_user.get("role", "avukat"),
+        "rate_limit": info
+    }
+
+
 @router.get("/health", response_model=HealthResponse)
 async def health_check():
     """Check health of chat service and MCP servers"""
