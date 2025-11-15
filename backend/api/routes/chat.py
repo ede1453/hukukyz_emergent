@@ -251,29 +251,38 @@ async def get_user_sessions(current_user: dict = Depends(get_current_user), limi
 
 
 @router.get("/history/{session_id}")
-async def get_chat_history(session_id: str, current_user: dict = Depends(get_current_user), limit: int = 20):
+async def get_chat_history(session_id: str, current_user: dict = Depends(get_current_user), limit: int = 50):
     """Get conversation history for a session"""
     try:
         conversations = get_conversations_collection()
         
-        # Get conversations for this session, sorted by timestamp
+        # Verify user owns this session
+        first_msg = await conversations.find_one(
+            {"session_id": session_id},
+            {"_id": 0, "user_id": 1}
+        )
+        
+        if not first_msg or first_msg.get("user_id") != current_user["email"]:
+            raise HTTPException(status_code=403, detail="Bu oturuma erişim yetkiniz yok")
+        
+        # Retrieve conversation history
         history = await conversations.find(
             {"session_id": session_id},
-            {"_id": 0}  # Exclude MongoDB _id
-        ).sort("timestamp", -1).limit(limit).to_list(limit)
-        
-        # Reverse to get chronological order
-        history.reverse()
+            {"_id": 0}
+        ).sort("timestamp", 1).limit(limit).to_list(limit)
         
         return {
+            "success": True,
             "session_id": session_id,
-            "count": len(history),
-            "conversations": history
+            "history": history,
+            "count": len(history)
         }
         
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"History retrieval error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Geçmiş alınamadı")
 
 
 @router.delete("/history/{session_id}")
