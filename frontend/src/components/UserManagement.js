@@ -118,6 +118,39 @@ const UserManagement = () => {
     }
   };
 
+  const handleAddCredits = async () => {
+    if (creditAmount <= 0 || !creditReason.trim()) {
+      setMessage({ type: 'error', text: '❌ Lütfen geçerli bir miktar ve açıklama girin' });
+      return;
+    }
+
+    setActionLoading(addCreditDialog.user.email);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `${BACKEND_URL}/api/credits/admin/add?user_email=${addCreditDialog.user.email}&amount=${creditAmount}&reason=${encodeURIComponent(creditReason)}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+      
+      setMessage({ 
+        type: 'success', 
+        text: `✅ ${creditAmount} kredi başarıyla eklendi` 
+      });
+      setAddCreditDialog(null);
+      setCreditAmount(10);
+      setCreditReason('');
+    } catch (err) {
+      console.error('Add credits error:', err);
+      const errorMsg = err.response?.data?.detail || 'Kredi eklenemedi';
+      setMessage({ type: 'error', text: `❌ ${errorMsg}` });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
