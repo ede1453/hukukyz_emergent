@@ -89,6 +89,12 @@ const Home = () => {
             >
               💬 Chat Başlat
             </Link>
+            <Link
+              to="/history"
+              className="text-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium"
+            >
+              📜 Geçmiş
+            </Link>
             {isAdmin() && (
               <Link
                 to="/upload"
@@ -103,14 +109,16 @@ const Home = () => {
             >
               📊 Dashboard
             </Link>
-            <a
-              href="/api/docs"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
-            >
-              📖 API Docs
-            </a>
+            {isAdmin() && (
+              <a
+                href="/api/docs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-center px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition"
+              >
+                📖 API Docs
+              </a>
+            )}
           </div>
 
           {/* Admin Only Section */}
