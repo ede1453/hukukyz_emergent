@@ -75,7 +75,7 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         )
         
         # Execute workflow
-        final_state = await meta_controller(initial_state)
+        final_state = await optimized_workflow.ainvoke(initial_state)
         
         # Extract response fields
         answer = final_state.get("final_answer", "Cevap oluşturulamadı")
