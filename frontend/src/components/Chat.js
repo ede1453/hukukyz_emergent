@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Chat = () => {
+  const { token, isAuthenticated, user, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const [creditBalance, setCreditBalance] = useState(null);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -23,6 +28,34 @@ const Chat = () => {
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [includeDeprecated, setIncludeDeprecated] = useState(false);
   const messagesEndRef = useRef(null);
+  const isUserAdmin = isAdmin();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
+    
+    // Fetch credit balance for non-admin users
+    if (!isUserAdmin) {
+      fetchCreditBalance();
+      const interval = setInterval(fetchCreditBalance, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated, isUserAdmin, navigate]);
+
+  const fetchCreditBalance = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/credits/balance`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data.success) {
+        setCreditBalance(response.data.balance);
+      }
+    } catch (error) {
+      console.error('Error fetching balance:', error);
+    }
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
