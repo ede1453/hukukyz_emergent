@@ -48,20 +48,30 @@ const Navbar = () => {
 
           {/* Right side */}
           <div className="flex items-center gap-4">
-            {/* Credit Balance */}
-            <div 
-              onClick={() => navigate('/credits')}
-              className="flex items-center gap-2 bg-gray-900 rounded-lg px-3 py-2 border border-gray-600 cursor-pointer hover:border-blue-500 transition"
-              title="Kredi Yönetimi"
-            >
-              <span className="text-yellow-400 text-lg">💳</span>
-              <div className="text-left">
-                <p className="text-xs text-gray-400">Credits</p>
-                <p className="text-sm font-bold text-white">
-                  {balance !== null ? balance.toFixed(2) : '---'}
-                </p>
+            {/* Credit Balance - Only for non-admin users */}
+            {!isUserAdmin && (
+              <div 
+                onClick={() => navigate('/credits')}
+                className="flex items-center gap-2 bg-gray-900 rounded-lg px-3 py-2 border border-gray-600 cursor-pointer hover:border-blue-500 transition"
+                title="Kredi Yönetimi"
+              >
+                <span className="text-yellow-400 text-lg">💳</span>
+                <div className="text-left">
+                  <p className="text-xs text-gray-400">Credits</p>
+                  <p className="text-sm font-bold text-white">
+                    {balance !== null ? balance.toFixed(2) : '---'}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
+            
+            {/* Admin Badge */}
+            {isUserAdmin && (
+              <div className="bg-blue-900 border border-blue-600 rounded-lg px-3 py-2">
+                <p className="text-xs text-blue-300 font-semibold">👨‍💼 Admin</p>
+                <p className="text-xs text-blue-400">Sınırsız</p>
+              </div>
+            )}
 
             {/* User Menu */}
             <div className="flex items-center gap-2">
