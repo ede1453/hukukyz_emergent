@@ -136,11 +136,11 @@ const QdrantAdmin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <Navbar />
+    <div style={{ height: '100vh', overflowY: 'auto' }} className="bg-gray-900 text-white p-6">
+      <h1 className="text-3xl font-bold mb-6">🗄️ Qdrant Yönetimi</h1>
       
-      {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700">
+      {/* Content */}
+      <div>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div>
