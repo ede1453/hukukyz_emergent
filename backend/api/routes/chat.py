@@ -1,11 +1,10 @@
 """Chat API routes"""
 
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel, Field
-from typing import Optional, List, Dict
-import logging
-import uuid
+from pydantic import BaseModel
+from typing import Optional, List
 from datetime import datetime
+import logging
 
 from backend.agents.state import create_initial_state, AgentState
 from backend.agents.meta_controller import meta_controller
@@ -20,32 +19,25 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-# Request/Response Models
 class QueryRequest(BaseModel):
-    """Chat query request"""
-    query: str = Field(description="User query")
-    user_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    session_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    include_deprecated: bool = Field(
-        default=False,
-        description="Include deprecated/outdated document versions in search results"
-    )
+    query: str
+    session_id: Optional[str] = "default"
+    user_id: Optional[str] = None
+    include_deprecated: Optional[bool] = False
 
 
 class QueryResponse(BaseModel):
-    """Chat query response"""
     answer: str
-    citations: List[Dict] = []
+    citations: List[str] = []
     confidence: float = 0.0
-    reasoning: str = ""
-    metadata: Dict = {}
+    metadata: dict = {}
 
 
 class HealthResponse(BaseModel):
-    """Health check response"""
     status: str
-    mcp_servers: Dict
-    timestamp: str
+    database: dict
+    qdrant: dict
+    endpoints: dict
 
 
 @router.post("/query", response_model=QueryResponse)
@@ -74,37 +66,21 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
                     detail=f"Yetersiz kredi. Mevcut bakiye: {current_balance:.2f}. Lütfen kredi yükleyin."
                 )
         
-        # Import cache and config
-        from backend.config import settings
-        from backend.core.cache import cache_manager
-        
-        # Check cache first
-        cached_result = await cache_manager.get_query_cache(request.query)
-        if cached_result:
-            logger.info("✅ Returning cached result")
-            return QueryResponse(**cached_result)
-        
-        # Cache miss - execute workflow
-        if settings.use_optimized_workflow:
-            from backend.agents.workflow_optimized import execute_workflow
-            logger.info("Using optimized workflow")
-        else:
-            from backend.agents.workflow import execute_workflow
-            logger.info("Using standard workflow")
-        
-        # Execute full agent workflow
-        final_state = await execute_workflow(
+        # Create initial state
+        initial_state = create_initial_state(
             query=request.query,
-            user_id=request.user_id,
             session_id=request.session_id,
+            user_id=current_user["email"],
             include_deprecated=request.include_deprecated
         )
         
+        # Execute workflow
+        final_state = await meta_controller(initial_state)
+        
         # Extract response fields
-        answer = final_state.get("final_answer", "Bir hata oluştu.")
+        answer = final_state.get("final_answer", "Cevap oluşturulamadı")
         citations = final_state.get("citations", [])
         confidence = final_state.get("confidence", 0.0)
-        reasoning = final_state.get("reasoning", "")
         
         # Calculate response time
         response_time = time.time() - start_time
@@ -124,10 +100,14 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
             metadata["agent_timings"] = final_state["agent_timings"]
             metadata["total_workflow_time"] = final_state.get("total_workflow_time", 0)
         
-        # Calculate token usage and cost
-        # Estimate tokens (in production, use actual token counts from LLM response)
-        estimated_input_tokens = len(request.query.split()) * 1.3  # Rough estimate
-        estimated_output_tokens = len(answer.split()) * 1.3
+        # Calculate token usage and cost - IMPROVED ESTIMATION
+        # More accurate token estimation
+        estimated_input_tokens = len(request.query.split()) * 1.5  # Words to tokens ratio
+        estimated_output_tokens = len(answer.split()) * 1.5
+        
+        # Add context tokens (retrieved documents)
+        context_length = sum(len(doc.get("text", "").split()) for doc in final_state.get("retrieved_documents", []))
+        estimated_input_tokens += context_length * 1.3
         
         credit_cost = 0.0
         
@@ -161,6 +141,8 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         # Add credit info to metadata
         metadata["credits_used"] = credit_cost
         metadata["is_admin"] = is_admin
+        metadata["input_tokens"] = int(estimated_input_tokens)
+        metadata["output_tokens"] = int(estimated_output_tokens)
         if not is_admin:
             metadata["remaining_balance"] = await get_user_credits(current_user["email"])
         else:
@@ -184,26 +166,69 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         
         logger.info(f"Query processed successfully. Time: {response_time:.2f}s, Confidence: {confidence:.2f}, Credits: {credit_cost:.4f}")
         
-        response = QueryResponse(
+        return QueryResponse(
             answer=answer,
             citations=citations,
             confidence=confidence,
-            reasoning=reasoning,
             metadata=metadata
         )
         
-        # Cache the result
-        await cache_manager.set_query_cache(
-            request.query,
-            response.model_dump(),
-            collections=metadata.get("collections", [])
-        )
-        
-        return response
-        
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Query processing error: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Query processing failed: {str(e)}")
+
+
+@router.get("/rate-limit-status")
+async def get_rate_limit_status(current_user: dict = Depends(get_current_user)):
+    """Get current rate limit status"""
+    from backend.middleware.rate_limiter import rate_limiter
+    
+    info = await rate_limiter.get_rate_limit_info(
+        current_user["email"],
+        current_user.get("role", "avukat")
+    )
+    
+    return {
+        "success": True,
+        "user": current_user["email"],
+        "role": current_user.get("role", "avukat"),
+        "rate_limit": info
+    }
+
+
+@router.get("/health", response_model=HealthResponse)
+async def health_check():
+    """Health check endpoint"""
+    from backend.database.mongodb import mongodb_client
+    from backend.database.qdrant_client import qdrant_manager
+    
+    db_status = "unknown"
+    try:
+        await mongodb_client.db.command("ping")
+        db_status = "connected"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+    
+    qdrant_status = "unknown"
+    try:
+        qdrant_manager.client.get_collections()
+        qdrant_status = "connected"
+    except Exception as e:
+        qdrant_status = f"error: {str(e)}"
+    
+    return HealthResponse(
+        status="healthy",
+        database={"status": db_status},
+        qdrant={"status": qdrant_status},
+        endpoints={
+            "query": "/query",
+            "sessions": "/sessions",
+            "history": "/history/{session_id}",
+            "health": "/health"
+        }
+    )
 
 
 @router.get("/sessions")
@@ -212,9 +237,9 @@ async def get_user_sessions(current_user: dict = Depends(get_current_user), limi
     try:
         conversations = get_conversations_collection()
         
-        # Get unique sessions with latest message
+        # Get unique sessions with latest message for CURRENT USER ONLY
         pipeline = [
-            {"$match": {"user_id": current_user["email"]}},
+            {"$match": {"user_id": current_user["email"]}},  # IMPORTANT: Filter by user
             {"$sort": {"timestamp": -1}},
             {"$group": {
                 "_id": "$session_id",
@@ -236,7 +261,7 @@ async def get_user_sessions(current_user: dict = Depends(get_current_user), limi
                 "last_query": msg.get("query", "")[:100],
                 "last_timestamp": msg.get("timestamp"),
                 "message_count": session["message_count"],
-                "total_credits_used": 0  # Can calculate if needed
+                "total_credits_used": 0
             })
         
         return {
@@ -286,138 +311,22 @@ async def get_chat_history(session_id: str, current_user: dict = Depends(get_cur
 
 
 @router.delete("/history/{session_id}")
-async def clear_conversation_history(session_id: str):
-    """Clear conversation history for a session"""
+async def delete_chat_history(session_id: str, current_user: dict = Depends(get_current_user)):
+    """Delete a chat session"""
     try:
         conversations = get_conversations_collection()
-        result = await conversations.delete_many({"session_id": session_id})
         
-        return {
+        # Delete only if user owns it
+        result = await conversations.delete_many({
             "session_id": session_id,
-            "deleted_count": result.deleted_count,
-            "status": "cleared"
-        }
+            "user_id": current_user["email"]
+        })
         
-    except Exception as e:
-        logger.error(f"History clear error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/cache/stats")
-async def cache_stats():
-    """Get cache statistics"""
-    try:
-        from backend.core.cache import cache_manager
-        stats = await cache_manager.get_stats()
-        return {
-            "cache": stats,
-            "message": "Cache statistics retrieved successfully"
-        }
-    except Exception as e:
-        logger.error(f"Cache stats error: {e}")
-        return {
-            "cache": {"connected": False, "error": str(e)},
-            "message": "Failed to retrieve cache stats"
-        }
-
-
-@router.post("/cache/clear")
-async def clear_cache():
-    """Clear all cache"""
-    try:
-        from backend.core.cache import cache_manager
-        await cache_manager.clear_all()
-        return {"message": "Cache cleared successfully"}
-    except Exception as e:
-        logger.error(f"Cache clear error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/citations/stats")
-async def citation_stats():
-    """Get citation statistics"""
-    try:
-        from backend.tools.citation_tracker import citation_tracker
-        stats = citation_tracker.get_citation_stats()
         return {
             "success": True,
-            "stats": stats
+            "deleted_count": result.deleted_count
         }
-    except Exception as e:
-        logger.error(f"Citation stats error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/citations/most-cited")
-async def most_cited_articles(limit: int = 10):
-    """Get most cited articles"""
-    try:
-        from backend.tools.citation_tracker import citation_tracker
-        most_cited = citation_tracker.get_most_cited(limit)
-        return {
-            "success": True,
-            "most_cited": [
-                {"reference": ref, "count": count}
-                for ref, count in most_cited
-            ]
-        }
-    except Exception as e:
-        logger.error(f"Most cited error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/rate-limit-status")
-async def get_rate_limit_status(current_user: dict = Depends(get_current_user)):
-    """Get current rate limit status"""
-    from backend.middleware.rate_limiter import rate_limiter
-    
-    info = await rate_limiter.get_rate_limit_info(
-        current_user["email"],
-        current_user.get("role", "avukat")
-    )
-    
-    return {
-        "success": True,
-        "user": current_user["email"],
-        "role": current_user.get("role", "avukat"),
-        "rate_limit": info
-    }
-
-
-@router.get("/health", response_model=HealthResponse)
-async def health_check():
-    """Check health of chat service and MCP servers"""
-    try:
-        # Initialize MCP client if needed
-        await mcp_client.initialize()
-        
-        # Get MCP server health
-        mcp_health = await mcp_client.health_check()
-        
-        return HealthResponse(
-            status="healthy",
-            mcp_servers=mcp_health,
-            timestamp=datetime.utcnow().isoformat()
-        )
         
     except Exception as e:
-        logger.error(f"Health check error: {e}")
-        raise HTTPException(status_code=503, detail="Service unhealthy")
-
-
-@router.get("/mcp/servers")
-async def list_mcp_servers():
-    """List all MCP servers"""
-    await mcp_client.initialize()
-    return {
-        "servers": mcp_client.list_servers()
-    }
-
-
-@router.get("/mcp/tools")
-async def list_mcp_tools(server: Optional[str] = None):
-    """List MCP tools"""
-    await mcp_client.initialize()
-    return {
-        "tools": mcp_client.list_tools(server)
-    }
+        logger.error(f"Delete history error: {e}")
+        raise HTTPException(status_code=500, detail="Geçmiş silinemedi")
