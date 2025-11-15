@@ -102,13 +102,17 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         confidence = final_state.get("confidence", 0.0)
         reasoning = final_state.get("reasoning", "")
         
+        # Calculate response time
+        response_time = time.time() - start_time
+        
         # Build metadata (include performance metrics if available)
         metadata = {
             "hukuk_dali": final_state.get("hukuk_dali", []),
             "collections": final_state.get("collections", []),
             "documents_retrieved": len(final_state.get("retrieved_documents", [])),
             "plan_steps": len(final_state.get("plan", [])),
-            "errors": final_state.get("errors", [])
+            "errors": final_state.get("errors", []),
+            "response_time_seconds": round(response_time, 2)
         }
         
         # Add performance metrics if using optimized workflow
