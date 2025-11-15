@@ -107,6 +107,7 @@ async def register(user_data: UserRegister):
             "password": hashed_password,
             "full_name": user_data.full_name,
             "role": "avukat",  # Default role
+            "credit_balance": 10.0,  # Free starting credits
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat(),
             "preferences": {
