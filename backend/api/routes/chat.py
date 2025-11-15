@@ -109,20 +109,53 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
             metadata["agent_timings"] = final_state["agent_timings"]
             metadata["total_workflow_time"] = final_state.get("total_workflow_time", 0)
         
+        # Calculate token usage and cost
+        # Estimate tokens (in production, use actual token counts from LLM response)
+        estimated_input_tokens = len(request.query.split()) * 1.3  # Rough estimate
+        estimated_output_tokens = len(answer.split()) * 1.3
+        
+        credit_cost = calculate_token_cost(
+            int(estimated_input_tokens),
+            int(estimated_output_tokens)
+        )
+        
+        # Deduct credits
+        try:
+            await deduct_credits(
+                current_user["email"],
+                credit_cost,
+                "Chat query",
+                {
+                    "query": request.query[:100],
+                    "input_tokens": int(estimated_input_tokens),
+                    "output_tokens": int(estimated_output_tokens),
+                    "session_id": request.session_id
+                }
+            )
+            logger.info(f"Deducted {credit_cost:.4f} credits from {current_user['email']}")
+        except HTTPException as credit_error:
+            # If deduction fails mid-query, log it but don't fail the response
+            logger.error(f"Credit deduction failed: {credit_error.detail}")
+        
+        # Add credit info to metadata
+        metadata["credits_used"] = credit_cost
+        metadata["remaining_balance"] = await get_user_credits(current_user["email"])
+        
         # Save conversation to MongoDB
         conversations = get_conversations_collection()
         await conversations.insert_one({
             "session_id": request.session_id,
-            "user_id": request.user_id,
+            "user_id": current_user["email"],
             "query": request.query,
             "answer": answer,
             "citations": citations,
             "confidence": confidence,
             "metadata": metadata,
+            "credits_used": credit_cost,
             "timestamp": datetime.utcnow()
         })
         
-        logger.info(f"Query processed successfully. Confidence: {confidence:.2f}")
+        logger.info(f"Query processed successfully. Confidence: {confidence:.2f}, Credits: {credit_cost:.4f}")
         
         response = QueryResponse(
             answer=answer,
