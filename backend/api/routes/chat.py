@@ -206,8 +206,52 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/sessions")
+async def get_user_sessions(current_user: dict = Depends(get_current_user), limit: int = 50):
+    """Get all chat sessions for current user"""
+    try:
+        conversations = get_conversations_collection()
+        
+        # Get unique sessions with latest message
+        pipeline = [
+            {"$match": {"user_id": current_user["email"]}},
+            {"$sort": {"timestamp": -1}},
+            {"$group": {
+                "_id": "$session_id",
+                "last_message": {"$first": "$$ROOT"},
+                "message_count": {"$sum": 1}
+            }},
+            {"$sort": {"last_message.timestamp": -1}},
+            {"$limit": limit}
+        ]
+        
+        sessions = await conversations.aggregate(pipeline).to_list(limit)
+        
+        # Format response
+        formatted_sessions = []
+        for session in sessions:
+            msg = session["last_message"]
+            formatted_sessions.append({
+                "session_id": session["_id"],
+                "last_query": msg.get("query", "")[:100],
+                "last_timestamp": msg.get("timestamp"),
+                "message_count": session["message_count"],
+                "total_credits_used": 0  # Can calculate if needed
+            })
+        
+        return {
+            "success": True,
+            "sessions": formatted_sessions,
+            "total": len(formatted_sessions)
+        }
+        
+    except Exception as e:
+        logger.error(f"Get sessions error: {e}")
+        raise HTTPException(status_code=500, detail="Oturum geçmişi alınamadı")
+
+
 @router.get("/history/{session_id}")
-async def get_conversation_history(session_id: str, limit: int = 20):
+async def get_chat_history(session_id: str, current_user: dict = Depends(get_current_user)):
     """Get conversation history for a session"""
     try:
         conversations = get_conversations_collection()
