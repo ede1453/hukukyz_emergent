@@ -50,6 +50,9 @@ class HealthResponse(BaseModel):
 @router.post("/query", response_model=QueryResponse)
 async def chat_query(request: QueryRequest, current_user: dict = Depends(get_current_user)):
     """Process chat query using full agent workflow with caching and credits"""
+    import time
+    start_time = time.time()
+    
     try:
         logger.info(f"Received query from {current_user['email']}: {request.query[:100]}...")
         
