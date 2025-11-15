@@ -167,6 +167,8 @@ const Upload = () => {
 
   return (
     <div className="min-h-screen bg-gray-900">
+      <Navbar />
+      
       {/* Header */}
       <div className="bg-gray-800 border-b border-gray-700 p-4">
         <div className="max-w-4xl mx-auto">
