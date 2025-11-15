@@ -336,6 +336,75 @@ const UserManagement = () => {
         )}
       </div>
 
+      {/* Add Credit Dialog */}
+      {addCreditDialog && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          onClick={() => setAddCreditDialog(null)}
+        >
+          <div 
+            className="bg-gray-800 rounded-lg p-6 max-w-md w-full border border-gray-700"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl font-bold text-white mb-4">
+              💰 Kredi Ekle
+            </h3>
+            <p className="text-gray-300 mb-4">
+              <strong>{addCreditDialog.user.full_name}</strong> kullanıcısına kredi ekleyin
+            </p>
+            
+            <div className="space-y-4 mb-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Kredi Miktarı
+                </label>
+                <input
+                  type="number"
+                  value={creditAmount}
+                  onChange={(e) => setCreditAmount(parseFloat(e.target.value) || 0)}
+                  min="1"
+                  step="1"
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Açıklama
+                </label>
+                <input
+                  type="text"
+                  value={creditReason}
+                  onChange={(e) => setCreditReason(e.target.value)}
+                  placeholder="Örn: Bonus kredi, Manuel ekleme"
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setAddCreditDialog(null);
+                  setCreditAmount(10);
+                  setCreditReason('');
+                }}
+                className="flex-1 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition"
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleAddCredits}
+                disabled={!creditReason.trim() || creditAmount <= 0}
+                className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition disabled:opacity-50"
+              >
+                Ekle
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Confirmation Dialog */}
       {confirmDialog && (
         <div 
