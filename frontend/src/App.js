@@ -15,6 +15,8 @@ import Credits from "./components/Credits";
 import CreditBalance from "./components/CreditBalance";
 import ChatHistory from "./components/ChatHistory";
 import Analytics from "./components/Analytics";
+import Layout from "./components/Layout";
+import AdminDashboard from "./components/AdminDashboard";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
