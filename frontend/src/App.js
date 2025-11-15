@@ -20,6 +20,7 @@ const API = `${BACKEND_URL}/api`;
 const Home = () => {
   const [backendStatus, setBackendStatus] = React.useState("checking...");
   const { user, isAuthenticated, isAdmin } = useAuth();
+  const navigate = useNavigate();
   
   const checkBackend = async () => {
     try {
