@@ -67,7 +67,7 @@ async def create_snapshot(
     collection_name: str,
     current_user: dict = Depends(require_admin)
 ):
-    """Create a snapshot of a collection (admin only)"""
+    """Create a snapshot of a collection and get download URL (admin only)"""
     try:
         client = qdrant_manager.client
         
@@ -81,12 +81,18 @@ async def create_snapshot(
         # Create snapshot
         snapshot_result = client.create_snapshot(collection_name=collection_name)
         
+        # Get snapshot download URL
+        from backend.config import settings
+        download_url = f"{settings.qdrant_url}/collections/{collection_name}/snapshots/{snapshot_result.name}"
+        
         logger.info(f"Snapshot created for '{collection_name}' by user {current_user['email']}")
         
         return {
             "success": True,
             "message": f"'{collection_name}' için snapshot oluşturuldu",
-            "snapshot_name": snapshot_result.name
+            "snapshot_name": snapshot_result.name,
+            "download_url": download_url,
+            "instructions": "Snapshot Qdrant Cloud'da oluşturuldu. İndirmek için aşağıdaki URL'yi kullanabilirsiniz."
         }
         
     except HTTPException:
