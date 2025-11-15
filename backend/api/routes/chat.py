@@ -251,7 +251,7 @@ async def get_user_sessions(current_user: dict = Depends(get_current_user), limi
 
 
 @router.get("/history/{session_id}")
-async def get_chat_history(session_id: str, current_user: dict = Depends(get_current_user)):
+async def get_chat_history(session_id: str, current_user: dict = Depends(get_current_user), limit: int = 20):
     """Get conversation history for a session"""
     try:
         conversations = get_conversations_collection()
