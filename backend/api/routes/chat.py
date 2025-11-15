@@ -167,16 +167,18 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         await conversations.insert_one({
             "session_id": request.session_id,
             "user_id": current_user["email"],
+            "user_role": current_user.get("role", "avukat"),
             "query": request.query,
             "answer": answer,
             "citations": citations,
             "confidence": confidence,
             "metadata": metadata,
             "credits_used": credit_cost,
+            "response_time": response_time,
             "timestamp": datetime.utcnow()
         })
         
-        logger.info(f"Query processed successfully. Confidence: {confidence:.2f}, Credits: {credit_cost:.4f}")
+        logger.info(f"Query processed successfully. Time: {response_time:.2f}s, Confidence: {confidence:.2f}, Credits: {credit_cost:.4f}")
         
         response = QueryResponse(
             answer=answer,
