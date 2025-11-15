@@ -301,3 +301,120 @@ async def update_user_role(
     except Exception as e:
         logger.error(f"Update role error: {e}")
         raise HTTPException(status_code=500, detail="Rol güncellenemedi")
+
+
+@router.put("/change-password")
+async def change_password(
+    password_data: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """Change user password"""
+    try:
+        db = mongodb_client.db
+        
+        current_password = password_data.get("current_password")
+        new_password = password_data.get("new_password")
+        
+        if not current_password or not new_password:
+            raise HTTPException(status_code=400, detail="Mevcut ve yeni şifre gereklidir")
+        
+        # Get user with password
+        user = await db.users.find_one({"email": current_user["email"]})
+        
+        # Verify current password
+        if not verify_password(current_password, user["password"]):
+            raise HTTPException(status_code=401, detail="Mevcut şifre yanlış")
+        
+        # Hash new password
+        new_hashed = hash_password(new_password)
+        
+        # Update password
+        await db.users.update_one(
+            {"email": current_user["email"]},
+            {
+                "$set": {
+                    "password": new_hashed,
+                    "updated_at": datetime.utcnow().isoformat()
+                }
+            }
+        )
+        
+        return {
+            "success": True,
+            "message": "Şifre başarıyla değiştirildi"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Password change error: {e}")
+        raise HTTPException(status_code=500, detail="Şifre değiştirilemedi")
+
+
+@router.delete("/users/{user_email}")
+async def delete_user(
+    user_email: str,
+    current_user: dict = Depends(require_admin)
+):
+    """Delete a user (admin only)"""
+    try:
+        # Prevent self-deletion
+        if user_email == current_user["email"]:
+            raise HTTPException(status_code=400, detail="Kendi hesabınızı silemezsiniz")
+        
+        db = mongodb_client.db
+        
+        result = await db.users.delete_one({"email": user_email})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
+        
+        return {
+            "success": True,
+            "message": "Kullanıcı başarıyla silindi"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Delete user error: {e}")
+        raise HTTPException(status_code=500, detail="Kullanıcı silinemedi")
+
+
+@router.post("/users/{user_email}/reset-password")
+async def reset_user_password(
+    user_email: str,
+    current_user: dict = Depends(require_admin)
+):
+    """Reset user password to a default value (admin only)"""
+    try:
+        db = mongodb_client.db
+        
+        # Generate default password
+        default_password = "Hukuk123!"
+        new_hashed = hash_password(default_password)
+        
+        result = await db.users.update_one(
+            {"email": user_email},
+            {
+                "$set": {
+                    "password": new_hashed,
+                    "updated_at": datetime.utcnow().isoformat()
+                }
+            }
+        )
+        
+        if result.modified_count == 0:
+            raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
+        
+        return {
+            "success": True,
+            "message": f"Şifre sıfırlandı. Yeni şifre: {default_password}",
+            "default_password": default_password
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Reset password error: {e}")
+        raise HTTPException(status_code=500, detail="Şifre sıfırlanamadı")
