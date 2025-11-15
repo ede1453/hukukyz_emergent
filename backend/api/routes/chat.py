@@ -60,6 +60,9 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         # Admin users have unlimited credits, skip credit check
         is_admin = current_user.get("role") == "admin"
         
+        # Check rate limiting
+        await check_rate_limit(None, current_user["email"], current_user.get("role", "avukat"))
+        
         if not is_admin:
             # Check credit balance before processing (only for non-admin users)
             current_balance = await get_user_credits(current_user["email"])
