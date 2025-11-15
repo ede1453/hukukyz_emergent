@@ -48,7 +48,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="p-6 overflow-y-auto" style={{ height: 'calc(100vh - 64px)' }}>
+    <div className="p-6" style={{ height: '100vh', overflowY: 'auto' }}>
       <h1 className="text-3xl font-bold text-white mb-6">🏠 Admin Ana Sayfa</h1>
       
       {platformStats && (
