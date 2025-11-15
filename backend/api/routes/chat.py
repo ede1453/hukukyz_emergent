@@ -7,7 +7,7 @@ from datetime import datetime
 import logging
 
 from backend.agents.state import create_initial_state, AgentState
-from backend.agents.meta_controller import meta_controller
+from backend.agents.workflow_optimized import optimized_workflow
 from backend.mcp.client.mcp_client import mcp_client
 from backend.database.mongodb import get_conversations_collection
 from backend.api.routes.auth import get_current_user
