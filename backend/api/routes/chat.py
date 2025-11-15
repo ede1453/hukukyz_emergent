@@ -11,6 +11,8 @@ from backend.agents.state import create_initial_state, AgentState
 from backend.agents.meta_controller import meta_controller
 from backend.mcp.client.mcp_client import mcp_client
 from backend.database.mongodb import get_conversations_collection
+from backend.api.routes.auth import get_current_user
+from backend.api.routes.credits import deduct_credits, calculate_token_cost, get_user_credits
 
 logger = logging.getLogger(__name__)
 
