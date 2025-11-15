@@ -66,16 +66,13 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
                     detail=f"Yetersiz kredi. Mevcut bakiye: {current_balance:.2f}. Lütfen kredi yükleyin."
                 )
         
-        # Create initial state
-        initial_state = create_initial_state(
+        # Execute workflow directly with parameters
+        final_state = await execute_workflow(
             query=request.query,
-            session_id=request.session_id,
             user_id=current_user["email"],
+            session_id=request.session_id,
             include_deprecated=request.include_deprecated
         )
-        
-        # Execute workflow  
-        final_state = await execute_workflow(initial_state)
         
         # Extract response fields
         answer = final_state.get("final_answer", "Cevap oluşturulamadı")
