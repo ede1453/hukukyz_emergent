@@ -71,7 +71,9 @@ const QdrantAdmin = () => {
         }
       );
       
-      alert(`✅ Snapshot oluşturuldu: ${response.data.snapshot_name}`);
+      const data = response.data;
+      const message = `✅ Snapshot oluşturuldu!\n\nDosya: ${data.snapshot_name}\n\n${data.instructions}\n\nURL: ${data.download_url}`;
+      alert(message);
     } catch (err) {
       console.error('Snapshot error:', err);
       const message = err.response?.data?.detail || 'Snapshot oluşturulamadı';
