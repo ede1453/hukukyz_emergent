@@ -118,7 +118,7 @@ async def root():
 
 
 # Import and include routers
-from backend.api.routes import chat, documents, citations, auth, mobile, qdrant_admin
+from backend.api.routes import chat, documents, citations, auth, mobile, qdrant_admin, credits
 from backend.mcp.client.mcp_client import mcp_client
 
 app.include_router(auth.router, prefix="/api", tags=["auth"])
@@ -127,6 +127,7 @@ app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(documents.router, prefix="/api/documents", tags=["documents"])
 app.include_router(citations.router, prefix="/api", tags=["citations"])
 app.include_router(qdrant_admin.router, prefix="/api", tags=["qdrant-admin"])
+app.include_router(credits.router, prefix="/api", tags=["credits"])
 
 
 # Initialize MCP client on startup
