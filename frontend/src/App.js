@@ -193,7 +193,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin/qdrant" element={<QdrantAdmin />} />
             <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
             <Route path="/credits" element={<Credits />} />
+            <Route path="/history" element={<ChatHistory />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
