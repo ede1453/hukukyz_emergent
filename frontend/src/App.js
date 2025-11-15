@@ -70,12 +70,13 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Auth Status */}
+          {/* Auth Status & Credits */}
           {isAuthenticated && user && (
-            <div className="mt-4 text-center">
+            <div className="mt-4 flex flex-col items-center gap-3">
               <p className="text-gray-400 text-sm">
                 Hoş geldiniz, <span className="text-blue-400 font-semibold">{user.full_name}</span>
               </p>
+              <CreditBalance onBuyClick={() => navigate('/credits')} />
             </div>
           )}
           
