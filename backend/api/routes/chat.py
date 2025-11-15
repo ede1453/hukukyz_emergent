@@ -48,10 +48,20 @@ class HealthResponse(BaseModel):
 
 
 @router.post("/query", response_model=QueryResponse)
-async def chat_query(request: QueryRequest):
-    """Process chat query using full agent workflow with caching"""
+async def chat_query(request: QueryRequest, current_user: dict = Depends(get_current_user)):
+    """Process chat query using full agent workflow with caching and credits"""
     try:
-        logger.info(f"Received query: {request.query[:100]}...")
+        logger.info(f"Received query from {current_user['email']}: {request.query[:100]}...")
+        
+        # Check credit balance before processing
+        current_balance = await get_user_credits(current_user["email"])
+        MIN_REQUIRED_CREDITS = 0.01  # Minimum credits to process query
+        
+        if current_balance < MIN_REQUIRED_CREDITS:
+            raise HTTPException(
+                status_code=402,
+                detail=f"Yetersiz kredi. Mevcut bakiye: {current_balance:.2f}. Lütfen kredi yükleyin."
+            )
         
         # Import cache and config
         from backend.config import settings
