@@ -189,18 +189,26 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/upload" element={<Upload />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin/qdrant" element={<QdrantAdmin />} />
-            <Route path="/admin/users" element={<UserManagement />} />
-            <Route path="/admin/analytics" element={<Analytics />} />
-            <Route path="/credits" element={<Credits />} />
-            <Route path="/history" element={<ChatHistory />} />
+            {/* Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
+            
+            {/* Protected routes with sidebar layout */}
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Navigate to="/chat" replace />} />
+              <Route path="chat" element={<Chat />} />
+              <Route path="history" element={<ChatHistory />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="credits" element={<Credits />} />
+              
+              {/* Admin routes */}
+              <Route path="admin/dashboard" element={<AdminDashboard />} />
+              <Route path="admin/users" element={<UserManagement />} />
+              <Route path="admin/analytics" element={<Analytics />} />
+              <Route path="admin/qdrant" element={<QdrantAdmin />} />
+              <Route path="upload" element={<Upload />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </AuthProvider>
