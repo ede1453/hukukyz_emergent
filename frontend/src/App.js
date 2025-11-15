@@ -13,6 +13,8 @@ import QdrantAdmin from "./components/QdrantAdmin";
 import UserManagement from "./components/UserManagement";
 import Credits from "./components/Credits";
 import CreditBalance from "./components/CreditBalance";
+import ChatHistory from "./components/ChatHistory";
+import Analytics from "./components/Analytics";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
