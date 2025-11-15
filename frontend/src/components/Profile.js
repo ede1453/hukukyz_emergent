@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
+import Navbar from './Navbar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
