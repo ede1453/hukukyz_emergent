@@ -298,6 +298,14 @@ const UserManagement = () => {
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
                       <button
+                        onClick={() => setAddCreditDialog({ user })}
+                        disabled={actionLoading === user.email}
+                        className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition disabled:opacity-50"
+                        title="Kredi Ekle"
+                      >
+                        💰 Kredi
+                      </button>
+                      <button
                         onClick={() => setConfirmDialog({ type: 'reset', user })}
                         disabled={actionLoading === user.email}
                         className="px-3 py-1 bg-yellow-600 text-white text-xs rounded hover:bg-yellow-700 transition disabled:opacity-50"
