@@ -118,32 +118,42 @@ async def chat_query(request: QueryRequest, current_user: dict = Depends(get_cur
         estimated_input_tokens = len(request.query.split()) * 1.3  # Rough estimate
         estimated_output_tokens = len(answer.split()) * 1.3
         
-        credit_cost = calculate_token_cost(
-            int(estimated_input_tokens),
-            int(estimated_output_tokens)
-        )
+        credit_cost = 0.0
         
-        # Deduct credits
-        try:
-            await deduct_credits(
-                current_user["email"],
-                credit_cost,
-                "Chat query",
-                {
-                    "query": request.query[:100],
-                    "input_tokens": int(estimated_input_tokens),
-                    "output_tokens": int(estimated_output_tokens),
-                    "session_id": request.session_id
-                }
+        # Only deduct credits for non-admin users
+        if not is_admin:
+            credit_cost = calculate_token_cost(
+                int(estimated_input_tokens),
+                int(estimated_output_tokens)
             )
-            logger.info(f"Deducted {credit_cost:.4f} credits from {current_user['email']}")
-        except HTTPException as credit_error:
-            # If deduction fails mid-query, log it but don't fail the response
-            logger.error(f"Credit deduction failed: {credit_error.detail}")
+            
+            # Deduct credits
+            try:
+                await deduct_credits(
+                    current_user["email"],
+                    credit_cost,
+                    "Chat query",
+                    {
+                        "query": request.query[:100],
+                        "input_tokens": int(estimated_input_tokens),
+                        "output_tokens": int(estimated_output_tokens),
+                        "session_id": request.session_id
+                    }
+                )
+                logger.info(f"Deducted {credit_cost:.4f} credits from {current_user['email']}")
+            except HTTPException as credit_error:
+                # If deduction fails mid-query, log it but don't fail the response
+                logger.error(f"Credit deduction failed: {credit_error.detail}")
+        else:
+            logger.info(f"Admin user {current_user['email']} - unlimited credits")
         
         # Add credit info to metadata
         metadata["credits_used"] = credit_cost
-        metadata["remaining_balance"] = await get_user_credits(current_user["email"])
+        metadata["is_admin"] = is_admin
+        if not is_admin:
+            metadata["remaining_balance"] = await get_user_credits(current_user["email"])
+        else:
+            metadata["remaining_balance"] = "unlimited"
         
         # Save conversation to MongoDB
         conversations = get_conversations_collection()
