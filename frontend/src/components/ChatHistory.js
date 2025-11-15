@@ -63,10 +63,8 @@ const ChatHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <Navbar />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <div style={{ height: '100vh', overflowY: 'auto' }} className="bg-gray-900 text-white p-6">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">💬 Konuşma Geçmişi</h1>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
