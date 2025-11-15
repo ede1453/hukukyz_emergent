@@ -166,8 +166,16 @@ const Chat = () => {
           session_id: sessionId,
           include_deprecated: includeDeprecated
         },
-        { timeout: 120000 }
+        { 
+          timeout: 120000,
+          headers: { Authorization: `Bearer ${token}` }
+        }
       );
+      
+      // Update credit balance after query
+      if (!isUserAdmin && response.data.metadata?.remaining_balance) {
+        setCreditBalance(response.data.metadata.remaining_balance);
+      }
 
       setMessages(prev => [...prev, {
         role: 'assistant',
